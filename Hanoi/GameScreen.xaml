@@ -11,6 +11,5 @@
     <Canvas x:Name="canvas" Height="480" Width="800">
         <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="image1" VerticalAlignment="Center" Source="backgrounds\01.jpg" Margin="0" Stretch="None" />
         <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="/Hanoi;component/disc-shelf.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
-        <Button Content="Button" Grid.Column="2" Height="70" HorizontalAlignment="Left" Margin="57,86,0,0" Name="button1" VerticalAlignment="Top" Width="160" Click="button1_Click" Canvas.Left="552" Canvas.Top="-44" />
     </Canvas>
 </navigation:PhoneApplicationPage>

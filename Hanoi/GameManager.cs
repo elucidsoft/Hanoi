@@ -41,8 +41,8 @@ namespace Hanoi
             stacks.Add(DiscStack.Three, new Stack<HanoiDisc>());
 
             stackColumns.Add(DiscStack.One, leftSpacing);
-            stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing + 10);
-            stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing + 10);
+            stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 4);
+            stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 4);
 
            
         }
