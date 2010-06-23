@@ -13,15 +13,16 @@ using System.Collections.ObjectModel;
 using Microsoft.Phone;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
+using System.Threading;
 
 namespace Hanoi
 {
-    public enum DiscStack { One , Two,Three };
+    public enum DiscStack { One, Two, Three };
 
     public class GameManager
     {
         private static GameManager instance;
-        public event EventHandler DiscMoved;
+        public event EventHandler LevelCompleted;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
         Dictionary<int, double> stackRows = new Dictionary<int, double>();
@@ -33,8 +34,14 @@ namespace Hanoi
         private const double topStart = 350;
         private const double topSpacing = 42;
         private const double leftSpacing = 28;
+        public int winCount = 0;
 
-        private GameManager() 
+        private GameManager()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
         {
             stacks.Add(DiscStack.One, new Stack<HanoiDisc>());
             stacks.Add(DiscStack.Two, new Stack<HanoiDisc>());
@@ -43,8 +50,6 @@ namespace Hanoi
             stackColumns.Add(DiscStack.One, leftSpacing);
             stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 4);
             stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 4);
-
-           
         }
 
         public static GameManager Instance
@@ -57,12 +62,21 @@ namespace Hanoi
             }
         }
 
+        public void ResetForNextLevel()
+        {
+            stacks.Clear();
+            stackRows.Clear();
+            stackColumns.Clear();
+            winCount = 0;
+            Initialize();
+        }
+
         public void BuildFirstStack(int level)
         {
             Stack<HanoiDisc> column1 = stacks[DiscStack.One];
             column1.Clear();
 
- 
+
             for (int i = 0; i <= (level + 1); i++)
             {
                 double left = leftSpacing;
@@ -96,6 +110,7 @@ namespace Hanoi
                 hanoiDisc.Size = i;
                 stackRows.Add(i, top);
                 column1.Push(hanoiDisc);
+                winCount++;
             }
         }
 
@@ -107,19 +122,39 @@ namespace Hanoi
             stacks[disc.DiscStack].Pop();
             double top = topStart;
 
-            if(stacks[toStack].Count > 0)
+            if (stacks[toStack].Count > 0)
             {
                 top = (double)stacks[toStack].Peek().GetValue(Canvas.TopProperty) - (topSpacing - (topSpacing * disc.ScaleY));
             }
-            
+
             double left = stackColumns[toStack] + ((double)disc.LayoutRoot.Width * disc.ScaleX) / 2;
             disc.SetValue(Canvas.TopProperty, top);
             disc.SetValue(Canvas.LeftProperty, left);
-            
+
             stacks[toStack].Push(disc);
             disc.DiscStack = toStack;
 
             disc.ResetDirty();
+
+            CheckForWin();
+        }
+
+        private void CheckForWin()
+        {
+            if (stacks[DiscStack.Three].Count == winCount)
+            {
+                TimerCallback tcb = BeginReset;
+                Timer timer = new Timer(tcb, null, 1000, Timeout.Infinite);
+            }
+        }
+
+        private void BeginReset(object obj)
+        {
+            ResetForNextLevel();
+            if (LevelCompleted != null)
+            {
+                LevelCompleted(this, EventArgs.Empty);
+            }
         }
 
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
@@ -166,7 +201,7 @@ namespace Hanoi
             DiscStack stack = current.DiscStack;
             double currentWidth = current.LayoutRoot.Width;
             double left = (double)current.GetValue(Canvas.LeftProperty) + ((currentWidth - (currentWidth * current.ScaleX)) / 2);
-            if(left >= 0 && left <= 266)
+            if (left >= 0 && left <= 266)
             {
                 stack = DiscStack.One;
             }

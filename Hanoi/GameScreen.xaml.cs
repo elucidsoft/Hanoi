@@ -21,10 +21,27 @@ namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
-        private const int level = 2;
+        private int level = 1;
         public GameScreen()
         {
             InitializeComponent();
+            GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
+        }
+
+        void Instance_LevelCompleted(object sender, System.EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+                {
+                    level++;
+                    for (int i = canvas.Children.Count - 1; i != 0; i--)
+                    {
+                        UIElement h = canvas.Children[i];
+                        if (h is HanoiDisc)
+                            canvas.Children.Remove(h);
+                    }
+                    GameManager.Instance.BuildFirstStack(level);
+                    BuildVisualStack(DiscStack.One);
+                });
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -40,18 +57,6 @@ namespace Hanoi
             {
                 canvas.Children.Add(discs[i]);
             }
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            for (int i = canvas.Children.Count - 1; i != 0; i--)
-            {
-                UIElement h = canvas.Children[i];
-                if (h is HanoiDisc)
-                    canvas.Children.Remove(h);
-            }
-            GameManager.Instance.BuildFirstStack(level);
-            BuildVisualStack(DiscStack.One);
         }
     }
 }
