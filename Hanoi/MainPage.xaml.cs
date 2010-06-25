@@ -23,11 +23,23 @@ namespace Hanoi
             SupportedOrientations = SupportedPageOrientation.Landscape;
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void buttonStart_Click(object sender, RoutedEventArgs e)
         {
+            StartLevel(1);
+        }
+
+        private void buttonLevel_Click(object sender, RoutedEventArgs e)
+        {
+            int level = Convert.ToInt32(((Button)sender).Content);
+            StartLevel(level);
+        }
+
+
+        private void StartLevel(int level)
+        {
+            GameManager.Instance.Level = level;
             NavigationService.Navigate(new Uri("/GameScreen.xaml", UriKind.Relative));
         }
 
-        
     }
 }

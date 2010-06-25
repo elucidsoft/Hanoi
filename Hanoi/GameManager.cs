@@ -23,6 +23,7 @@ namespace Hanoi
     {
         private static GameManager instance;
         public event EventHandler LevelCompleted;
+        public event EventHandler MoveCompleted;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
         Dictionary<int, double> stackRows = new Dictionary<int, double>();
@@ -34,6 +35,9 @@ namespace Hanoi
         private const double topStart = 350;
         private const double topSpacing = 42;
         private const double leftSpacing = 28;
+        private int level = 1;
+        private int moves = 0;
+
         public int winCount = 0;
 
         private GameManager()
@@ -71,7 +75,7 @@ namespace Hanoi
             Initialize();
         }
 
-        public void BuildFirstStack(int level)
+        public void Start()
         {
             Stack<HanoiDisc> column1 = stacks[DiscStack.One];
             column1.Clear();
@@ -108,7 +112,9 @@ namespace Hanoi
                 hanoiDisc.SetValue(Canvas.ZIndexProperty, 100 + i);
                 hanoiDisc.DiscStack = DiscStack.One;
                 hanoiDisc.Size = i;
-                stackRows.Add(i, top);
+                if(!stackRows.ContainsKey(i))
+                    stackRows.Add(i, top);
+
                 column1.Push(hanoiDisc);
                 winCount++;
             }
@@ -136,6 +142,10 @@ namespace Hanoi
 
             disc.ResetDirty();
 
+            moves++;
+            if (MoveCompleted != null)
+                MoveCompleted(this, EventArgs.Empty);
+
             CheckForWin();
         }
 
@@ -151,6 +161,8 @@ namespace Hanoi
         private void BeginReset(object obj)
         {
             ResetForNextLevel();
+            level++;
+            moves = 0;
             if (LevelCompleted != null)
             {
                 LevelCompleted(this, EventArgs.Empty);
@@ -159,7 +171,7 @@ namespace Hanoi
 
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
         {
-            if (stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size)
+            if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size) || disc.DiscStack == toStack)
             {
                 disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
                 disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
@@ -219,6 +231,18 @@ namespace Hanoi
         public ReadOnlyCollection<HanoiDisc> GetDiscsInStack(DiscStack stack)
         {
             return new ReadOnlyCollection<HanoiDisc>(stacks[stack].ToArray());
+        }
+
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
+        public int Moves
+        {
+            get { return moves; }
+            set { moves = value; }
         }
     }
 }

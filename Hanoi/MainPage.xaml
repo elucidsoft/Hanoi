@@ -8,7 +8,7 @@
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}">
+    Foreground="{StaticResource PhoneForegroundBrush}" SupportedOrientations="Landscape">
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
@@ -23,13 +23,25 @@
         </Grid>
 
         <!--ContentGrid is empty. Place new content here-->
-        <Grid x:Name="ContentGrid" Grid.Row="1">
+        <Grid x:Name="ContentGrid" Grid.Row="1" Margin="1,0,-1,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320*" />
-                <ColumnDefinition Width="480*" />
+                <ColumnDefinition Width="435*" />
+                <ColumnDefinition Width="365" />
             </Grid.ColumnDefinitions>
-            <Button Content="Start" Height="70" HorizontalAlignment="Left" Margin="6,38,0,0" Name="button1" VerticalAlignment="Top" Width="314" Click="button1_Click" />
-            <Button Content="Options" Height="70" Margin="6,116,0,0" Name="button2" VerticalAlignment="Top" />
+            <Button Content="New Game" Height="70" HorizontalAlignment="Left" Margin="20,20,0,0" Name="buttonStart" VerticalAlignment="Top" Width="220" Click="buttonStart_Click" />
+            <TextBlock Height="36" HorizontalAlignment="Left" Margin="20,98,0,0" Name="textBlock1" Text="Choose a Level:" VerticalAlignment="Top" Width="190" FontSize="26" CacheMode="BitmapCache" />
+            <Button Content="1" Height="85" HorizontalAlignment="Left" Margin="20,140,0,0" Name="button2" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="2" Height="85" HorizontalAlignment="Left" Margin="100,140,0,0" Name="button3" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="3" Height="85" HorizontalAlignment="Left" Margin="182,140,0,0" Name="button4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="4" Height="85" HorizontalAlignment="Left" Margin="263,140,0,0" Name="button5" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="6" Height="85" HorizontalAlignment="Left" Margin="20,216,0,0" Name="button6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="7" Height="85" HorizontalAlignment="Left" Margin="100,216,0,0" Name="button7" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="8" Height="85" HorizontalAlignment="Left" Margin="182,216,0,0" Name="button8" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="9" Height="85" HorizontalAlignment="Left" Margin="263,216,0,0" Name="button9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="5" Height="85" HorizontalAlignment="Left" Margin="346,140,0,0" Name="button10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <Button Content="10" Height="85" HorizontalAlignment="Left" Margin="346,216,0,0" Name="button11" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" />
+            <TextBlock Grid.Column="1" Height="44" HorizontalAlignment="Left" Margin="15,6,0,0" Name="textBlock2" Text="High Scores" VerticalAlignment="Top" Width="336" CacheMode="BitmapCache" FontSize="26" />
+            <ListBox Name="lbHighScores" Grid.Column="1" Height="279" HorizontalAlignment="Left" Margin="15,42,0,0" VerticalAlignment="Top" Width="336" />
         </Grid>
     </Grid>
     
