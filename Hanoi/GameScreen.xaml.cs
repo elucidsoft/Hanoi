@@ -22,32 +22,39 @@ namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
-        private int seconds = 0;
-        
-        Timer timer;
+
+
+
 
         public GameScreen()
         {
             InitializeComponent();
             GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
-            GameManager.Instance.MoveCompleted += new System.EventHandler(Instance_MoveCompleted);
+            GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
+            GameManager.Instance.LevelTimerTick +=new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
         }
 
-        void Instance_MoveCompleted(object sender, System.EventArgs e)
+        void Instance_LevelTimerTick(object sender, LevelTimerTickEventArgs e)
         {
-            tbMoves.Text = GameManager.Instance.Moves.ToString();
+            Dispatcher.BeginInvoke(() =>
+            {
+                tbTimer.Text = String.Format("{0:HH:mm:ss}", new DateTime(TimeSpan.FromSeconds(e.Seconds).Ticks));
+            });
+        }
+
+        void Instance_MoveCompleted(object sender, MoveCompletedEventArgs e)
+        {
+            tbMoves.Text = e.Moves.ToString();
         }
 
         void Instance_LevelCompleted(object sender, System.EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
                 {
-                    timer.Change(Timeout.Infinite, Timeout.Infinite);
-                    timer.Dispose();
-                    seconds = 0;
-                    
+
+
                     tbMoves.Text = GameManager.Instance.Moves.ToString();
-                    
+
                     for (int i = canvas.Children.Count - 1; i != 0; i--)
                     {
                         UIElement h = canvas.Children[i];
@@ -71,15 +78,6 @@ namespace Hanoi
             }
         }
 
-        private void Timer_Tick(object obj)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                tbTimer.Text = String.Format("{0:HH:mm:ss}", new DateTime(TimeSpan.FromSeconds(seconds).Ticks));
-                seconds++;
-            });
-        }
-
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             GameManager.Instance.Start();
@@ -88,8 +86,6 @@ namespace Hanoi
 
         private void BuildVisualStack(DiscStack stack)
         {
-            TimerCallback tcb = Timer_Tick;
-            timer = new Timer(tcb, null, 0, 1000);
             tbLevel.Text = "Level " + GameManager.Instance.Level;
             IList<HanoiDisc> discs = GameManager.Instance.GetDiscsInStack(stack);
             for (int i = 0; i <= discs.Count - 1; i++)

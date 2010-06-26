@@ -14,6 +14,9 @@ using Microsoft.Phone;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using System.Threading;
+using System.IO.IsolatedStorage;
+using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace Hanoi
 {
@@ -23,13 +26,17 @@ namespace Hanoi
     {
         private static GameManager instance;
         public event EventHandler LevelCompleted;
-        public event EventHandler MoveCompleted;
+        public event EventHandler<MoveCompletedEventArgs> MoveCompleted;
+        public event EventHandler<LevelTimerTickEventArgs> LevelTimerTick;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
         Dictionary<int, double> stackRows = new Dictionary<int, double>();
         Dictionary<DiscStack, double> stackColumns = new Dictionary<DiscStack, double>();
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
 
+        List<Score> highScores = new List<Score>();
+
+        private const string highScoreFileName = "highscores.xml";
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
         private const double topStart = 350;
@@ -37,6 +44,8 @@ namespace Hanoi
         private const double leftSpacing = 28;
         private int level = 1;
         private int moves = 0;
+        private int seconds = 0;
+        private Timer timer;
 
         public int winCount = 0;
 
@@ -54,6 +63,9 @@ namespace Hanoi
             stackColumns.Add(DiscStack.One, leftSpacing);
             stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 4);
             stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 4);
+
+            TimerCallback tcb = Timer_Tick;
+            timer = new Timer(tcb, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         public static GameManager Instance
@@ -66,8 +78,13 @@ namespace Hanoi
             }
         }
 
-        public void ResetForNextLevel()
+        public void Reset()
         {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+            moves = 0;
+            seconds = 0;
+
             stacks.Clear();
             stackRows.Clear();
             stackColumns.Clear();
@@ -77,6 +94,7 @@ namespace Hanoi
 
         public void Start()
         {
+            Reset();
             Stack<HanoiDisc> column1 = stacks[DiscStack.One];
             column1.Clear();
 
@@ -112,11 +130,12 @@ namespace Hanoi
                 hanoiDisc.SetValue(Canvas.ZIndexProperty, 100 + i);
                 hanoiDisc.DiscStack = DiscStack.One;
                 hanoiDisc.Size = i;
-                if(!stackRows.ContainsKey(i))
+                if (!stackRows.ContainsKey(i))
                     stackRows.Add(i, top);
 
                 column1.Push(hanoiDisc);
                 winCount++;
+                timer.Change(0, 1000);
             }
         }
 
@@ -132,6 +151,10 @@ namespace Hanoi
             {
                 top = (double)stacks[toStack].Peek().GetValue(Canvas.TopProperty) - (topSpacing - (topSpacing * disc.ScaleY));
             }
+            else
+            {
+                top = (topStart + (topSpacing * disc.ScaleY));
+            }
 
             double left = stackColumns[toStack] + ((double)disc.LayoutRoot.Width * disc.ScaleX) / 2;
             disc.SetValue(Canvas.TopProperty, top);
@@ -144,7 +167,7 @@ namespace Hanoi
 
             moves++;
             if (MoveCompleted != null)
-                MoveCompleted(this, EventArgs.Empty);
+                MoveCompleted(this, new MoveCompletedEventArgs(moves));
 
             CheckForWin();
         }
@@ -153,6 +176,14 @@ namespace Hanoi
         {
             if (stacks[DiscStack.Three].Count == winCount)
             {
+                Score currentScore = new Score(level, moves, seconds);
+                if (CheckIfHighScore(currentScore))
+                {
+                    highScores.Add(currentScore);
+                    SaveHighScores();
+                }
+
+                level++;
                 TimerCallback tcb = BeginReset;
                 Timer timer = new Timer(tcb, null, 1000, Timeout.Infinite);
             }
@@ -160,14 +191,63 @@ namespace Hanoi
 
         private void BeginReset(object obj)
         {
-            ResetForNextLevel();
-            level++;
-            moves = 0;
+            Reset();
+
             if (LevelCompleted != null)
             {
                 LevelCompleted(this, EventArgs.Empty);
             }
         }
+
+        private bool CheckIfHighScore(Score currentScore)
+        {
+            if (highScores.Count == 0)
+                return true;
+
+            foreach (Score score in highScores)
+            {
+                if (currentScore.Level == level)
+                {
+                    if (((currentScore.Moves < score.Moves) && currentScore.Seconds == score.Seconds) || 
+                        ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void SaveHighScores()
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (isf.FileExists(highScoreFileName))
+                    isf.DeleteFile(highScoreFileName);
+
+                using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.CreateNew))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
+                    serializer.Serialize(stream, highScores);
+                }
+            }
+        }
+
+        public void LoadHighScores()
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                //isf.DeleteFile(highScoreFileName);
+                if (isf.FileExists(highScoreFileName))
+                {
+                    using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.Open))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
+                        highScores = (List<Score>)serializer.Deserialize(stream);
+                    }
+                }
+            }
+        }
+
 
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
         {
@@ -243,6 +323,21 @@ namespace Hanoi
         {
             get { return moves; }
             set { moves = value; }
+        }
+
+        private void Timer_Tick(object obj)
+        {
+            if (LevelTimerTick != null)
+                LevelTimerTick(this, new LevelTimerTickEventArgs(seconds++));
+        }
+
+        public List<Score> HighScores
+        {
+            get
+            {
+                LoadHighScores();
+                return highScores;
+            }
         }
     }
 }

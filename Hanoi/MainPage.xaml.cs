@@ -41,5 +41,34 @@ namespace Hanoi
             NavigationService.Navigate(new Uri("/GameScreen.xaml", UriKind.Relative));
         }
 
+        private void LoadHighScores()
+        {
+            lbHighScores.Items.Clear();
+            List<Score> highScores = GameManager.Instance.HighScores;
+            for(int i = highScores.Count - 1; i > 0; i--)
+            {
+                Score score = highScores[i];
+                lbHighScores.Items.Add(String.Format("Level {0} - {3}: \n  Moves: {1} Time: {2:HH:mm:ss}", 
+                    score.Level, 
+                    score.Moves, 
+                    new DateTime(TimeSpan.FromSeconds(score.Seconds).Ticks), 
+                    DateTime.Today.ToString("d")));
+            }
+        }
+
+        private void lbHighScores_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadHighScores();
+        }
+
+        private void lbHighScores_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            lbHighScores.SelectedIndex = -1;
+        }
     }
 }
