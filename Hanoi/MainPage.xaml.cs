@@ -45,14 +45,10 @@ namespace Hanoi
         {
             lbHighScores.Items.Clear();
             List<Score> highScores = GameManager.Instance.HighScores;
-            for(int i = highScores.Count - 1; i > 0; i--)
+            for (int i = 0; i <= highScores.Count - 1; i++)
             {
                 Score score = highScores[i];
-                lbHighScores.Items.Add(String.Format("Level {0} - {3}: \n  Moves: {1} Time: {2:HH:mm:ss}", 
-                    score.Level, 
-                    score.Moves, 
-                    new DateTime(TimeSpan.FromSeconds(score.Seconds).Ticks), 
-                    DateTime.Today.ToString("d")));
+                lbHighScores.Items.Add(score.ToString());
             }
         }
 

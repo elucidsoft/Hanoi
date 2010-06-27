@@ -63,6 +63,7 @@ namespace Hanoi
             stackColumns.Add(DiscStack.One, leftSpacing);
             stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 4);
             stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 4);
+            BuildHighScores();
 
             TimerCallback tcb = Timer_Tick;
             timer = new Timer(tcb, null, Timeout.Infinite, Timeout.Infinite);
@@ -139,6 +140,17 @@ namespace Hanoi
             }
         }
 
+        private void BuildHighScores()
+        {
+            if (highScores.Count == 0)
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    highScores.Add(new Score(i));
+                }
+            }
+        }
+
         public void MoveDiscToStack(HanoiDisc disc, DiscStack toStack)
         {
             if (!IsValidMove(disc, toStack))
@@ -176,10 +188,10 @@ namespace Hanoi
         {
             if (stacks[DiscStack.Three].Count == winCount)
             {
-                Score currentScore = new Score(level, moves, seconds);
+                Score currentScore = new Score(level, moves, seconds, DateTime.Today);
                 if (CheckIfHighScore(currentScore))
                 {
-                    highScores.Add(currentScore);
+                    highScores[level - 1] = currentScore;
                     SaveHighScores();
                 }
 
@@ -202,14 +214,17 @@ namespace Hanoi
         private bool CheckIfHighScore(Score currentScore)
         {
             if (highScores.Count == 0)
+            {
                 return true;
+            }
 
             foreach (Score score in highScores)
             {
                 if (currentScore.Level == level)
                 {
                     if (((currentScore.Moves < score.Moves) && currentScore.Seconds == score.Seconds) || 
-                        ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)))
+                        ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds) ||
+                        score.Moves == 0 && score.Seconds == 0))
                         return true;
                 }
             }
