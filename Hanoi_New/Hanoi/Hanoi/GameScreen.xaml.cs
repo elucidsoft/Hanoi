@@ -4,19 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using System.Threading;
 
 namespace Hanoi
 {
@@ -27,7 +20,7 @@ namespace Hanoi
             InitializeComponent();
             GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
             GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
-            GameManager.Instance.LevelTimerTick +=new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
             //Application.Current.Host.Settings.EnableFrameRateCounter = true;
             //Application.Current.Host.Settings.EnableRedrawRegions = true;
         }
@@ -48,22 +41,20 @@ namespace Hanoi
         void Instance_LevelCompleted(object sender, System.EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
+            {
+                tbMoves.Text = GameManager.Instance.Moves.ToString();
+
+                for (int i = canvas.Children.Count - 1; i != 0; i--)
                 {
+                    UIElement h = canvas.Children[i];
+                    if (h is HanoiDisc)
+                        canvas.Children.Remove(h);
+                }
 
-
-                    tbMoves.Text = GameManager.Instance.Moves.ToString();
-
-                    for (int i = canvas.Children.Count - 1; i != 0; i--)
-                    {
-                        UIElement h = canvas.Children[i];
-                        if (h is HanoiDisc)
-                            canvas.Children.Remove(h);
-                    }
-
-                    ClearDiscs();
-                    GameManager.Instance.Start();
-                    BuildVisualStack(DiscStack.One);
-                });
+                ClearDiscs();
+                GameManager.Instance.Start();
+                BuildVisualStack(DiscStack.One);
+            });
         }
 
         private void ClearDiscs()

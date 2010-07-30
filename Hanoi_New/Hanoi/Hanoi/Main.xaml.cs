@@ -10,13 +10,13 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Hanoi;
 
 namespace Hanoi
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class Main : PhoneApplicationPage
     {
-
-        public MainPage()
+       public Main()
         {
             InitializeComponent();
         }
@@ -65,4 +65,5 @@ namespace Hanoi
             lbHighScores.SelectedIndex = -1;
         }
     }
+    
 }

@@ -1,0 +1,15 @@
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\ApplicationIcon.png
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\Background.png
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\Hanoi.dll
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\Hanoi.pdb
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\App.g.cs
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\Main.g.cs
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\Hanoi.g.resources
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\Hanoi.dll
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\Hanoi.pdb
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\HanoiDisc.g.cs
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\AppManifest.xaml
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\Bin\Debug\Hanoi.xap
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\XapCacheFile.xml
+C:\Projects\Hanoi\Hanoi_New\Hanoi\Hanoi\obj\Debug\GameScreen.g.cs

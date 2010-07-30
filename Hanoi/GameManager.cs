@@ -111,6 +111,7 @@ namespace Hanoi
                 hanoiDisc.SetValue(Grid.ColumnProperty, 0);
                 hanoiDisc.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                 hanoiDisc.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                hanoiDisc.CacheMode = new BitmapCache();
 
                 if (i > 0)
                 {
