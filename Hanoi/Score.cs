@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using System.Text;
 
 namespace Hanoi
 {
@@ -39,14 +40,49 @@ namespace Hanoi
 
         public override string ToString()
         {
+            //int sec = 0;
+            //int min = 0;
+            //int hr = 0;
+
+            //if (Seconds >= 60)
+            //    min = Seconds / 60;
+
+            //if (Seconds >= 3600)
+            //{
+            //    hr = Seconds / 3600;
+            //    min = Math.Abs(new TimeSpan(0, min, 0).Subtract(new TimeSpan(hr, 0, 0)).Minutes);
+            //}
+
+            //sec = Math.Abs(new TimeSpan(hr, min, 0).Subtract(new TimeSpan(0, 0, Seconds)).Seconds);
+                
             string display = String.Format("Level {0} - Not Played", Level);
             if (Moves > 0 && Seconds > 0)
             {
-                display = String.Format("Level {0} - {3}: \n  Moves: {1} Time: {2:HH:mm:ss}",
+            //    StringBuilder timeText = new StringBuilder();
+
+            //    if(sec > 0)
+            //    {
+            //        timeText.AppendFormat("{0} sec{1}",sec, sec > 0 ? "'s" : String.Empty);
+            //    }
+                
+            //    timeText.Append(" ");
+
+            //    if(min > 0)
+            //    {
+            //        timeText.AppendFormat("{0} min{1}", min, min > 0 ? "'s" : String.Empty);
+            //    }
+
+            //    timeText.Append(" ");
+
+            //    if (hr > 0)
+            //    {
+            //        timeText.AppendFormat("{0} hr{1}", hr, hr > 0 ? "'s" : String.Empty);
+            //    }
+
+                display = String.Format("Level {0} - {1} moves in {2}",
                         Level,
                         Moves,
-                        new DateTime(TimeSpan.FromSeconds(Seconds).Ticks),
-                        Date.ToString("d"));
+                        TimeSpan.FromSeconds(Seconds).ToString());
             }
             return display;
         }

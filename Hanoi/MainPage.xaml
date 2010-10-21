@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
     mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="ListBoxStyle1" TargetType="ListBox">
             <Setter Property="Padding" Value="1"/>
@@ -24,20 +24,55 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBox">
                         <Grid>
-                            <ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Margin="1" Padding="{TemplateBinding Padding}">
-                                <ItemsPresenter Opacity="0.795"/>
-                            </ScrollViewer>
+                        	<ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Margin="1" Padding="{TemplateBinding Padding}">
+                        		<ItemsPresenter/>
+                        	</ScrollViewer>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
+        	<Setter Property="Background" Value="Transparent"/>
+        	<Setter Property="BorderThickness" Value="0"/>
+        	<Setter Property="BorderBrush" Value="Transparent"/>
+        	<Setter Property="Padding" Value="0"/>
+        	<Setter Property="HorizontalContentAlignment" Value="Left"/>
+        	<Setter Property="VerticalContentAlignment" Value="Top"/>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="ListBoxItem">
+        				<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+        					<VisualStateManager.VisualStateGroups>
+        						<VisualStateGroup x:Name="CommonStates">
+        							<VisualState x:Name="Normal"/>
+        							<VisualState x:Name="MouseOver"/>
+        							<VisualState x:Name="Disabled">
+        								<Storyboard>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+        								</Storyboard>
+        							</VisualState>
+        						</VisualStateGroup>
+        						<VisualStateGroup x:Name="SelectionStates">
+        							<VisualState x:Name="Unselected"/>
+        							<VisualState x:Name="Selected"/>
+        						</VisualStateGroup>
+        					</VisualStateManager.VisualStateGroups>
+        					<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="24" Foreground="#DEFFFFFF" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Margin="5"/>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
         </Style>
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="480"/>
         </Grid.RowDefinitions>
 
         <!--TitleGrid is the name of the application and page title-->
@@ -46,7 +81,7 @@
         <Grid x:Name="TitleGrid" Margin="0,0,-1,0"/>
 
         <!--ContentGrid is empty. Place new content here-->
-        <Grid x:Name="ContentGrid" Grid.Row="1" Margin="1,0,-1,0">
+        <Grid x:Name="ContentGrid" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition />
@@ -55,26 +90,27 @@
                 <ColumnDefinition Width="435*" />
                 <ColumnDefinition Width="365" />
             </Grid.ColumnDefinitions>
-            <Image Source="main_bg.jpg" Stretch="Fill" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-            <Rectangle Fill="#99000000" Margin="8,-8,-12,8" Stroke="#8AFFFFFF" Grid.Row="1" d:LayoutOverrides="GridBox" StrokeThickness="10"/>
-            <Button Content="New Game" Height="78" HorizontalAlignment="Left" Margin="20,22,0,0" x:Name="buttonStart" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" BorderThickness="10" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" d:LayoutOverrides="HorizontalAlignment" FontSize="20" />
-            <TextBlock Height="36" Margin="32,104,213,0" x:Name="textBlock1" Text="Choose a Level:" VerticalAlignment="Top" FontSize="26" CacheMode="BitmapCache" Grid.Row="1" Foreground="#D7FFFFFF" />
-            <Button Content="1" Height="85" HorizontalAlignment="Left" Margin="20,140,0,0" x:Name="button2" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="2" Height="85" HorizontalAlignment="Left" Margin="100,140,0,0" x:Name="button3" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="3" Height="85" HorizontalAlignment="Left" Margin="182,140,0,0" x:Name="button4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="4" Height="85" HorizontalAlignment="Left" Margin="263,140,0,0" x:Name="button5" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="6" Height="85" HorizontalAlignment="Left" Margin="20,216,0,0" x:Name="button6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="7" Height="85" HorizontalAlignment="Left" Margin="100,216,0,0" x:Name="button7" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="8" Height="85" HorizontalAlignment="Left" Margin="182,216,0,0" x:Name="button8" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="9" Height="85" HorizontalAlignment="Left" Margin="263,216,0,0" x:Name="button9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="5" Height="85" HorizontalAlignment="Left" Margin="346,140,0,0" x:Name="button10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <Button Content="10" Height="85" HorizontalAlignment="Left" Margin="346,216,0,0" x:Name="button11" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="10" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
-            <TextBlock Grid.Column="1" Height="44" HorizontalAlignment="Left" Margin="29,23,0,0" x:Name="textBlock2" Text="High Scores" VerticalAlignment="Top" Width="336" CacheMode="BitmapCache" FontSize="32" FontWeight="Bold" Foreground="#D7FFFFFF" />
-            <ListBox x:Name="lbHighScores" Grid.Column="1" Height="405" HorizontalAlignment="Right" Margin="0,-8,8,0" VerticalAlignment="Top" Width="332" Loaded="lbHighScores_Loaded" FontSize="16" BorderThickness="10" BorderBrush="#8CFFFFFF" Style="{StaticResource ListBoxStyle1}" Background="#97000000" Grid.Row="1" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" />
+            <Image Stretch="Fill" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,8,0,-8" d:IsLocked="True"/>
+            <Rectangle Fill="#99000000" Margin="8,-8,8,8" Stroke="#8AFFFFFF" Grid.Row="1" d:LayoutOverrides="GridBox" StrokeThickness="3" d:IsLocked="True"/>
+            <Button Content="New Game" Height="78" HorizontalAlignment="Left" Margin="20,0,0,0" x:Name="buttonStart" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" BorderThickness="3" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" d:LayoutOverrides="HorizontalAlignment" FontSize="20" />
+            <TextBlock Height="36" Margin="32,79,213,0" x:Name="textBlock1" Text="Choose a Level:" VerticalAlignment="Top" FontSize="26" CacheMode="BitmapCache" Grid.Row="1" Foreground="#D7FFFFFF" />
+            <Button Content="1" Height="85" HorizontalAlignment="Left" Margin="20,102,0,0" x:Name="button2" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
+            <Button Content="2" Height="85" HorizontalAlignment="Left" Margin="91,102,0,0" x:Name="button3" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
+            <Button Content="3" Height="85" HorizontalAlignment="Left" Margin="162,102,0,0" x:Name="button4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
+            <Button Content="4" Height="85" HorizontalAlignment="Left" Margin="233,102,0,0" x:Name="button5" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
+            <Button Content="6" Height="85" HorizontalAlignment="Left" Margin="20,169,0,0" x:Name="button6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
+            <Button Content="7" Height="85" HorizontalAlignment="Left" Margin="91,169,0,0" x:Name="button7" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
+            <Button Content="8" Height="85" HorizontalAlignment="Left" Margin="162,169,0,0" x:Name="button8" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
+            <Button Content="9" Height="85" HorizontalAlignment="Left" Margin="233,169,0,0" x:Name="button9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
+            <Button Content="5" Height="85" HorizontalAlignment="Left" Margin="304,102,0,0" x:Name="button10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
+            <Button Content="10" Height="85" HorizontalAlignment="Left" Margin="304,169,0,0" x:Name="button11" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" />
+            <TextBlock Grid.Column="1" Height="44" HorizontalAlignment="Left" Margin="-4,17,0,0" x:Name="textBlock2" Text="High Scores" VerticalAlignment="Top" Width="336" CacheMode="BitmapCache" FontSize="32" FontWeight="Bold" Foreground="#D7FFFFFF" />
+            <ListBox x:Name="lbHighScores" Grid.Column="1" Height="405" Margin="-4,-8,8,0" VerticalAlignment="Top" FontSize="16" BorderThickness="3" BorderBrush="#8CFFFFFF" Style="{StaticResource ListBoxStyle1}" Background="#97000000" Grid.Row="1" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" />
             <TextBlock Margin="8,0,31,0" TextWrapping="Wrap" Text="Towers of Hanoi" FontSize="48" FontWeight="Bold" Height="63" VerticalAlignment="Top" Foreground="#D6FFFFFF"/>
-            <Button Content="Continue..." Height="78" HorizontalAlignment="Left" Margin="217,22,0,0" x:Name="buttonStart_Copy" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" BorderThickness="10" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" IsEnabled="False" FontSize="20" />
-            <HyperlinkButton Content="Check out our other Games" Grid.Row="1" Height="30" HorizontalAlignment="Left" Margin="32,353,0,0" Name="hyperlinkButton1" VerticalAlignment="Top" Width="378" CacheMode="BitmapCache" FontSize="20" />
-            <TextBlock Grid.Row="1" Height="51" HorizontalAlignment="Left" Margin="32,302,0,0" Name="textBlock3" Text="To play move the discs from left to right.  Smaller discs on top of larger discs. Try for fewer moves in less time. " VerticalAlignment="Top" Width="395" TextWrapping="Wrap" FontSize="16" CacheMode="BitmapCache"/>
+            <Button Content="Continue..." Height="78" HorizontalAlignment="Left" Margin="217,0,0,0" x:Name="buttonStart_Copy" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" BorderThickness="3" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" IsEnabled="False" FontSize="20" />
+            <HyperlinkButton Content="Check out our other Games" Grid.Row="1" Height="30" HorizontalAlignment="Left" Margin="91,354,0,0" x:Name="hyperlinkButton1" VerticalAlignment="Top" Width="268" CacheMode="BitmapCache" FontSize="20" HorizontalContentAlignment="Left" RenderTransformOrigin="0.448,0.5" />
+            <Button Content="Settings" Height="78" HorizontalAlignment="Left" Margin="20,0,0,69" x:Name="buttonStart_Copy1" VerticalAlignment="Bottom" Width="193" Click="buttonStart_Click" BorderThickness="3" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" FontSize="20" d:LayoutOverrides="HorizontalAlignment" />
+            <Button Content="Help" Height="78" HorizontalAlignment="Left" Margin="211,0,0,69" x:Name="buttonStart_Copy2" VerticalAlignment="Bottom" Width="193" Click="buttonStart_Click" BorderThickness="3" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" FontSize="20" RenderTransformOrigin="-0.523,0.487" />
         </Grid>
     </Grid>
 

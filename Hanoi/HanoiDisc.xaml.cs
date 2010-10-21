@@ -15,8 +15,6 @@ namespace Hanoi
 {
     public partial class HanoiDisc : UserControl
     {
-        public bool dirty = false;
-
         private int randomNumber;
         private bool discDragging = false;
         private Point pos;
@@ -148,11 +146,10 @@ namespace Hanoi
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!dirty)
-            {
-                OriginalTop = (double)GetValue(Canvas.TopProperty);
-                OriginalLeft = (double)GetValue(Canvas.LeftProperty);
-            }
+
+            OriginalTop = (double)GetValue(Canvas.TopProperty);
+            OriginalLeft = (double)GetValue(Canvas.LeftProperty);
+
 
             if (GameManager.Instance.IsCurrentDiscOnTop(this))
             {
@@ -162,11 +159,6 @@ namespace Hanoi
 
                 fe.CaptureMouse();
             }
-        }
-
-        public void ResetDirty()
-        {
-            dirty = false;
         }
 
         public int Size { get; set; }

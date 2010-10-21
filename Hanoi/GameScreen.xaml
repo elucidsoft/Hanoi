@@ -16,58 +16,8 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
-		<Storyboard x:Name="NewRecord">
-			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
-				<EasingColorKeyFrame KeyTime="0" Value="White"/>
-				<EasingColorKeyFrame KeyTime="0:0:0.4" Value="#FFFFF500"/>
-				<EasingColorKeyFrame KeyTime="0:0:0.8" Value="White"/>
-				<EasingColorKeyFrame KeyTime="0:0:1.2" Value="#FFFFF500"/>
-				<EasingColorKeyFrame KeyTime="0:0:1.6" Value="White"/>
-				<EasingColorKeyFrame KeyTime="0:0:2" Value="#FFFFF500"/>
-				<EasingColorKeyFrame KeyTime="0:0:2.4" Value="#FFFFF500"/>
-			</ColorAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:2.7" Value="367.874"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:2.7" Value="-93.974"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:2.7" Value="0.3"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:2.7" Value="0.4"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:2.7" Value="0"/>
-			</DoubleAnimationUsingKeyFrames>
-		</Storyboard>
+		<Storyboard x:Name="NewRecord"/>
 		<Storyboard x:Name="LevelDescription">
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="-366"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="-91"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.6"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.6"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
-			</DoubleAnimationUsingKeyFrames>
 			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="tbLevel">
 				<EasingColorKeyFrame KeyTime="0:0:1.4" Value="#A7FFFFFF"/>
 				<EasingColorKeyFrame KeyTime="0:0:1.7" Value="#A6FEFEFE"/>
@@ -92,49 +42,39 @@
         <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="image1" VerticalAlignment="Center" Source="backgrounds\01.jpg" Margin="0" Stretch="None" />
         <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="/Hanoi;component/disc-shelf.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
         <Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"/>
-        <TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="61" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="14" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
+        <TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="61" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
         	<TextBlock.RenderTransform>
         		<CompositeTransform/>
         	</TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbTimer" Height="14" Canvas.Left="731" TextWrapping="Wrap" Text="00:00:00" Width="57" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="14" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
+        <TextBlock x:Name="tbTimer" Height="14" Canvas.Left="730" TextWrapping="Wrap" Text="00:00:00" Width="68" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
         	<TextBlock.RenderTransform>
         		<CompositeTransform/>
         	</TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbTitle" Height="14" Canvas.Left="330" TextWrapping="Wrap" Text="Towers of Hanoi" Width="115" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="14" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071" HorizontalAlignment="Center"  CacheMode="BitmapCache"/>
-        <Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="716" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="9" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5" >
+        <TextBlock x:Name="tbTitle" Height="14" Canvas.Left="330" TextWrapping="Wrap" Text="Towers of Hanoi" Width="136" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071" HorizontalAlignment="Center"  CacheMode="BitmapCache"/>
+        <Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5" >
         	<Path.RenderTransform>
-        		<CompositeTransform/>
+        		<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
         	</Path.RenderTransform>
         </Path>
         <Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"/>
-        <Path Data="M4,0 L10,0 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#7EFFFFFF" Height="10" Canvas.Left="9.333" Stretch="Fill" StrokeThickness="0" Canvas.Top="9" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45,0.308"/>
+        <Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107">
+        	<Path.RenderTransform>
+        		<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
+        	</Path.RenderTransform>
+        </Path>
         <Path
-    Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#7EFFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="93" Canvas.Top="9"/>
+    Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5">
+        	<Path.RenderTransform>
+        		<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
+        	</Path.RenderTransform>
+        </Path>
         <TextBlock
-    x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="35" Foreground="#A7FFFFFF" FontSize="14" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="107" Canvas.Top="6">
+    x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="35" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
         	<TextBlock.RenderTransform>
         		<CompositeTransform/>
         	</TextBlock.RenderTransform>
         </TextBlock>
-        <Grid x:Name="grid" Height="118" Canvas.Left="238" Canvas.Top="69" Width="310" RenderTransformOrigin="0.5,0.5">
-        	<Grid.RenderTransform>
-        		<CompositeTransform/>
-        	</Grid.RenderTransform>
-        	<TextBlock x:Name="textBlock_Copy" TextWrapping="Wrap" Text="Level 1" FontSize="48" FontWeight="Bold" TextAlignment="Center" Margin="47,10,44,37" CacheMode="BitmapCache" Opacity="0.4" d:IsLocked="True">
-        		<TextBlock.Foreground>
-        			<LinearGradientBrush EndPoint="0.449,1.173" StartPoint="0.44,-0.325">
-        				<GradientStop Color="Black" Offset="1"/>
-        				<GradientStop Color="Transparent"/>
-        			</LinearGradientBrush>
-        		</TextBlock.Foreground>
-        	</TextBlock>
-        	<TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Level 1" FontSize="48" FontWeight="Bold" TextAlignment="Center" Margin="8,8,8,0" CacheMode="BitmapCache" d:IsLocked="True">
-        		<TextBlock.Foreground>
-        			<SolidColorBrush Color="#FF3F3F3F" Opacity="0.8"/>
-        		</TextBlock.Foreground>
-        	</TextBlock>
-        </Grid>
     </Canvas>
 </phone:PhoneApplicationPage>

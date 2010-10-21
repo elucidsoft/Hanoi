@@ -27,7 +27,7 @@ namespace Hanoi
             InitializeComponent();
             GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
             GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
-            GameManager.Instance.LevelTimerTick +=new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
             //Application.Current.Host.Settings.EnableFrameRateCounter = true;
             //Application.Current.Host.Settings.EnableRedrawRegions = true;
         }
@@ -78,8 +78,11 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+
             GameManager.Instance.Start();
             BuildVisualStack(DiscStack.One);
+            BuildVisualStack(DiscStack.Two);
+            BuildVisualStack(DiscStack.Three);
         }
 
         private void BuildVisualStack(DiscStack stack)
@@ -88,6 +91,10 @@ namespace Hanoi
             IList<HanoiDisc> discs = GameManager.Instance.GetDiscsInStack(stack);
             for (int i = 0; i <= discs.Count - 1; i++)
             {
+                //if (!canvas.Children.Contains(discs[i]))
+                //{
+                //    canvas.Children.Remove();
+                //}
                 canvas.Children.Add(discs[i]);
             }
         }

@@ -17,6 +17,7 @@ using System.Threading;
 using System.IO.IsolatedStorage;
 using System.Xml.Serialization;
 using System.Diagnostics;
+using Microsoft.Phone.Shell;
 
 namespace Hanoi
 {
@@ -30,13 +31,15 @@ namespace Hanoi
         public event EventHandler<LevelTimerTickEventArgs> LevelTimerTick;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
-        Dictionary<int, double> stackRows = new Dictionary<int, double>();
+        Dictionary<double, double> stackRows = new Dictionary<double, double>();
         Dictionary<DiscStack, double> stackColumns = new Dictionary<DiscStack, double>();
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
 
         List<Score> highScores = new List<Score>();
 
         private const string highScoreFileName = "highscores.xml";
+        private const string gameDataFileName = "gameData.xml";
+
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
         private const double topStart = 350;
@@ -48,6 +51,8 @@ namespace Hanoi
         private Timer timer;
 
         public int winCount = 0;
+
+        private bool isReLoaded = false;
 
         private GameManager()
         {
@@ -67,6 +72,7 @@ namespace Hanoi
 
             TimerCallback tcb = Timer_Tick;
             timer = new Timer(tcb, null, Timeout.Infinite, Timeout.Infinite);
+            winCount = level + 2;
         }
 
         public static GameManager Instance
@@ -96,48 +102,123 @@ namespace Hanoi
         public void Start()
         {
             Reset();
-            Stack<HanoiDisc> column1 = stacks[DiscStack.One];
-            column1.Clear();
 
-
-            for (int i = 0; i <= (level + 1); i++)
+            if (isReLoaded)
             {
-                double left = leftSpacing;
-                double top = topStart;
+                isReLoaded = false; 
+                SaveGame saveGame = LoadGameData();
+                List<HanoiDisc> col1 = new List<HanoiDisc>();
+                List<HanoiDisc> col2 = new List<HanoiDisc>();
+                List<HanoiDisc> col3 = new List<HanoiDisc>();
+
+                level = saveGame.Level;
+                winCount = level + 2;
+
+                //stacks[DiscStack.One].Clear();
+                LoadDiscData(col1, saveGame.SaveDiscDataOne);
+                BuildStack(col1, DiscStack.One, saveGame.StackOneCount - 1, true);
+                ApplyStack(col1, DiscStack.One);
+
+                //stacks[DiscStack.Two].Clear();
+                LoadDiscData(col2, saveGame.SaveDiscDataTwo);
+                BuildStack(col2, DiscStack.Two, saveGame.StackTwoCount - 1, true);
+                ApplyStack(col2, DiscStack.Two);
+
+                //stacks[DiscStack.Three].Clear();
+                LoadDiscData(col3, saveGame.SaveDiscDataThree);
+                BuildStack(col3, DiscStack.Three, saveGame.StackThreeCount - 1, true);
+                ApplyStack(col3, DiscStack.Three);
+
+                //BuildStack(stacks[DiscStack.One], DiscStack.Two, saveGame.StackOneCount);
+                // BuildStack(stacks[DiscStack.Two], DiscStack.Two, saveGame.StackTwoCount);
+                // BuildStack(stacks[DiscStack.Three], DiscStack.Three, saveGame.StackThreeCount);
+            }
+            else
+            {
+                List<HanoiDisc> col1 = new List<HanoiDisc>();
+                BuildStack(col1, DiscStack.One, Level + 1, false);
+                ApplyStack(col1, DiscStack.One);
+            }
+
+            timer.Change(0, 1000);
+        }
+
+        private static void LoadDiscData(List<HanoiDisc> col1, List<SaveDiscData> listSaveDiscData)
+        {
+            for (int i = 0; i <= listSaveDiscData.Count - 1; i++)
+            {
+                SaveDiscData discData = listSaveDiscData[i];
 
                 HanoiDisc hanoiDisc = new HanoiDisc();
-                hanoiDisc.Color = i % 2 > 0 ? "Gold" : "Grey";
+                hanoiDisc.OriginalLeft = discData.OriginalLeft;
+                hanoiDisc.OriginalTop = discData.OriginalTop;
+                hanoiDisc.SetValue(Canvas.LeftProperty, discData.Left);
+                hanoiDisc.SetValue(Canvas.TopProperty, discData.Top);
+                hanoiDisc.Size = discData.Size;
+                hanoiDisc.DiscStack = discData.DiscStack;
+
+                col1.Add(hanoiDisc);
+            }
+        }
+
+        private void ApplyStack(List<HanoiDisc> discs, DiscStack discStack)
+        {
+            for (int i = 0; i <= discs.Count - 1; i++)
+            {
+                stacks[discStack].Push(discs[i]);
+            }
+        }
+
+        private void BuildStack(List<HanoiDisc> discs, DiscStack discStack, int count, bool reload)
+        {
+            for (int i = 0; i <= count; i++)
+            {
+
+                HanoiDisc hanoiDisc;
+                if (!reload)
+                {
+                    hanoiDisc = new HanoiDisc();
+                    discs.Add(hanoiDisc);
+                }
+                else
+                {
+                    hanoiDisc = discs[i];
+                }
+
+                double left = ((double)(hanoiDisc.GetValue(Canvas.LeftProperty)) == 0 ? leftSpacing : (double)hanoiDisc.GetValue(Canvas.LeftProperty));
+                double top = ((double)(hanoiDisc.GetValue(Canvas.TopProperty)) == 0 ? topStart : (double)hanoiDisc.GetValue(Canvas.TopProperty));
 
                 hanoiDisc.SetValue(Grid.ColumnProperty, 0);
                 hanoiDisc.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                 hanoiDisc.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
                 hanoiDisc.CacheMode = new BitmapCache();
 
-                if (i > 0)
+                if (hanoiDisc.Size == 0)
+                    hanoiDisc.Size = i;
+
+                double scalex = (hanoiDisc.Size * .07);
+                double scaley = (hanoiDisc.Size * .05);
+
+                hanoiDisc.RenderTransform = new ScaleTransform() { ScaleX = 1 - scalex, ScaleY = 1 - scaley };
+                hanoiDisc.ScaleX = scalex;
+                hanoiDisc.ScaleY = scaley;
+
+                if (i > 0 && !reload)
                 {
-                    double scalex = (i * .07);
-                    double scaley = (i * .05);
-
-                    hanoiDisc.RenderTransform = new ScaleTransform() { ScaleX = 1 - scalex, ScaleY = 1 - scaley };
-                    HanoiDisc previousDisc = column1.Peek();
-                    top = (double)column1.Peek().GetValue(Canvas.TopProperty) - (topSpacing - (topSpacing * scaley));
-                    left = leftSpacing + ((double)column1.Peek().LayoutRoot.Width * scalex) / 2;
-
-                    hanoiDisc.ScaleX = scalex;
-                    hanoiDisc.ScaleY = scaley;
+                    HanoiDisc previousDisc = discs[i - 1];
+                    top = (double)previousDisc.GetValue(Canvas.TopProperty) - (topSpacing - (topSpacing * scaley));
+                    left = leftSpacing + ((double)previousDisc.LayoutRoot.Width * scalex) / 2;
                 }
 
+                hanoiDisc.Color = hanoiDisc.Size % 2 > 0 ? "Gold" : "Grey";
                 hanoiDisc.SetValue(Canvas.LeftProperty, left);
                 hanoiDisc.SetValue(Canvas.TopProperty, top);
-                hanoiDisc.SetValue(Canvas.ZIndexProperty, 100 + i);
-                hanoiDisc.DiscStack = DiscStack.One;
-                hanoiDisc.Size = i;
-                if (!stackRows.ContainsKey(i))
-                    stackRows.Add(i, top);
+                hanoiDisc.SetValue(Canvas.ZIndexProperty, 100 + hanoiDisc.Size);
+                hanoiDisc.DiscStack = discStack;
 
-                column1.Push(hanoiDisc);
-                winCount++;
-                timer.Change(0, 1000);
+
+                if (!stackRows.ContainsKey(hanoiDisc.Size))
+                    stackRows.Add(hanoiDisc.Size, top);
             }
         }
 
@@ -175,8 +256,6 @@ namespace Hanoi
 
             stacks[toStack].Push(disc);
             disc.DiscStack = toStack;
-
-            disc.ResetDirty();
 
             moves++;
             if (MoveCompleted != null)
@@ -223,7 +302,7 @@ namespace Hanoi
             {
                 if (currentScore.Level == level)
                 {
-                    if (((currentScore.Moves < score.Moves) && currentScore.Seconds == score.Seconds) || 
+                    if (((currentScore.Moves < score.Moves) && currentScore.Seconds == score.Seconds) ||
                         ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds) ||
                         score.Moves == 0 && score.Seconds == 0))
                         return true;
@@ -264,6 +343,43 @@ namespace Hanoi
             }
         }
 
+        public SaveGame LoadGameData()
+        {
+            //using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            //{
+            //    //isf.DeleteFile(gameDataFileName);
+            //    if (isf.FileExists(gameDataFileName))
+            //    {
+            //        using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.Open))
+            //        {
+            //            XmlSerializer serializer = new XmlSerializer(typeof(SaveGame));
+            //            return (SaveGame)serializer.Deserialize(stream);
+            //        }
+            //    }
+
+            //    return null;
+            //}
+
+            return (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
+        }
+
+        private void SaveGameData(SaveGame saveGame)
+        {
+            //using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            //{
+            //    if (isf.FileExists(gameDataFileName))
+            //        isf.DeleteFile(gameDataFileName);
+
+            //    using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.CreateNew))
+            //    {
+            //        XmlSerializer serializer = new XmlSerializer(typeof(SaveGame));
+            //        serializer.Serialize(stream, saveGame);
+            //    }
+            //}
+
+            PhoneApplicationService.Current.State["SaveGame"] = saveGame;
+        }
+
 
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
         {
@@ -271,7 +387,7 @@ namespace Hanoi
             {
                 disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
                 disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
-                VibrateController.Default.Start(TimeSpan.FromSeconds(1));
+                VibrateController.Default.Start(TimeSpan.FromSeconds(.5));
                 return false;
             }
 
@@ -309,6 +425,12 @@ namespace Hanoi
             DiscStack stack = current.DiscStack;
             double currentWidth = current.LayoutRoot.Width;
             double left = (double)current.GetValue(Canvas.LeftProperty) + ((currentWidth - (currentWidth * current.ScaleX)) / 2);
+            stack = GetDiscStackDestination(stack, left);
+            MoveDiscToStack(current, stack);
+        }
+
+        private static DiscStack GetDiscStackDestination(DiscStack stack, double left)
+        {
             if (left >= 0 && left <= 266)
             {
                 stack = DiscStack.One;
@@ -321,7 +443,7 @@ namespace Hanoi
             {
                 stack = DiscStack.Three;
             }
-            MoveDiscToStack(current, stack);
+            return stack;
         }
 
         public ReadOnlyCollection<HanoiDisc> GetDiscsInStack(DiscStack stack)
@@ -354,6 +476,46 @@ namespace Hanoi
                 LoadHighScores();
                 return highScores;
             }
+        }
+
+        internal void SaveState()
+        {
+            SaveGame saveGame = new SaveGame();
+
+            saveGame.Level = level;
+
+            saveGame.StackOneCount = stacks[DiscStack.One].Count;
+            saveGame.StackTwoCount = stacks[DiscStack.Two].Count;
+            saveGame.StackThreeCount = stacks[DiscStack.Three].Count;
+
+            SaveStackData(stacks[DiscStack.One], saveGame.SaveDiscDataOne);
+            SaveStackData(stacks[DiscStack.Two], saveGame.SaveDiscDataTwo);
+            SaveStackData(stacks[DiscStack.Three], saveGame.SaveDiscDataThree);
+
+            SaveGameData(saveGame);
+        }
+
+        private void SaveStackData(Stack<HanoiDisc> stack, List<SaveDiscData> saveDiscData)
+        {
+            HanoiDisc[] discs = stack.ToArray();
+
+            for (int i = discs.Length - 1; i >= 0; i--)
+            {
+                HanoiDisc currDisc = discs[i];
+                SaveDiscData discData = new SaveDiscData();
+                discData.Left = (double)currDisc.GetValue(Canvas.LeftProperty);
+                discData.Top = (double)currDisc.GetValue(Canvas.TopProperty);
+                discData.OriginalLeft = currDisc.OriginalLeft;
+                discData.OriginalTop = currDisc.OriginalTop;
+                discData.Size = currDisc.Size;
+                discData.DiscStack = currDisc.DiscStack;
+                saveDiscData.Add(discData);
+            }
+        }
+
+        internal void LoadState()
+        {
+            isReLoaded = true;
         }
     }
 }
