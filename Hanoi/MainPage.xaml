@@ -90,8 +90,7 @@
                 <ColumnDefinition Width="435*" />
                 <ColumnDefinition Width="365" />
             </Grid.ColumnDefinitions>
-            <Image Stretch="Fill" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,8,0,-8" d:IsLocked="True"/>
-            <Rectangle Fill="#99000000" Margin="8,-8,8,8" Stroke="#8AFFFFFF" Grid.Row="1" d:LayoutOverrides="GridBox" StrokeThickness="3" d:IsLocked="True"/>
+            <Rectangle Fill="#00000000" Margin="8,-8,8,8" Stroke="#8AFFFFFF" Grid.Row="1" d:LayoutOverrides="GridBox" StrokeThickness="3"/>
             <Button Content="New Game" Height="78" HorizontalAlignment="Left" Margin="20,0,0,0" x:Name="buttonStart" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" BorderThickness="3" BorderBrush="#8DFFFFFF" Foreground="#D8FFFFFF" Grid.Row="1" d:LayoutOverrides="HorizontalAlignment" FontSize="20" />
             <TextBlock Height="36" Margin="32,79,213,0" x:Name="textBlock1" Text="Choose a Level:" VerticalAlignment="Top" FontSize="26" CacheMode="BitmapCache" Grid.Row="1" Foreground="#D7FFFFFF" />
             <Button Content="1" Height="85" HorizontalAlignment="Left" Margin="20,102,0,0" x:Name="button2" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" BorderThickness="3" Foreground="#D7FFFFFF" BorderBrush="#8CFFFFFF" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />

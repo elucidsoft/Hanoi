@@ -49,8 +49,8 @@
     <Grid x:Name="LayoutRoot" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="111" Width="211">
         <Grid Width="207" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid Margin="0,19,0,14">
-                <Path x:Name="BottomPath_ColorOverlay" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Fill="{StaticResource Grey_BottomFill}" d:IsLocked="True"/>
-                <Path x:Name="BottomPath_Overlay_Shadow" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" d:IsLocked="True">
+                <Path x:Name="BottomPath_ColorOverlay" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Fill="{StaticResource Grey_BottomFill}"/>
+                <Path x:Name="BottomPath_Overlay_Shadow" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False">
                     <Path.Fill>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.506,-1.63">
                             <GradientStop Color="#BD000000" Offset="1"/>
@@ -60,12 +60,12 @@
                         </LinearGradientBrush>
                     </Path.Fill>
                 </Path>
-                <Path x:Name="BottomPath"  Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Opacity="0.295" StrokeThickness="0.5" Stroke="Black" Fill="{StaticResource GreyConcrete_Fill}" d:IsLocked="True"/>
+                <Path x:Name="BottomPath"  Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Opacity="0.295" StrokeThickness="0.5" Stroke="Black" Fill="{StaticResource GreyConcrete_Fill}"/>
             </Grid>
-            <Grid Margin="0,11,0,53" d:IsLocked="True">
+            <Grid Margin="0,11,0,53">
 
 
-                <Path x:Name="TopPath" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,-0.101" StrokeThickness="0.25" Stroke="#66000000" Fill="{StaticResource GoldConcrete_Fill}"/>
+                <Path x:Name="TopPath" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,-0.101" StrokeThickness="0.25" Stroke="#66000000" Fill="{StaticResource GreyConcrete_Fill}"/>
                 <Path x:Name="TopPath_ColorOverlay" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,0" Opacity="0.295" StrokeThickness="0.5" Fill="{StaticResource Grey_TopFill}"/>
             </Grid>
             <Path x:Name="crack1" Data="M0.25,0.25 L5.9168663,9.7495108 L17.58379,10.249835 L30.58359,13.916897 L39.249947,19.916998 L53.554901,26.417343" Height="26.667" Margin="32.583,0,0,14.75" Stretch="Fill" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Stroke="#72000000" HorizontalAlignment="Left" Width="53.805" RenderTransformOrigin="0.5,0.5">

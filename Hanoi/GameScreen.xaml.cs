@@ -83,6 +83,7 @@ namespace Hanoi
             BuildVisualStack(DiscStack.One);
             BuildVisualStack(DiscStack.Two);
             BuildVisualStack(DiscStack.Three);
+            tbMoves.Text = GameManager.Instance.Moves.ToString();
         }
 
         private void BuildVisualStack(DiscStack stack)

@@ -34,7 +34,7 @@ namespace Hanoi
         Dictionary<double, double> stackRows = new Dictionary<double, double>();
         Dictionary<DiscStack, double> stackColumns = new Dictionary<DiscStack, double>();
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
-
+        SaveGame saveGame;
         List<Score> highScores = new List<Score>();
 
         private const string highScoreFileName = "highscores.xml";
@@ -105,33 +105,7 @@ namespace Hanoi
 
             if (isReLoaded)
             {
-                isReLoaded = false; 
-                SaveGame saveGame = LoadGameData();
-                List<HanoiDisc> col1 = new List<HanoiDisc>();
-                List<HanoiDisc> col2 = new List<HanoiDisc>();
-                List<HanoiDisc> col3 = new List<HanoiDisc>();
-
-                level = saveGame.Level;
-                winCount = level + 2;
-
-                //stacks[DiscStack.One].Clear();
-                LoadDiscData(col1, saveGame.SaveDiscDataOne);
-                BuildStack(col1, DiscStack.One, saveGame.StackOneCount - 1, true);
-                ApplyStack(col1, DiscStack.One);
-
-                //stacks[DiscStack.Two].Clear();
-                LoadDiscData(col2, saveGame.SaveDiscDataTwo);
-                BuildStack(col2, DiscStack.Two, saveGame.StackTwoCount - 1, true);
-                ApplyStack(col2, DiscStack.Two);
-
-                //stacks[DiscStack.Three].Clear();
-                LoadDiscData(col3, saveGame.SaveDiscDataThree);
-                BuildStack(col3, DiscStack.Three, saveGame.StackThreeCount - 1, true);
-                ApplyStack(col3, DiscStack.Three);
-
-                //BuildStack(stacks[DiscStack.One], DiscStack.Two, saveGame.StackOneCount);
-                // BuildStack(stacks[DiscStack.Two], DiscStack.Two, saveGame.StackTwoCount);
-                // BuildStack(stacks[DiscStack.Three], DiscStack.Three, saveGame.StackThreeCount);
+                LoadState();
             }
             else
             {
@@ -483,6 +457,8 @@ namespace Hanoi
             SaveGame saveGame = new SaveGame();
 
             saveGame.Level = level;
+            saveGame.Seconds = seconds;
+            saveGame.Moves = moves;
 
             saveGame.StackOneCount = stacks[DiscStack.One].Count;
             saveGame.StackTwoCount = stacks[DiscStack.Two].Count;
@@ -513,9 +489,39 @@ namespace Hanoi
             }
         }
 
-        internal void LoadState()
+        internal void LoadStateData()
         {
             isReLoaded = true;
+            saveGame = LoadGameData();
         }
+
+        private void LoadState()
+        {
+            if (saveGame == null || isReLoaded == false)
+                LoadStateData();
+
+            isReLoaded = false;
+            List<HanoiDisc> col1 = new List<HanoiDisc>();
+            List<HanoiDisc> col2 = new List<HanoiDisc>();
+            List<HanoiDisc> col3 = new List<HanoiDisc>();
+
+            level = saveGame.Level;
+            winCount = level + 2;
+            seconds = saveGame.Seconds;
+            moves = saveGame.Moves;
+
+            LoadDiscData(col1, saveGame.SaveDiscDataOne);
+            BuildStack(col1, DiscStack.One, saveGame.StackOneCount - 1, true);
+            ApplyStack(col1, DiscStack.One);
+
+            LoadDiscData(col2, saveGame.SaveDiscDataTwo);
+            BuildStack(col2, DiscStack.Two, saveGame.StackTwoCount - 1, true);
+            ApplyStack(col2, DiscStack.Two);
+
+            LoadDiscData(col3, saveGame.SaveDiscDataThree);
+            BuildStack(col3, DiscStack.Three, saveGame.StackThreeCount - 1, true);
+            ApplyStack(col3, DiscStack.Three);
+        }
+
     }
 }
