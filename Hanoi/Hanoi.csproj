@@ -109,13 +109,13 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\backgrounds\normal\01.jpg" />
     <Content Include="Properties\AppManifest.xml" />
-    <Resource Include="main_bg.jpg" />
-    <Resource Include="patterns\concrete_gold.jpg" />
-    <Resource Include="patterns\concrete_grey.jpg" />
-    <Resource Include="backgrounds\01.jpg" />
-    <Resource Include="disc-shelf.png" />
+    <Content Include="patterns\concrete_gold.jpg" />
+    <Content Include="patterns\concrete_grey.jpg" />
+    <Content Include="images\shelf\01.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -39,8 +39,8 @@
 		<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 	</phone:PhoneApplicationPage.Projection>
     <Canvas x:Name="canvas" Height="480" Width="800">
-        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="image1" VerticalAlignment="Center" Source="backgrounds\01.jpg" Margin="0" Stretch="None" />
-        <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="/Hanoi;component/disc-shelf.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
+        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="image1" VerticalAlignment="Center" Source="images\backgrounds\normal\01.jpg" Margin="0" Stretch="None" />
+        <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
         <Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"/>
         <TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="61" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
         	<TextBlock.RenderTransform>
