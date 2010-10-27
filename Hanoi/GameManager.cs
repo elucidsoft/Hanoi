@@ -34,11 +34,9 @@ namespace Hanoi
         Dictionary<double, double> stackRows = new Dictionary<double, double>();
         Dictionary<DiscStack, double> stackColumns = new Dictionary<DiscStack, double>();
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
-        SaveGame saveGame;
         List<Score> highScores = new List<Score>();
 
         private const string highScoreFileName = "highscores.xml";
-        private const string gameDataFileName = "gameData.xml";
 
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
@@ -317,44 +315,6 @@ namespace Hanoi
             }
         }
 
-        public SaveGame LoadGameData()
-        {
-            //using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
-            //{
-            //    //isf.DeleteFile(gameDataFileName);
-            //    if (isf.FileExists(gameDataFileName))
-            //    {
-            //        using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.Open))
-            //        {
-            //            XmlSerializer serializer = new XmlSerializer(typeof(SaveGame));
-            //            return (SaveGame)serializer.Deserialize(stream);
-            //        }
-            //    }
-
-            //    return null;
-            //}
-
-            return (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
-        }
-
-        private void SaveGameData(SaveGame saveGame)
-        {
-            //using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
-            //{
-            //    if (isf.FileExists(gameDataFileName))
-            //        isf.DeleteFile(gameDataFileName);
-
-            //    using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.CreateNew))
-            //    {
-            //        XmlSerializer serializer = new XmlSerializer(typeof(SaveGame));
-            //        serializer.Serialize(stream, saveGame);
-            //    }
-            //}
-
-            PhoneApplicationService.Current.State["SaveGame"] = saveGame;
-        }
-
-
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
         {
             if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size) || disc.DiscStack == toStack)
@@ -455,7 +415,6 @@ namespace Hanoi
         internal void SaveState()
         {
             SaveGame saveGame = new SaveGame();
-
             saveGame.Level = level;
             saveGame.Seconds = seconds;
             saveGame.Moves = moves;
@@ -468,7 +427,7 @@ namespace Hanoi
             SaveStackData(stacks[DiscStack.Two], saveGame.SaveDiscDataTwo);
             SaveStackData(stacks[DiscStack.Three], saveGame.SaveDiscDataThree);
 
-            SaveGameData(saveGame);
+            App.GameData.SaveGame = saveGame;
         }
 
         private void SaveStackData(Stack<HanoiDisc> stack, List<SaveDiscData> saveDiscData)
@@ -492,34 +451,30 @@ namespace Hanoi
         internal void LoadStateData()
         {
             isReLoaded = true;
-            saveGame = LoadGameData();
         }
 
         private void LoadState()
         {
-            if (saveGame == null || isReLoaded == false)
-                LoadStateData();
-
             isReLoaded = false;
             List<HanoiDisc> col1 = new List<HanoiDisc>();
             List<HanoiDisc> col2 = new List<HanoiDisc>();
             List<HanoiDisc> col3 = new List<HanoiDisc>();
 
-            level = saveGame.Level;
+            level = App.GameData.SaveGame.Level;
             winCount = level + 2;
-            seconds = saveGame.Seconds;
-            moves = saveGame.Moves;
+            seconds = App.GameData.SaveGame.Seconds;
+            moves = App.GameData.SaveGame.Moves;
 
-            LoadDiscData(col1, saveGame.SaveDiscDataOne);
-            BuildStack(col1, DiscStack.One, saveGame.StackOneCount - 1, true);
+            LoadDiscData(col1, App.GameData.SaveGame.SaveDiscDataOne);
+            BuildStack(col1, DiscStack.One, App.GameData.SaveGame.StackOneCount - 1, true);
             ApplyStack(col1, DiscStack.One);
 
-            LoadDiscData(col2, saveGame.SaveDiscDataTwo);
-            BuildStack(col2, DiscStack.Two, saveGame.StackTwoCount - 1, true);
+            LoadDiscData(col2, App.GameData.SaveGame.SaveDiscDataTwo);
+            BuildStack(col2, DiscStack.Two, App.GameData.SaveGame.StackTwoCount - 1, true);
             ApplyStack(col2, DiscStack.Two);
 
-            LoadDiscData(col3, saveGame.SaveDiscDataThree);
-            BuildStack(col3, DiscStack.Three, saveGame.StackThreeCount - 1, true);
+            LoadDiscData(col3, App.GameData.SaveGame.SaveDiscDataThree);
+            BuildStack(col3, DiscStack.Three, App.GameData.SaveGame.StackThreeCount - 1, true);
             ApplyStack(col3, DiscStack.Three);
         }
 

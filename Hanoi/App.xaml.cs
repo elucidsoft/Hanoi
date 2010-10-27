@@ -19,6 +19,9 @@ namespace Hanoi
     {
 
         public static bool CanContinue = false;
+
+        public static GameData GameData;
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -52,19 +55,25 @@ namespace Hanoi
 
             // Phone-specific initialization
             InitializePhoneApplication();
+            GameData = GameData.LoadGameData();
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            CanContinue = GameData.SaveGame.Level > 0;
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            GameManager.Instance.LoadStateData();
+            if (PhoneApplicationService.Current.State.ContainsKey("SaveGame"))
+            {
+                App.GameData.SaveGame = (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
+                CanContinue = GameData.SaveGame.Level > 0;
+            }
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -72,12 +81,17 @@ namespace Hanoi
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             GameManager.Instance.SaveState();
+
+            PhoneApplicationService.Current.State["SaveGame"] = App.GameData.SaveGame;
+            GameData.SaveGameData(GameData);
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            GameManager.Instance.SaveState();
+            GameData.SaveGameData(GameData);
         }
 
         // Code to execute if a navigation fails

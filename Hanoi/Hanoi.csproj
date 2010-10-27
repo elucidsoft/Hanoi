@@ -65,10 +65,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameData.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameScreen.xaml.cs">
       <DependentUpon>GameScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameSettings.cs" />
     <Compile Include="GameTimerTickEvent.cs" />
     <Compile Include="HanoiDisc.xaml.cs">
       <DependentUpon>HanoiDisc.xaml</DependentUpon>
@@ -110,6 +112,34 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="images\backgrounds\normal\01.jpg" />
+    <Content Include="images\backgrounds\normal\02.jpg" />
+    <Content Include="images\backgrounds\normal\03.jpg" />
+    <Content Include="images\backgrounds\normal\04.jpg" />
+    <Content Include="images\backgrounds\normal\05.jpg" />
+    <Content Include="images\backgrounds\normal\06.jpg" />
+    <Content Include="images\backgrounds\normal\07.jpg" />
+    <Content Include="images\backgrounds\normal\08.jpg" />
+    <Content Include="images\backgrounds\normal\09.jpg" />
+    <Content Include="images\backgrounds\normal\10.jpg" />
+    <Content Include="images\backgrounds\normal\11.jpg" />
+    <Content Include="images\backgrounds\normal\12.jpg" />
+    <Content Include="images\backgrounds\normal\13.jpg" />
+    <Content Include="images\backgrounds\normal\14.jpg" />
+    <Content Include="images\backgrounds\normal\15.jpg" />
+    <Content Include="images\backgrounds\normal\16.jpg" />
+    <Content Include="images\backgrounds\normal\17.jpg" />
+    <Content Include="images\backgrounds\normal\18.jpg" />
+    <Content Include="images\backgrounds\normal\19.jpg" />
+    <Content Include="images\backgrounds\normal\20.jpg" />
+    <Content Include="images\backgrounds\normal\21.jpg" />
+    <Content Include="images\backgrounds\normal\22.jpg" />
+    <Content Include="images\backgrounds\normal\23.jpg" />
+    <Content Include="images\backgrounds\normal\24.jpg" />
+    <Content Include="images\backgrounds\normal\25.jpg" />
+    <Content Include="images\backgrounds\normal\26.jpg" />
+    <Content Include="images\backgrounds\normal\27.jpg" />
+    <Content Include="images\backgrounds\normal\28.jpg" />
+    <Content Include="images\backgrounds\normal\29.jpg" />
     <Content Include="Properties\AppManifest.xml" />
     <Content Include="patterns\concrete_gold.jpg" />
     <Content Include="patterns\concrete_grey.jpg" />
