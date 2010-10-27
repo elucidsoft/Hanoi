@@ -22,6 +22,7 @@ namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
+        
         public GameScreen()
         {
             InitializeComponent();
@@ -78,6 +79,11 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (App.CanContinue)
+            {
+                GameManager.Instance.LoadStateData();
+                App.CanContinue = false;
+            }
 
             GameManager.Instance.Start();
             BuildVisualStack(DiscStack.One);
@@ -98,6 +104,12 @@ namespace Hanoi
                 //}
                 canvas.Children.Add(discs[i]);
             }
+        }
+
+        private void phoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.CanContinue = true;
+            GameManager.Instance.SaveState();
         }
     }
 }

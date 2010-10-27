@@ -32,9 +32,9 @@ namespace Hanoi
             StartLevel(level);
         }
 
-
         private void StartLevel(int level)
         {
+            App.CanContinue = false;
             GameManager.Instance.Level = level;
             NavigationService.Navigate(new Uri("/GameScreen.xaml", UriKind.Relative));
         }
@@ -52,12 +52,21 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (App.CanContinue)
+            {
+                btnContinue.Visibility = System.Windows.Visibility.Visible;
+            }
             LoadHighScores();
         }
 
         private void lbHighScores_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lbHighScores.SelectedIndex = -1;
+        }
+
+        private void btnContinue_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/GameScreen.xaml", UriKind.Relative));
         }
     }
 }

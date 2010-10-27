@@ -17,6 +17,8 @@ namespace Hanoi
 {
     public partial class App : Application
     {
+
+        public static bool CanContinue = false;
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
