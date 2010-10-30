@@ -18,6 +18,9 @@ using System.IO.IsolatedStorage;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using Microsoft.Phone.Shell;
+using Microsoft.Xna.Framework;
+using System.IO;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Hanoi
 {
@@ -47,6 +50,7 @@ namespace Hanoi
         private int moves = 0;
         private int seconds = 0;
         private Timer timer;
+        private SoundEffect effect;
 
         public int winCount = 0;
 
@@ -57,8 +61,19 @@ namespace Hanoi
             Initialize();
         }
 
+        ~GameManager()
+        {
+            effect.Dispose();
+        }
+
         private void Initialize()
         {
+            using (Stream stream = TitleContainer.OpenStream("stone_drag.wav"))
+            {
+                FrameworkDispatcher.Update();
+                effect = SoundEffect.FromStream(stream);
+            }
+
             stacks.Add(DiscStack.One, new Stack<HanoiDisc>());
             stacks.Add(DiscStack.Two, new Stack<HanoiDisc>());
             stacks.Add(DiscStack.Three, new Stack<HanoiDisc>());
@@ -240,6 +255,12 @@ namespace Hanoi
         {
             if (stacks[DiscStack.Three].Count == winCount)
             {
+                //want to make sure the ui has the latest and greatest time data...
+                if (LevelTimerTick != null)
+                    CallTimerTickEvent();
+
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+
                 Score currentScore = new Score(level, moves, seconds, DateTime.Today);
                 if (CheckIfHighScore(currentScore))
                 {
@@ -249,8 +270,14 @@ namespace Hanoi
 
                 level++;
                 TimerCallback tcb = BeginReset;
-                Timer timer = new Timer(tcb, null, 1000, Timeout.Infinite);
+                Timer t = new Timer(tcb, null, 1000, Timeout.Infinite);
             }
+        }
+
+        private void CallTimerTickEvent()
+        {
+            if (LevelTimerTick != null)
+                LevelTimerTick(this, new LevelTimerTickEventArgs(seconds));
         }
 
         private void BeginReset(object obj)
@@ -265,20 +292,19 @@ namespace Hanoi
 
         private bool CheckIfHighScore(Score currentScore)
         {
+            Score score = highScores[level - 1];
             if (highScores.Count == 0)
             {
                 return true;
             }
 
-            foreach (Score score in highScores)
+            if (currentScore.Level == level)
             {
-                if (currentScore.Level == level)
-                {
-                    if (((currentScore.Moves < score.Moves) && currentScore.Seconds == score.Seconds) ||
-                        ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds) ||
-                        score.Moves == 0 && score.Seconds == 0))
-                        return true;
-                }
+                if (((currentScore.Moves < score.Moves) && (currentScore.Seconds == score.Seconds)) ||
+                    ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)) ||
+                    ((currentScore.Moves < score.Moves) && (currentScore.Seconds < score.Seconds)) ||
+                    ((score.Moves == 0 && score.Seconds == 0)))
+                    return true;
             }
 
             return false;
@@ -324,6 +350,9 @@ namespace Hanoi
                 VibrateController.Default.Start(TimeSpan.FromSeconds(.5));
                 return false;
             }
+
+
+            effect.Play(0.75f, 0f, 0f);
 
             return true;
         }
@@ -399,8 +428,8 @@ namespace Hanoi
 
         private void Timer_Tick(object obj)
         {
-            if (LevelTimerTick != null)
-                LevelTimerTick(this, new LevelTimerTickEventArgs(seconds++));
+            CallTimerTickEvent();
+            seconds++;
         }
 
         public List<Score> HighScores
@@ -414,7 +443,7 @@ namespace Hanoi
 
         internal void SaveState()
         {
-            SaveGame saveGame = new SaveGame();
+            SaveGame saveGame = App.GameData.SaveGame;
             saveGame.Level = level;
             saveGame.Seconds = seconds;
             saveGame.Moves = moves;
@@ -432,6 +461,7 @@ namespace Hanoi
 
         private void SaveStackData(Stack<HanoiDisc> stack, List<SaveDiscData> saveDiscData)
         {
+            saveDiscData.Clear();
             HanoiDisc[] discs = stack.ToArray();
 
             for (int i = discs.Length - 1; i >= 0; i--)

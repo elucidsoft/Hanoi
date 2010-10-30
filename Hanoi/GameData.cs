@@ -9,15 +9,20 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.IO.IsolatedStorage;
-using System.Xml.Serialization;
+using ProtoBuf;
+
 
 namespace Hanoi
 {
+    [ProtoContract]
     public class GameData
     {
-        private const string gameDataFileName = "gameData.xml";
+        private const string gameDataFileName = "gameData.bin";
 
+        [ProtoMember(1)]
         public SaveGame SaveGame = new SaveGame();
+
+        [ProtoMember(2)]
         public GameSettings GameSettings = new GameSettings();
 
         public static GameData LoadGameData()
@@ -29,8 +34,7 @@ namespace Hanoi
                 {
                     using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.Open))
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-                        return (GameData)serializer.Deserialize(stream);
+                        return Serializer.Deserialize<GameData>(stream);
                     }
                 }
 
@@ -47,8 +51,7 @@ namespace Hanoi
 
                 using (var stream = isf.OpenFile(gameDataFileName, System.IO.FileMode.CreateNew))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-                    serializer.Serialize(stream, gameData);
+                    Serializer.Serialize<GameData>(stream, gameData);
                 }
             }
         }

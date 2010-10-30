@@ -8,73 +8,83 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
     mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800"
-    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded" RenderTransformOrigin="0.5,0.5" BackKeyPress="phoneApplicationPage_BackKeyPress">
+    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded" RenderTransformOrigin="0.5,0.5" BackKeyPress="phoneApplicationPage_BackKeyPress" Unloaded="phoneApplicationPage_Unloaded">
 	<phone:PhoneApplicationPage.Resources>
-		<Storyboard x:Name="LevelTransition">
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="phoneApplicationPage">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
-			</DoubleAnimationUsingKeyFrames>
+		<Storyboard x:Name="BackgroundTransition">
+			<DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bgImage02" d:IsOptimized="True"/>
+			<DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bgImage01" d:IsOptimized="True"/>
 		</Storyboard>
-		<Storyboard x:Name="NewRecord"/>
-		<Storyboard x:Name="LevelDescription">
-			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="tbLevel">
-				<EasingColorKeyFrame KeyTime="0:0:1.4" Value="#A7FFFFFF"/>
-				<EasingColorKeyFrame KeyTime="0:0:1.7" Value="#A6FEFEFE"/>
-				<EasingColorKeyFrame KeyTime="0:0:1.9" Value="#A7FFFFFF"/>
-			</ColorAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="tbLevel">
-				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1.06609"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="tbLevel">
-				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1.04546"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+		<Storyboard x:Name="LevelTransition_Start">
+			<DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="canvas" d:IsOptimized="True"/>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas">
+				<DiscreteObjectKeyFrame KeyTime="0:0:1">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Collapsed</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimation Duration="0:0:1" To="-800" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="canvas" d:IsOptimized="True"/>
+		</Storyboard>
+		<Storyboard x:Name="LevelTransition_End">
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas">
+				<DiscreteObjectKeyFrame KeyTime="0">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Visible</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="canvas">
+				<EasingDoubleKeyFrame KeyTime="0" Value="800"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.Projection>
 		<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 	</phone:PhoneApplicationPage.Projection>
-    <Canvas x:Name="canvas" Height="480" Width="800">
-        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage" VerticalAlignment="Center" Source="images\backgrounds\normal\01.jpg" Margin="0" Stretch="None" />
-        <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
-        <Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"/>
-        <TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="67" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
-        	<TextBlock.RenderTransform>
-        		<CompositeTransform/>
-        	</TextBlock.RenderTransform>
-        </TextBlock>
-        <TextBlock x:Name="tbTimer" Height="14" Canvas.Left="730" TextWrapping="Wrap" Text="00:00:00" Width="68" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
-        	<TextBlock.RenderTransform>
-        		<CompositeTransform/>
-        	</TextBlock.RenderTransform>
-        </TextBlock>
-        <TextBlock x:Name="tbTitle" Height="14" Canvas.Left="330" TextWrapping="Wrap" Text="Towers of Hanoi" Width="136" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071" HorizontalAlignment="Center"  CacheMode="BitmapCache"/>
-        <Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5" >
-        	<Path.RenderTransform>
-        		<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
-        	</Path.RenderTransform>
-        </Path>
-        <Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"/>
-        <Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107">
-        	<Path.RenderTransform>
-        		<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
-        	</Path.RenderTransform>
-        </Path>
-        <Path
-    Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5">
-        	<Path.RenderTransform>
-        		<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
-        	</Path.RenderTransform>
-        </Path>
-        <TextBlock
-    x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="35" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
-        	<TextBlock.RenderTransform>
-        		<CompositeTransform/>
-        	</TextBlock.RenderTransform>
-        </TextBlock>
-    </Canvas>
+    <Canvas Background="Black">
+		<Canvas x:Name="canvas" Height="480" Width="800" d:LayoutOverrides="Width, Height">
+			<Canvas.Projection>
+				<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
+			</Canvas.Projection>
+			<Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Source="images\backgrounds\normal\01.jpg" Margin="0" Stretch="None" />
+			<Image HorizontalAlignment="Center" x:Name="bgImage02" VerticalAlignment="Center" Source="/images/backgrounds/normal/02.jpg" Margin="0" Stretch="None" Opacity="0" />
+			<Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
+			<Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"/>
+			<TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="67" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
+				<TextBlock.RenderTransform>
+					<CompositeTransform/>
+				</TextBlock.RenderTransform>
+			</TextBlock>
+			<TextBlock x:Name="tbTimer" Height="14" Canvas.Left="730" TextWrapping="Wrap" Text="00:00:00" Width="68" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
+				<TextBlock.RenderTransform>
+					<CompositeTransform/>
+				</TextBlock.RenderTransform>
+			</TextBlock>
+			<TextBlock x:Name="tbTitle" Height="14" Canvas.Left="330" TextWrapping="Wrap" Text="Towers of Hanoi" Width="136" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071" HorizontalAlignment="Center"  CacheMode="BitmapCache"/>
+			<Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5" >
+				<Path.RenderTransform>
+					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
+				</Path.RenderTransform>
+			</Path>
+			<Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"/>
+			<Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107">
+				<Path.RenderTransform>
+					<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
+				</Path.RenderTransform>
+			</Path>
+			<Path
+				Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5">
+				<Path.RenderTransform>
+					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
+				</Path.RenderTransform>
+			</Path>
+			<TextBlock
+				x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="35" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
+				<TextBlock.RenderTransform>
+					<CompositeTransform/>
+				</TextBlock.RenderTransform>
+			</TextBlock>
+		</Canvas>
+	</Canvas>
 </phone:PhoneApplicationPage>

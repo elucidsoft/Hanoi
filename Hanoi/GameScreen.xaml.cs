@@ -17,20 +17,16 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Threading;
+using System.Windows.Media.Imaging;
 
 namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
-        
+
         public GameScreen()
         {
             InitializeComponent();
-            GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
-            GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
-            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
-            //Application.Current.Host.Settings.EnableFrameRateCounter = true;
-            //Application.Current.Host.Settings.EnableRedrawRegions = true;
         }
 
         void Instance_LevelTimerTick(object sender, LevelTimerTickEventArgs e)
@@ -50,21 +46,38 @@ namespace Hanoi
         {
             Dispatcher.BeginInvoke(() =>
                 {
-
-
                     tbMoves.Text = GameManager.Instance.Moves.ToString();
-
-                    for (int i = canvas.Children.Count - 1; i != 0; i--)
-                    {
-                        UIElement h = canvas.Children[i];
-                        if (h is HanoiDisc)
-                            canvas.Children.Remove(h);
-                    }
-
-                    ClearDiscs();
-                    GameManager.Instance.Start();
-                    BuildVisualStack(DiscStack.One);
+                    LevelTransition_Start.Begin();
                 });
+        }
+
+        void LevelTransition_Start_Completed(object sender, System.EventArgs e)
+        {
+            ClearDiscs();
+
+            SetBackgroundImage(false);
+            GameManager.Instance.Start();
+            BuildVisualStack(DiscStack.One);
+            LevelTransition_End.Begin();
+        }
+
+        void SetBackgroundImage(bool isContinue)
+        {
+            if (!isContinue)
+            {
+                const int max = 29;
+                Image img = (bgImage01.Opacity == 1.0) ? bgImage01 : bgImage02;
+                Image img2 = (bgImage01.Opacity == 1.0) ? bgImage02 : bgImage01;
+                Random rnd = new Random();
+                string file1 = String.Format("{0:0#}.jpg", rnd.Next(1, max));
+                img.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + file1, System.UriKind.Relative));
+                img2.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + String.Format("{0:0#}.jpg", rnd.Next(1, max)), System.UriKind.Relative));
+                App.GameData.SaveGame.BackgroundImage = file1;
+            }
+            else
+            {
+                bgImage01.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + App.GameData.SaveGame.BackgroundImage, System.UriKind.Relative));
+            }
         }
 
         private void ClearDiscs()
@@ -79,17 +92,25 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            bool isContinue = false;
+            GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
+            GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
+            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            LevelTransition_Start.Completed += new System.EventHandler(LevelTransition_Start_Completed);
+
             if (App.CanContinue)
             {
                 GameManager.Instance.LoadStateData();
                 App.CanContinue = false;
+                isContinue = true;
             }
-
+            
             GameManager.Instance.Start();
             BuildVisualStack(DiscStack.One);
             BuildVisualStack(DiscStack.Two);
             BuildVisualStack(DiscStack.Three);
             tbMoves.Text = GameManager.Instance.Moves.ToString();
+            SetBackgroundImage(isContinue);
         }
 
         private void BuildVisualStack(DiscStack stack)
@@ -98,10 +119,6 @@ namespace Hanoi
             IList<HanoiDisc> discs = GameManager.Instance.GetDiscsInStack(stack);
             for (int i = 0; i <= discs.Count - 1; i++)
             {
-                //if (!canvas.Children.Contains(discs[i]))
-                //{
-                //    canvas.Children.Remove();
-                //}
                 canvas.Children.Add(discs[i]);
             }
         }
@@ -110,6 +127,14 @@ namespace Hanoi
         {
             App.CanContinue = true;
             GameManager.Instance.SaveState();
+        }
+
+        private void phoneApplicationPage_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            GameManager.Instance.LevelCompleted -= new System.EventHandler(Instance_LevelCompleted);
+            GameManager.Instance.MoveCompleted -= new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
+            GameManager.Instance.LevelTimerTick -= new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            LevelTransition_Start.Completed -= new System.EventHandler(LevelTransition_Start_Completed);
         }
     }
 }

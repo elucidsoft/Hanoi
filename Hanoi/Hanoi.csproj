@@ -53,6 +53,10 @@
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="protobuf-net">
+      <HintPath>Shared\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
     <Reference Include="system" />
@@ -144,6 +148,7 @@
     <Content Include="patterns\concrete_gold.jpg" />
     <Content Include="patterns\concrete_grey.jpg" />
     <Content Include="images\shelf\01.png" />
+    <Content Include="stone_drag.wav" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
