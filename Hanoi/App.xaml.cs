@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
+using Microsoft.Phone.Marketplace;
 
 namespace Hanoi
 {
@@ -21,6 +22,8 @@ namespace Hanoi
         public static bool CanContinue = false;
 
         public static GameData GameData;
+
+        public static bool IsTrial = true;
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -55,7 +58,12 @@ namespace Hanoi
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
             GameData = GameData.LoadGameData();
+            IsTrial = new LicenseInformation().IsTrial();
+#if DEBUG_TRIAL
+            IsTrial = true;
+#endif
         }
 
         // Code to execute when the application is launching (eg, from Start)

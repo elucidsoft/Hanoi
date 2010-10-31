@@ -268,6 +268,11 @@ namespace Hanoi
                     SaveHighScores();
                 }
 
+                if (level == 10)
+                {
+                    //TODO: Last Level Completed
+                }
+
                 level++;
                 TimerCallback tcb = BeginReset;
                 Timer t = new Timer(tcb, null, 1000, Timeout.Infinite);

@@ -80,7 +80,7 @@
 				</Path.RenderTransform>
 			</Path>
 			<TextBlock
-				x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="35" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
+				x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="173" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
 				<TextBlock.RenderTransform>
 					<CompositeTransform/>
 				</TextBlock.RenderTransform>

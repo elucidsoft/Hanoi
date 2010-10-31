@@ -13,12 +13,14 @@ using Microsoft.Phone.Controls;
 
 namespace Hanoi
 {
+
     public partial class MainPage : PhoneApplicationPage
     {
 
         public MainPage()
         {
             InitializeComponent();
+            SetupTrial();
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
@@ -52,11 +54,31 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            
             if (App.CanContinue)
             {
-                btnContinue.Visibility = System.Windows.Visibility.Visible;
+                btnContinue.Visibility = Visibility.Visible;
             }
             LoadHighScores();
+        }
+
+        private void SetupTrial()
+        {
+            if (App.IsTrial)
+            {
+                btnLevel8.IsEnabled = false;
+                btnLevel9.IsEnabled = false;
+                btnLevel10.IsEnabled = false;
+                btnSettings.IsEnabled = false;
+                btnBuy.Visibility = Visibility.Visible;
+                lblAbout.Text = "Buy the full game to experience all levels, 30+ high def background, settings, and much more!";
+                lblVersion.Text = "Hanoi v1.0 Trial Version";
+            }
+            else
+            {
+                lblAbout.Text = "Thank you for supporting our great games, have fun!";
+                lblVersion.Text = "Hanoi v1.0 Full Version";
+            }
         }
 
         private void lbHighScores_SelectionChanged(object sender, SelectionChangedEventArgs e)
