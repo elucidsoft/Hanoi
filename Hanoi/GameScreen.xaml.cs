@@ -23,6 +23,8 @@ namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
+        AutoResetEvent messageBoxWait = new AutoResetEvent(true);
+        Action messageBoxAction = () => { };
 
         public GameScreen()
         {
@@ -44,11 +46,14 @@ namespace Hanoi
 
         void Instance_LevelCompleted(object sender, System.EventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
-                {
-                    tbMoves.Text = GameManager.Instance.Moves.ToString();
-                    LevelTransition_Start.Begin();
-                });
+            if (messageBoxWait.WaitOne())
+            {
+                Dispatcher.BeginInvoke(() =>
+                    {
+                        tbMoves.Text = GameManager.Instance.Moves.ToString();
+                        LevelTransition_Start.Begin();
+                    });
+            }
         }
 
         void LevelTransition_Start_Completed(object sender, System.EventArgs e)
@@ -96,7 +101,12 @@ namespace Hanoi
             GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
             GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
             GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            GameManager.Instance.HighScore += new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
+            GameManager.Instance.TrialModeCompleted += new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
             LevelTransition_Start.Completed += new System.EventHandler(LevelTransition_Start_Completed);
+            ShowMessageBox.Completed += new System.EventHandler(ShowMessageBox_Completed);
+            HideMessageBox.Completed += new System.EventHandler(HideMessageBox_Completed);
+
 
             if (App.CanContinue)
             {
@@ -104,13 +114,44 @@ namespace Hanoi
                 App.CanContinue = false;
                 isContinue = true;
             }
-            
+
             GameManager.Instance.Start();
             BuildVisualStack(DiscStack.One);
             BuildVisualStack(DiscStack.Two);
             BuildVisualStack(DiscStack.Three);
             tbMoves.Text = GameManager.Instance.Moves.ToString();
             SetBackgroundImage(isContinue);
+        }
+
+        void Instance_TrialModeCompleted(object sender, System.EventArgs e)
+        {
+            messageBoxWait.Reset();
+            lblMessageBoxTitle.Text = "Trial Game Complete!";
+            lblMessageBoxText.Text = "Upgrade to the full game, see marketplace for more details.";
+            ShowMessageBox.Begin();
+            messageBoxAction = () =>
+            {
+                GameManager.Instance.Reset();
+                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            };
+        }
+
+        void HideMessageBox_Completed(object sender, System.EventArgs e)
+        {
+            messageBoxAction();
+            messageBoxWait.Set();
+        }
+
+        void ShowMessageBox_Completed(object sender, System.EventArgs e)
+        {
+            messageBoxWait.Reset();
+        }
+
+        void Instance_HighScore(object sender, HighScoreEventArgs he)
+        {
+            lblMessageBoxTitle.Text = "You achieved a new high score!";
+            lblMessageBoxText.Text = String.Format("{0} Moves in {1}", he.Score.Moves, TimeSpan.FromSeconds(he.Score.Seconds).ToString());
+            ShowMessageBox.Begin();
         }
 
         private void BuildVisualStack(DiscStack stack)
@@ -135,6 +176,14 @@ namespace Hanoi
             GameManager.Instance.MoveCompleted -= new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
             GameManager.Instance.LevelTimerTick -= new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
             LevelTransition_Start.Completed -= new System.EventHandler(LevelTransition_Start_Completed);
+            GameManager.Instance.HighScore -= new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
+            ShowMessageBox.Completed -= new System.EventHandler(ShowMessageBox_Completed);
+            HideMessageBox.Completed -= new System.EventHandler(HideMessageBox_Completed);
+        }
+
+        private void btnMessageBoxOk_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            HideMessageBox.Begin();
         }
     }
 }

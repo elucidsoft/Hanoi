@@ -32,6 +32,8 @@ namespace Hanoi
         public event EventHandler LevelCompleted;
         public event EventHandler<MoveCompletedEventArgs> MoveCompleted;
         public event EventHandler<LevelTimerTickEventArgs> LevelTimerTick;
+        public event EventHandler<HighScoreEventArgs> HighScore;
+        public event EventHandler<EventArgs> TrialModeCompleted;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
         Dictionary<double, double> stackRows = new Dictionary<double, double>();
@@ -268,9 +270,15 @@ namespace Hanoi
                     SaveHighScores();
                 }
 
+                if (App.IsTrial && level == 5)
+                {
+                    if (TrialModeCompleted != null)
+                        TrialModeCompleted(this, new EventArgs());
+                }
+
                 if (level == 10)
                 {
-                    //TODO: Last Level Completed
+                    level = 1;
                 }
 
                 level++;
@@ -309,7 +317,13 @@ namespace Hanoi
                     ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)) ||
                     ((currentScore.Moves < score.Moves) && (currentScore.Seconds < score.Seconds)) ||
                     ((score.Moves == 0 && score.Seconds == 0)))
+                {
+
+                    if (HighScore != null && !(score.Moves == 0 && score.Seconds == 0))
+                        HighScore(this, new HighScoreEventArgs(currentScore));
+
                     return true;
+                }
             }
 
             return false;
@@ -490,6 +504,7 @@ namespace Hanoi
 
         private void LoadState()
         {
+            LoadHighScores();
             isReLoaded = false;
             List<HanoiDisc> col1 = new List<HanoiDisc>();
             List<HanoiDisc> col2 = new List<HanoiDisc>();

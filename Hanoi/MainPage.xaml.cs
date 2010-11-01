@@ -66,6 +66,8 @@ namespace Hanoi
         {
             if (App.IsTrial)
             {
+                btnLevel6.IsEnabled = false;
+                btnLevel7.IsEnabled = false;
                 btnLevel8.IsEnabled = false;
                 btnLevel9.IsEnabled = false;
                 btnLevel10.IsEnabled = false;

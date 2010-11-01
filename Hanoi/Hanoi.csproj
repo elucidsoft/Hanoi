@@ -86,6 +86,7 @@
     <Compile Include="HanoiDisc.xaml.cs">
       <DependentUpon>HanoiDisc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HighScoreEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
