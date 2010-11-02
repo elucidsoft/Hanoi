@@ -1,34 +1,27 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.Phone;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Xml.Serialization;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
-using System.Threading;
-using System.IO.IsolatedStorage;
-using System.Xml.Serialization;
-using System.Diagnostics;
-using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Hanoi
 {
     public enum DiscStack { One, Two, Three };
 
-    public class GameManager
+    public class GameManager : IDisposable
     {
+        private bool disposed = false;
         private static GameManager instance;
+
         public event EventHandler LevelCompleted;
         public event EventHandler<MoveCompletedEventArgs> MoveCompleted;
         public event EventHandler<LevelTimerTickEventArgs> LevelTimerTick;
@@ -52,20 +45,17 @@ namespace Hanoi
         private int moves = 0;
         private int seconds = 0;
         private Timer timer;
+        private Timer resetDelayTimer;
         private SoundEffect effect;
 
         public int winCount = 0;
-
         private bool isReLoaded = false;
+
+        #region Initialization/Constructor/Begin/Reset
 
         private GameManager()
         {
             Initialize();
-        }
-
-        ~GameManager()
-        {
-            effect.Dispose();
         }
 
         private void Initialize()
@@ -114,7 +104,18 @@ namespace Hanoi
             Initialize();
         }
 
-        public void Start()
+
+        private void BeginReset(object obj)
+        {
+            Reset();
+
+            if (LevelCompleted != null)
+            {
+                LevelCompleted(this, EventArgs.Empty);
+            }
+        }
+
+        public void Start(bool delayTimer)
         {
             Reset();
 
@@ -129,26 +130,20 @@ namespace Hanoi
                 ApplyStack(col1, DiscStack.One);
             }
 
+            if (!delayTimer)
+            {
+                timer.Change(0, 1000);
+            }
+        }
+
+        public void StartTimer()
+        {
             timer.Change(0, 1000);
         }
 
-        private static void LoadDiscData(List<HanoiDisc> col1, List<SaveDiscData> listSaveDiscData)
-        {
-            for (int i = 0; i <= listSaveDiscData.Count - 1; i++)
-            {
-                SaveDiscData discData = listSaveDiscData[i];
+        #endregion
 
-                HanoiDisc hanoiDisc = new HanoiDisc();
-                hanoiDisc.OriginalLeft = discData.OriginalLeft;
-                hanoiDisc.OriginalTop = discData.OriginalTop;
-                hanoiDisc.SetValue(Canvas.LeftProperty, discData.Left);
-                hanoiDisc.SetValue(Canvas.TopProperty, discData.Top);
-                hanoiDisc.Size = discData.Size;
-                hanoiDisc.DiscStack = discData.DiscStack;
-
-                col1.Add(hanoiDisc);
-            }
-        }
+        #region Game Play Methods
 
         private void ApplyStack(List<HanoiDisc> discs, DiscStack discStack)
         {
@@ -211,17 +206,6 @@ namespace Hanoi
             }
         }
 
-        private void BuildHighScores()
-        {
-            if (highScores.Count == 0)
-            {
-                for (int i = 1; i <= 10; i++)
-                {
-                    highScores.Add(new Score(i));
-                }
-            }
-        }
-
         public void MoveDiscToStack(HanoiDisc disc, DiscStack toStack)
         {
             if (!IsValidMove(disc, toStack))
@@ -253,131 +237,6 @@ namespace Hanoi
             CheckForWin();
         }
 
-        private void CheckForWin()
-        {
-            if (stacks[DiscStack.Three].Count == winCount)
-            {
-                //want to make sure the ui has the latest and greatest time data...
-                if (LevelTimerTick != null)
-                    CallTimerTickEvent();
-
-                timer.Change(Timeout.Infinite, Timeout.Infinite);
-
-                Score currentScore = new Score(level, moves, seconds, DateTime.Today);
-                if (CheckIfHighScore(currentScore))
-                {
-                    highScores[level - 1] = currentScore;
-                    SaveHighScores();
-                }
-
-                if (App.IsTrial && level == 5)
-                {
-                    if (TrialModeCompleted != null)
-                        TrialModeCompleted(this, new EventArgs());
-
-                    Reset();
-                    return;
-                }
-
-                if (level == 10)
-                {
-                    level = 0;
-                }
-
-                level++;
-                TimerCallback tcb = BeginReset;
-                Timer t = new Timer(tcb, null, 1000, Timeout.Infinite);
-            }
-        }
-
-        private void CallTimerTickEvent()
-        {
-            if (LevelTimerTick != null)
-                LevelTimerTick(this, new LevelTimerTickEventArgs(seconds));
-        }
-
-        private void BeginReset(object obj)
-        {
-            Reset();
-
-            if (LevelCompleted != null)
-            {
-                LevelCompleted(this, EventArgs.Empty);
-            }
-        }
-
-        private bool CheckIfHighScore(Score currentScore)
-        {
-            Score score = highScores[level - 1];
-            if (highScores.Count == 0)
-            {
-                return true;
-            }
-
-            if (currentScore.Level == level)
-            {
-                if (((currentScore.Moves < score.Moves) && (currentScore.Seconds == score.Seconds)) ||
-                    ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)) ||
-                    ((currentScore.Moves < score.Moves) && (currentScore.Seconds < score.Seconds)) ||
-                    ((score.Moves == 0 && score.Seconds == 0)))
-                {
-
-                    if (HighScore != null && !(score.Moves == 0 && score.Seconds == 0))
-                        HighScore(this, new HighScoreEventArgs(currentScore));
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void SaveHighScores()
-        {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (isf.FileExists(highScoreFileName))
-                    isf.DeleteFile(highScoreFileName);
-
-                using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.CreateNew))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
-                    serializer.Serialize(stream, highScores);
-                }
-            }
-        }
-
-        public void LoadHighScores()
-        {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                //isf.DeleteFile(highScoreFileName);
-                if (isf.FileExists(highScoreFileName))
-                {
-                    using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.Open))
-                    {
-                        XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
-                        highScores = (List<Score>)serializer.Deserialize(stream);
-                    }
-                }
-            }
-        }
-
-        private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
-        {
-            if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size) || disc.DiscStack == toStack)
-            {
-                disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
-                disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
-                VibrateController.Default.Start(TimeSpan.FromSeconds(.5));
-                return false;
-            }
-
-
-            effect.Play(0.75f, 0f, 0f);
-
-            return true;
-        }
 
         public HanoiDisc GetDiscBelowCurrent(HanoiDisc current)
         {
@@ -431,6 +290,149 @@ namespace Hanoi
             return stack;
         }
 
+        private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
+        {
+            if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size) || disc.DiscStack == toStack)
+            {
+                disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
+                disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
+                VibrateController.Default.Start(TimeSpan.FromSeconds(.5));
+                return false;
+            }
+
+            effect.Play(0.75f, 0f, 0f);
+
+            return true;
+        }
+
+        private void CheckForWin()
+        {
+            if (stacks[DiscStack.Three].Count == winCount)
+            {
+                //want to make sure the ui has the latest and greatest time data...
+                if (LevelTimerTick != null)
+                    CallTimerTickEvent();
+
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+                Score currentScore = new Score(level, moves, seconds, DateTime.Today);
+                if (CheckIfHighScore(currentScore))
+                {
+                    highScores[level - 1] = currentScore;
+                    SaveHighScores();
+                }
+
+                if (App.IsTrial && level == 5)
+                {
+                    if (TrialModeCompleted != null)
+                        TrialModeCompleted(this, new EventArgs());
+
+                    Reset();
+                    return;
+                }
+
+                if (level == 10)
+                {
+                    level = 0;
+                }
+
+                level++;
+                TimerCallback tcb = BeginReset;
+
+                if (resetDelayTimer != null)
+                    resetDelayTimer.Dispose();
+
+                resetDelayTimer = new Timer(tcb, null, 1000, Timeout.Infinite);
+             }
+        }
+
+        #endregion
+
+        #region Event Handler Methods
+
+        private void CallTimerTickEvent()
+        {
+            if (LevelTimerTick != null)
+                LevelTimerTick(this, new LevelTimerTickEventArgs(seconds));
+        }
+
+        #endregion
+
+        #region HighScore Methods
+
+        private bool CheckIfHighScore(Score currentScore)
+        {
+            Score score = highScores[level - 1];
+            if (highScores.Count == 0)
+            {
+                return true;
+            }
+
+            if (currentScore.Level == level)
+            {
+                if (((currentScore.Moves < score.Moves) && (currentScore.Seconds == score.Seconds)) ||
+                    ((currentScore.Moves == score.Moves) && (currentScore.Seconds < score.Seconds)) ||
+                    ((currentScore.Moves < score.Moves) && (currentScore.Seconds < score.Seconds)) ||
+                    ((score.Moves == 0 && score.Seconds == 0)))
+                {
+
+                    if (HighScore != null && !(score.Moves == 0 && score.Seconds == 0))
+                        HighScore(this, new HighScoreEventArgs(currentScore));
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void BuildHighScores()
+        {
+            if (highScores.Count == 0)
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    highScores.Add(new Score(i));
+                }
+            }
+        }
+
+        private void SaveHighScores()
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (isf.FileExists(highScoreFileName))
+                    isf.DeleteFile(highScoreFileName);
+
+                using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.CreateNew))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
+                    serializer.Serialize(stream, highScores);
+                }
+            }
+        }
+
+        public void LoadHighScores()
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                //isf.DeleteFile(highScoreFileName);
+                if (isf.FileExists(highScoreFileName))
+                {
+                    using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.Open))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
+                        highScores = (List<Score>)serializer.Deserialize(stream);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+
         public ReadOnlyCollection<HanoiDisc> GetDiscsInStack(DiscStack stack)
         {
             return new ReadOnlyCollection<HanoiDisc>(stacks[stack].ToArray());
@@ -462,6 +464,10 @@ namespace Hanoi
                 return highScores;
             }
         }
+
+        #endregion
+
+        #region State Saving/Loading
 
         internal void SaveState()
         {
@@ -531,5 +537,50 @@ namespace Hanoi
             ApplyStack(col3, DiscStack.Three);
         }
 
+        private static void LoadDiscData(List<HanoiDisc> col1, List<SaveDiscData> listSaveDiscData)
+        {
+            for (int i = 0; i <= listSaveDiscData.Count - 1; i++)
+            {
+                SaveDiscData discData = listSaveDiscData[i];
+
+                HanoiDisc hanoiDisc = new HanoiDisc();
+                hanoiDisc.OriginalLeft = discData.OriginalLeft;
+                hanoiDisc.OriginalTop = discData.OriginalTop;
+                hanoiDisc.SetValue(Canvas.LeftProperty, discData.Left);
+                hanoiDisc.SetValue(Canvas.TopProperty, discData.Top);
+                hanoiDisc.Size = discData.Size;
+                hanoiDisc.DiscStack = discData.DiscStack;
+
+                col1.Add(hanoiDisc);
+            }
+        }
+
+        #endregion
+
+        #region Dispose
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                effect.Dispose();
+                resetDelayTimer.Dispose();
+                timer.Dispose();
+            }
+            disposed = true;
+        }
+
+        ~GameManager()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

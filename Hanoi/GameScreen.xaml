@@ -35,7 +35,7 @@
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="canvas">
 				<EasingDoubleKeyFrame KeyTime="0" Value="800"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 		<Storyboard x:Name="ShowMessageBox" AutoReverse="False">

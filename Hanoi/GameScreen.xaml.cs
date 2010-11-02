@@ -1,35 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Microsoft.Phone.Controls;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Controls;
 
 namespace Hanoi
 {
-    public partial class GameScreen : PhoneApplicationPage
+    public partial class GameScreen : PhoneApplicationPage, IDisposable
     {
+        bool disposed = false;
         ManualResetEvent messageBoxWait = new ManualResetEvent(true);
         Action messageBoxAction = () => { };
+
+        #region ctor/Load & Unload
 
         public GameScreen()
         {
             InitializeComponent();
         }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            bool isContinue = false;
+            GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
+            GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
+            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            GameManager.Instance.HighScore += new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
+            GameManager.Instance.TrialModeCompleted += new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
+            LevelTransition_Start.Completed += new System.EventHandler(LevelTransition_Start_Completed);
+            LevelTransition_End.Completed += new EventHandler(LevelTransition_End_Completed);
+            ShowMessageBox.Completed += new System.EventHandler(ShowMessageBox_Completed);
+            HideMessageBox.Completed += new System.EventHandler(HideMessageBox_Completed);
+
+
+            if (App.CanContinue)
+            {
+                GameManager.Instance.LoadStateData();
+                App.CanContinue = false;
+                isContinue = true;
+            }
+
+            GameManager.Instance.Start(false);
+            BuildVisualStack(DiscStack.One);
+            BuildVisualStack(DiscStack.Two);
+            BuildVisualStack(DiscStack.Three);
+            tbMoves.Text = GameManager.Instance.Moves.ToString();
+            SetBackgroundImage(isContinue);
+        }
+
+        private void phoneApplicationPage_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            GameManager.Instance.LevelCompleted -= new System.EventHandler(Instance_LevelCompleted);
+            GameManager.Instance.MoveCompleted -= new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
+            GameManager.Instance.LevelTimerTick -= new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
+            GameManager.Instance.HighScore -= new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
+            GameManager.Instance.TrialModeCompleted -= new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
+            LevelTransition_Start.Completed -= new System.EventHandler(LevelTransition_Start_Completed);
+            LevelTransition_End.Completed -= new EventHandler(LevelTransition_End_Completed);
+            ShowMessageBox.Completed -= new System.EventHandler(ShowMessageBox_Completed);
+            HideMessageBox.Completed -= new System.EventHandler(HideMessageBox_Completed);
+        }
+
+        #endregion
+
+        #region Events
 
         void Instance_LevelTimerTick(object sender, LevelTimerTickEventArgs e)
         {
@@ -61,10 +97,47 @@ namespace Hanoi
             ClearDiscs();
 
             SetBackgroundImage(false);
-            GameManager.Instance.Start();
+            GameManager.Instance.Start(true);
             BuildVisualStack(DiscStack.One);
             LevelTransition_End.Begin();
         }
+
+        void LevelTransition_End_Completed(object sender, EventArgs e)
+        {
+            GameManager.Instance.StartTimer();
+        }
+
+        void Instance_TrialModeCompleted(object sender, System.EventArgs e)
+        {
+            messageBoxWait.Reset();
+            lblMessageBoxTitle.Text = "Trial Game Complete!";
+            lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace.";
+            ShowMessageBox.Begin();
+            messageBoxAction = () =>
+            {
+                App.CanContinue = false;
+                NavigationService.GoBack();
+            };
+        }
+
+
+
+        void Instance_HighScore(object sender, HighScoreEventArgs he)
+        {
+            lblMessageBoxTitle.Text = "You achieved a new high score!";
+            lblMessageBoxText.Text = String.Format("{0} Moves in {1}", he.Score.Moves, TimeSpan.FromSeconds(he.Score.Seconds).ToString());
+            ShowMessageBox.Begin();
+        }
+
+        private void phoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.CanContinue = true;
+            GameManager.Instance.SaveState();
+        }
+
+        #endregion
+
+        #region UI Methods
 
         void SetBackgroundImage(bool isContinue)
         {
@@ -95,45 +168,23 @@ namespace Hanoi
             }
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void BuildVisualStack(DiscStack stack)
         {
-            bool isContinue = false;
-            GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
-            GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
-            GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
-            GameManager.Instance.HighScore += new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
-            GameManager.Instance.TrialModeCompleted += new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
-            LevelTransition_Start.Completed += new System.EventHandler(LevelTransition_Start_Completed);
-            ShowMessageBox.Completed += new System.EventHandler(ShowMessageBox_Completed);
-            HideMessageBox.Completed += new System.EventHandler(HideMessageBox_Completed);
-
-
-            if (App.CanContinue)
+            tbLevel.Text = "Level " + GameManager.Instance.Level;
+            IList<HanoiDisc> discs = GameManager.Instance.GetDiscsInStack(stack);
+            for (int i = 0; i <= discs.Count - 1; i++)
             {
-                GameManager.Instance.LoadStateData();
-                App.CanContinue = false;
-                isContinue = true;
+                canvas.Children.Add(discs[i]);
             }
-
-            GameManager.Instance.Start();
-            BuildVisualStack(DiscStack.One);
-            BuildVisualStack(DiscStack.Two);
-            BuildVisualStack(DiscStack.Three);
-            tbMoves.Text = GameManager.Instance.Moves.ToString();
-            SetBackgroundImage(isContinue);
         }
 
-        void Instance_TrialModeCompleted(object sender, System.EventArgs e)
+        #endregion
+
+        #region MessageBox
+
+        private void btnMessageBoxOk_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            messageBoxWait.Reset();
-            lblMessageBoxTitle.Text = "Trial Game Complete!";
-            lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace.";
-            ShowMessageBox.Begin();
-            messageBoxAction = () =>
-            {
-                App.CanContinue = false;
-                NavigationService.GoBack();
-            };
+            HideMessageBox.Begin();
         }
 
         void HideMessageBox_Completed(object sender, System.EventArgs e)
@@ -147,43 +198,34 @@ namespace Hanoi
             messageBoxWait.Reset();
         }
 
-        void Instance_HighScore(object sender, HighScoreEventArgs he)
+        #endregion
+
+        #region Dispose
+
+        public void Dispose()
         {
-            lblMessageBoxTitle.Text = "You achieved a new high score!";
-            lblMessageBoxText.Text = String.Format("{0} Moves in {1}", he.Score.Moves, TimeSpan.FromSeconds(he.Score.Seconds).ToString());
-            ShowMessageBox.Begin();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        private void BuildVisualStack(DiscStack stack)
+        private void Dispose(bool disposing)
         {
-            tbLevel.Text = "Level " + GameManager.Instance.Level;
-            IList<HanoiDisc> discs = GameManager.Instance.GetDiscsInStack(stack);
-            for (int i = 0; i <= discs.Count - 1; i++)
+            if (!this.disposed)
             {
-                canvas.Children.Add(discs[i]);
+                if (disposing)
+                {
+                    messageBoxWait.Dispose();
+                }
+
+                disposed = true;
             }
         }
 
-        private void phoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        ~GameScreen()
         {
-            App.CanContinue = true;
-            GameManager.Instance.SaveState();
+            Dispose(false);
         }
 
-        private void phoneApplicationPage_Unloaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            GameManager.Instance.LevelCompleted -= new System.EventHandler(Instance_LevelCompleted);
-            GameManager.Instance.MoveCompleted -= new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
-            GameManager.Instance.LevelTimerTick -= new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
-            LevelTransition_Start.Completed -= new System.EventHandler(LevelTransition_Start_Completed);
-            GameManager.Instance.HighScore -= new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
-            ShowMessageBox.Completed -= new System.EventHandler(ShowMessageBox_Completed);
-            HideMessageBox.Completed -= new System.EventHandler(HideMessageBox_Completed);
-        }
-
-        private void btnMessageBoxOk_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            HideMessageBox.Begin();
-        }
+        #endregion
     }
 }
