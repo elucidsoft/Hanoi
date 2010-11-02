@@ -23,7 +23,7 @@ namespace Hanoi
 {
     public partial class GameScreen : PhoneApplicationPage
     {
-        AutoResetEvent messageBoxWait = new AutoResetEvent(true);
+        ManualResetEvent messageBoxWait = new ManualResetEvent(true);
         Action messageBoxAction = () => { };
 
         public GameScreen()
@@ -127,12 +127,12 @@ namespace Hanoi
         {
             messageBoxWait.Reset();
             lblMessageBoxTitle.Text = "Trial Game Complete!";
-            lblMessageBoxText.Text = "Upgrade to the full game, see marketplace for more details.";
+            lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace.";
             ShowMessageBox.Begin();
             messageBoxAction = () =>
             {
-                GameManager.Instance.Reset();
-                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                App.CanContinue = false;
+                NavigationService.GoBack();
             };
         }
 

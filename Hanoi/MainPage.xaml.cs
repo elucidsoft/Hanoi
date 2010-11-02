@@ -54,11 +54,10 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            if (App.CanContinue)
-            {
-                btnContinue.Visibility = Visibility.Visible;
-            }
+            btnContinue.Visibility = App.CanContinue ? 
+                Visibility.Visible : 
+                Visibility.Collapsed;
+
             LoadHighScores();
         }
 

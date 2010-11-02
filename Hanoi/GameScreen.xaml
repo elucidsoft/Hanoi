@@ -134,7 +134,7 @@
 				<Rectangle Stroke="#CC606060" Opacity="0.995" Fill="#CB000000" StrokeThickness="2" Margin="0,0,0,20"/>
 				<Button x:Name="btnMessageBoxOk" Content="OK" Width="90" FontSize="13.333" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,54,4,20" Click="btnMessageBoxOk_Click" />
 				<TextBlock x:Name="lblMessageBoxTitle" Margin="21,8,0,0" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="24" CacheMode="BitmapCache" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-				<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="38,44,0,30" TextWrapping="Wrap" Width="264" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight"/>
+				<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="35,44,0,30" TextWrapping="Wrap" Width="271" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="17.333" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
 			</Grid>
 		</Canvas>
 	</Canvas>

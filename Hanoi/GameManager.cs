@@ -274,11 +274,14 @@ namespace Hanoi
                 {
                     if (TrialModeCompleted != null)
                         TrialModeCompleted(this, new EventArgs());
+
+                    Reset();
+                    return;
                 }
 
                 if (level == 10)
                 {
-                    level = 1;
+                    level = 0;
                 }
 
                 level++;
