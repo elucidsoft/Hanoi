@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Phone.Controls;
+using System.Diagnostics;
 
 namespace Hanoi
 {
@@ -112,47 +113,35 @@ namespace Hanoi
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
-            int coordinateTransform = ((PhoneApplicationFrame)Application.Current.RootVisual).Orientation == PageOrientation.LandscapeLeft ? 1 : -1;
-            if (discDragging)
-            {
-                FrameworkElement fe = sender as FrameworkElement;
 
-                double x = e.GetPosition(null).X - pos.X;
-                double y = e.GetPosition(null).Y - pos.Y;
-                double left = y + (double)fe.GetValue(Canvas.LeftProperty) * coordinateTransform;
-                double top = (x * -1) + (double)fe.GetValue(Canvas.TopProperty) * coordinateTransform;
-                SetValue(Canvas.LeftProperty, left * coordinateTransform);
-                SetValue(Canvas.TopProperty, top * coordinateTransform);
-                pos = e.GetPosition(null);
-            }
+
         }
 
         private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (discDragging)
-            {
-                FrameworkElement fe = sender as FrameworkElement;
-                discDragging = false;
-                fe.ReleaseMouseCapture();
-                GameManager.Instance.SetCurrentDiscStack(this);
-            }
+            //if (discDragging)
+            //{
+            //    FrameworkElement fe = sender as FrameworkElement;
+            //    discDragging = false;
+            //    fe.ReleaseMouseCapture();
+
+            //}
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-            OriginalTop = (double)GetValue(Canvas.TopProperty);
-            OriginalLeft = (double)GetValue(Canvas.LeftProperty);
 
 
-            if (GameManager.Instance.IsCurrentDiscOnTop(this))
-            {
-                discDragging = true;
-                FrameworkElement fe = sender as FrameworkElement;
-                pos = e.GetPosition(null);
 
-                fe.CaptureMouse();
-            }
+            //if (GameManager.Instance.IsCurrentDiscOnTop(this))
+            //{
+            //    discDragging = true;
+            //    FrameworkElement fe = sender as FrameworkElement;
+            //    pos = e.GetPosition(null);
+
+            //    fe.CaptureMouse();
+            //}
         }
 
         public int Size { get; set; }
@@ -163,5 +152,58 @@ namespace Hanoi
         public double ScaleY { get; set; }
 
         public DiscStack DiscStack { get; set; }
+
+        private void UserControl_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            if (GameManager.Instance.IsCurrentDiscOnTop(this))
+            {
+                e.Handled = true;
+                pos = e.ManipulationOrigin;
+                discDragging = true;
+                OriginalTop = (double)GetValue(Canvas.TopProperty);
+                OriginalLeft = (double)GetValue(Canvas.LeftProperty);
+            }
+        }
+
+        private void UserControl_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            if (discDragging)
+            {
+                e.Handled = true;
+                GameManager.Instance.SetCurrentDiscStack(this);
+                discDragging = false;
+            }
+        }
+
+        private void UserControl_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            if (discDragging)
+            {
+                e.Handled = true;
+
+                double y = e.ManipulationOrigin.Y - pos.Y;
+                double x = e.ManipulationOrigin.X - pos.X;
+                double left = (x - (x * ScaleX)) + (double)GetValue(Canvas.LeftProperty);
+                double top = (y - (y * ScaleY)) + (double)GetValue(Canvas.TopProperty);
+                SetValue(Canvas.LeftProperty, left);
+                SetValue(Canvas.TopProperty, top);
+            }
+        }
+
+        private void canvasTouchExpansion_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            UserControl_ManipulationCompleted(sender, e);
+        }
+
+        private void canvasTouchExpansion_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            UserControl_ManipulationDelta(sender, e);
+        }
+
+        private void canvasTouchExpansion_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            UserControl_ManipulationStarted(sender, e);
+        }
+
     }
 }

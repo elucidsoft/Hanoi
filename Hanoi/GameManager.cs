@@ -34,7 +34,7 @@ namespace Hanoi
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
         List<Score> highScores = new List<Score>();
 
-        private const string highScoreFileName = "highscores.xml";
+        private const string HighScoreFileName = "highscores.xml";
 
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
@@ -343,7 +343,7 @@ namespace Hanoi
                     resetDelayTimer.Dispose();
 
                 resetDelayTimer = new Timer(tcb, null, 1000, Timeout.Infinite);
-             }
+            }
         }
 
         #endregion
@@ -401,10 +401,10 @@ namespace Hanoi
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (isf.FileExists(highScoreFileName))
-                    isf.DeleteFile(highScoreFileName);
+                if (isf.FileExists(HighScoreFileName))
+                    isf.DeleteFile(HighScoreFileName);
 
-                using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.CreateNew))
+                using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.CreateNew))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
                     serializer.Serialize(stream, highScores);
@@ -417,15 +417,25 @@ namespace Hanoi
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 //isf.DeleteFile(highScoreFileName);
-                if (isf.FileExists(highScoreFileName))
+                if (isf.FileExists(HighScoreFileName))
                 {
-                    using (var stream = isf.OpenFile(highScoreFileName, System.IO.FileMode.Open))
+                    using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.Open))
                     {
                         XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
                         highScores = (List<Score>)serializer.Deserialize(stream);
                     }
                 }
             }
+        }
+
+        public void ClearHighScores()
+        {
+            highScores.Clear();
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                isf.DeleteFile(HighScoreFileName);
+            }
+            BuildHighScores();
         }
 
         #endregion

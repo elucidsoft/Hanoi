@@ -24,6 +24,13 @@
 				</DiscreteObjectKeyFrame>
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimation Duration="0:0:1" To="-800" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="canvas" d:IsOptimized="True"/>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgImage02">
+				<DiscreteObjectKeyFrame KeyTime="0">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Collapsed</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
 		</Storyboard>
 		<Storyboard x:Name="LevelTransition_End">
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas">
@@ -35,8 +42,15 @@
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="canvas">
 				<EasingDoubleKeyFrame KeyTime="0" Value="800"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgImage02">
+				<DiscreteObjectKeyFrame KeyTime="0:0:1">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Visible</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
 		</Storyboard>
 		<Storyboard x:Name="ShowMessageBox" AutoReverse="False">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="MessageBox">
@@ -84,15 +98,15 @@
 	<phone:PhoneApplicationPage.Projection>
 		<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 	</phone:PhoneApplicationPage.Projection>
-    <Canvas Background="Black">
-		<Canvas x:Name="canvas" Height="480" Width="800" d:LayoutOverrides="Width, Height">
+    <Canvas Background="Black"  CacheMode="BitmapCache">
+        <Canvas x:Name="canvas" Height="480" Width="800" d:LayoutOverrides="Width, Height"  CacheMode="BitmapCache">
 			<Canvas.Projection>
 				<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 			</Canvas.Projection>
-			<Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Source="images\backgrounds\normal\01.jpg" Margin="0" Stretch="None" />
-			<Image HorizontalAlignment="Center" x:Name="bgImage02" VerticalAlignment="Center" Source="/images/backgrounds/normal/02.jpg" Margin="0" Stretch="None" Opacity="0" />
-			<Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380" />
-			<Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"/>
+			<Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Margin="0" Stretch="None" CacheMode="BitmapCache" />
+            <Image HorizontalAlignment="Center" x:Name="bgImage02" VerticalAlignment="Center" Margin="0" Stretch="None" Opacity="0" CacheMode="BitmapCache"/>
+            <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380"  CacheMode="BitmapCache"/>
+            <Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"  CacheMode="BitmapCache"/>
 			<TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="67" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
 				<TextBlock.RenderTransform>
 					<CompositeTransform/>
@@ -104,19 +118,19 @@
 				</TextBlock.RenderTransform>
 			</TextBlock>
 			<TextBlock x:Name="tbTitle" Height="14" TextWrapping="Wrap" Text="Towers of Hanoi" Width="800" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071"  CacheMode="BitmapCache" HorizontalAlignment="Left" TextAlignment="Center"/>
-			<Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5" >
+            <Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5"  CacheMode="BitmapCache">
 				<Path.RenderTransform>
 					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
 				</Path.RenderTransform>
 			</Path>
-			<Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"/>
-			<Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107">
+            <Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"  CacheMode="BitmapCache"/>
+            <Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107"  CacheMode="BitmapCache">
 				<Path.RenderTransform>
 					<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
 				</Path.RenderTransform>
 			</Path>
 			<Path
-				Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5">
+				Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
 				<Path.RenderTransform>
 					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
 				</Path.RenderTransform>
@@ -127,15 +141,16 @@
 					<CompositeTransform/>
 				</TextBlock.RenderTransform>
 			</TextBlock>
-			<Grid x:Name="MessageBox" Height="129" Canvas.Left="200" Canvas.Top="118" Width="400" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
-				<Grid.RenderTransform>
-					<CompositeTransform/>
-				</Grid.RenderTransform>
-				<Rectangle Stroke="#CC606060" Opacity="0.995" Fill="#CB000000" StrokeThickness="2" Margin="0,0,0,20"/>
-				<Button x:Name="btnMessageBoxOk" Content="OK" Width="90" FontSize="13.333" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,54,4,20" Click="btnMessageBoxOk_Click" />
-				<TextBlock x:Name="lblMessageBoxTitle" Margin="21,8,0,0" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="24" CacheMode="BitmapCache" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-				<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="35,44,0,30" TextWrapping="Wrap" Width="271" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="17.333" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
-			</Grid>
 		</Canvas>
+        <Canvas x:Name="blockInteractionCanvas" Height="480" Width="800" Background="#00000000" Visibility="Collapsed"/>
+        <Grid x:Name="MessageBox" Height="138" Canvas.Left="200" Canvas.Top="118" Width="424" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Visibility="Collapsed">
+        	<Grid.RenderTransform>
+        		<CompositeTransform/>
+        	</Grid.RenderTransform>
+        	<Rectangle Stroke="#CC606060" Opacity="0.995" Fill="#CB000000" StrokeThickness="2" Margin="0,0,0,20"  CacheMode="BitmapCache"/>
+        	<Button x:Name="btnMessageBoxOk" Content="Ok" Width="90" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,54,4,20" Click="btnMessageBoxOk_Click"  CacheMode="BitmapCache"/>
+        	<TextBlock x:Name="lblMessageBoxTitle" Margin="21,8,0,0" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="33,54,0,36" TextWrapping="Wrap" Width="297" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
+        </Grid>
 	</Canvas>
 </phone:PhoneApplicationPage>

@@ -84,5 +84,10 @@ namespace Hanoi
         {
             NavigationService.Navigate(new Uri("/GameScreen.xaml", UriKind.Relative));
         }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+        }
     }
 }

@@ -77,7 +77,10 @@ namespace Hanoi
 
         void Instance_MoveCompleted(object sender, MoveCompletedEventArgs e)
         {
-            tbMoves.Text = e.Moves.ToString();
+            Dispatcher.BeginInvoke(() =>
+            {
+                tbMoves.Text = e.Moves.ToString();
+            });
         }
 
         void Instance_LevelCompleted(object sender, System.EventArgs e)
@@ -86,6 +89,7 @@ namespace Hanoi
             {
                 Dispatcher.BeginInvoke(() =>
                     {
+                        blockInteractionCanvas.Visibility = Visibility.Visible;
                         tbMoves.Text = GameManager.Instance.Moves.ToString();
                         LevelTransition_Start.Begin();
                     });
@@ -99,12 +103,20 @@ namespace Hanoi
             SetBackgroundImage(false);
             GameManager.Instance.Start(true);
             BuildVisualStack(DiscStack.One);
-            LevelTransition_End.Begin();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                LevelTransition_End.Begin();
+            });
         }
 
         void LevelTransition_End_Completed(object sender, EventArgs e)
         {
-            GameManager.Instance.StartTimer();
+            Dispatcher.BeginInvoke(() =>
+           {
+               blockInteractionCanvas.Visibility = Visibility.Collapsed;
+               GameManager.Instance.StartTimer();
+           });
         }
 
         void Instance_TrialModeCompleted(object sender, System.EventArgs e)
@@ -141,21 +153,21 @@ namespace Hanoi
 
         void SetBackgroundImage(bool isContinue)
         {
-            if (!isContinue)
-            {
-                const int max = 29;
-                Image img = (bgImage01.Opacity == 1.0) ? bgImage01 : bgImage02;
-                Image img2 = (bgImage01.Opacity == 1.0) ? bgImage02 : bgImage01;
-                Random rnd = new Random();
-                string file1 = String.Format("{0:0#}.jpg", rnd.Next(1, max));
-                img.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + file1, System.UriKind.Relative));
-                img2.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + String.Format("{0:0#}.jpg", rnd.Next(1, max)), System.UriKind.Relative));
-                App.GameData.SaveGame.BackgroundImage = file1;
-            }
-            else
-            {
-                bgImage01.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + App.GameData.SaveGame.BackgroundImage, System.UriKind.Relative));
-            }
+                if (!isContinue)
+                {
+                    const int max = 29;
+                    Image img = (bgImage01.Opacity == 1.0) ? bgImage01 : bgImage02;
+                    Image img2 = (bgImage01.Opacity == 1.0) ? bgImage02 : bgImage01;
+                    Random rnd = new Random();
+                    string file1 = String.Format("{0:0#}.jpg", rnd.Next(1, max));
+                    img.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + file1, System.UriKind.Relative));
+                    img2.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + String.Format("{0:0#}.jpg", rnd.Next(1, max)), System.UriKind.Relative));
+                    App.GameData.SaveGame.BackgroundImage = file1;
+                }
+                else
+                {
+                    bgImage01.Source = new BitmapImage(new Uri(@"\images\backgrounds\normal\" + App.GameData.SaveGame.BackgroundImage, System.UriKind.Relative));
+                }
         }
 
         private void ClearDiscs()
@@ -185,6 +197,7 @@ namespace Hanoi
         private void btnMessageBoxOk_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             HideMessageBox.Begin();
+            blockInteractionCanvas.Visibility = Visibility.Collapsed;
         }
 
         void HideMessageBox_Completed(object sender, System.EventArgs e)
@@ -195,6 +208,7 @@ namespace Hanoi
 
         void ShowMessageBox_Completed(object sender, System.EventArgs e)
         {
+            blockInteractionCanvas.Visibility = Visibility.Visible;
             messageBoxWait.Reset();
         }
 

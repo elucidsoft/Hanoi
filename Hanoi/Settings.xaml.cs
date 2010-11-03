@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.IO.IsolatedStorage;
 
 namespace Hanoi
 {
@@ -18,6 +19,16 @@ namespace Hanoi
         public Settings()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnClearHighScores_Click(object sender, RoutedEventArgs e)
+        {
+            GameManager.Instance.ClearHighScores();
         }
     }
 }
