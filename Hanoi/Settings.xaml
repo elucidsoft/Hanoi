@@ -6,10 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Petzold_Phone_Silverlight="clr-namespace:Petzold.Phone.Silverlight" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
     x:Class="Hanoi.Settings"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
     mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800">
 	<phone:PhoneApplicationPage.Resources>
@@ -87,47 +85,6 @@
 			</Setter>
 		</Style>
 	</phone:PhoneApplicationPage.Resources>
-
-    <ScrollViewer x:Name="LayoutRoot" Background="Transparent" Margin="0,0,0,-254">
-		<Grid Height="874">
-<!--TitlePanel contains the name of the application and page title-->
-			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,0" Height="116" VerticalAlignment="Top">
-				<TextBlock x:Name="ApplicationTitle" Text="SETTINGS" Style="{StaticResource PhoneTextNormalStyle}"/>
-				<TextBlock x:Name="PageTitle" Text="HANOI " Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-			</StackPanel>
-			<Grid x:Name="ContentPanel" Margin="24,137,0,0" Height="605" VerticalAlignment="Top">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="0.544*"/>
-					<ColumnDefinition Width="0.456*"/>
-				</Grid.ColumnDefinitions>
-				<TextBlock Margin="8,17,205,0" TextWrapping="Wrap" Text="Play Sounds" FontSize="24" Height="36" VerticalAlignment="Top"/>
-				<TextBlock Margin="8,17,0,0" TextWrapping="Wrap" Text="Enabled" FontSize="24" HorizontalAlignment="Left" TextAlignment="Right" Grid.Column="1" Height="27" VerticalAlignment="Top"/>
-				<TextBlock Margin="8,126,205,0" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Top" Height="32" d:LayoutOverrides="HorizontalAlignment, GridBox" Text="Show Title Bar"/>
-				<Petzold_Phone_Silverlight:TapSlideToggle Margin="0,12,17,0" RenderTransformOrigin="4.333,-0.5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-				<Slider Margin="117,51,8,0" Value="100" Maximum="100" LargeChange="25" SmallChange="1" Height="89" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.47,0.422" Style="{StaticResource SliderStyle1}"/>
-				<TextBlock Margin="8,130,0,0" TextWrapping="Wrap" Text="Enabled" FontSize="24" HorizontalAlignment="Left" Width="85" VerticalAlignment="Top" TextAlignment="Right" Grid.Column="1"/>
-				<TextBlock Margin="40,64,119,0" TextWrapping="Wrap" Text="Sound Volume" FontSize="24" d:LayoutOverrides="GridBox" Height="32" VerticalAlignment="Top"/>
-				<TextBlock Margin="1,64,0,0" TextWrapping="Wrap" Text="100%" FontSize="24" HorizontalAlignment="Left" Width="92" TextAlignment="Right" Grid.Column="1" Height="32" VerticalAlignment="Top"/>
-				<Petzold_Phone_Silverlight:TapSlideToggle Margin="0,173,17,0" RenderTransformOrigin="4.333,-0.5" Grid.Column="1" HorizontalAlignment="Right" IsChecked="True" Height="47" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
-				<TextBlock Margin="40,183,153,0" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Top" Height="32" Text="Show Move Counter" d:LayoutOverrides="HorizontalAlignment, GridBox"/>
-				<TextBlock Margin="8,183,0,0" TextWrapping="Wrap" Text="Enabled" FontSize="24" HorizontalAlignment="Left" Width="85" VerticalAlignment="Top" TextAlignment="Right" Grid.Column="1"/>
-				<Petzold_Phone_Silverlight:TapSlideToggle Margin="0,226,17,0" RenderTransformOrigin="4.333,-0.5" Grid.Column="1" HorizontalAlignment="Right" IsChecked="True" d:LayoutOverrides="GridBox" Height="47" VerticalAlignment="Top"/>
-				<TextBlock Margin="40,236,153,0" TextWrapping="Wrap" FontSize="24" Text="Show Timer" d:LayoutOverrides="HorizontalAlignment, GridBox" Height="32" VerticalAlignment="Top"/>
-				<TextBlock Margin="8,236,0,0" TextWrapping="Wrap" Text="Enabled" FontSize="24" HorizontalAlignment="Left" Width="85" TextAlignment="Right" Grid.Column="1" VerticalAlignment="Top"/>
-				<Petzold_Phone_Silverlight:TapSlideToggle Margin="0,279,17,0" RenderTransformOrigin="4.333,-0.5" Grid.Column="1" HorizontalAlignment="Right" IsChecked="True" d:LayoutOverrides="GridBox" Height="47" VerticalAlignment="Top"/>
-				<TextBlock Margin="40,289,153,0" TextWrapping="Wrap" FontSize="24" Text="Show Level" d:LayoutOverrides="HorizontalAlignment, GridBox" Height="32" VerticalAlignment="Top"/>
-				<TextBlock Margin="8,289,0,0" TextWrapping="Wrap" Text="Enabled" FontSize="24" HorizontalAlignment="Left" Width="85" TextAlignment="Right" Grid.Column="1" VerticalAlignment="Top"/>
-				<Rectangle Grid.Column="1" Height="36" Margin="117,112,0,0" VerticalAlignment="Top">
-					<Rectangle.Fill>
-						<SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Petzold_Phone_Silverlight:TapSlideToggle Margin="0,120,17,0" RenderTransformOrigin="4.333,-0.5" Grid.Column="1" d:LayoutOverrides="GridBox" HorizontalAlignment="Right" IsChecked="True" Height="47" VerticalAlignment="Top"/>
-				<Button Content="Clear High Scores" Margin="0,0,156,169" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Height="80" Name="btnClearHighScores" Click="btnClearHighScores_Click" />
-			</Grid>
-
-		</Grid>
-	</ScrollViewer>
  
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
@@ -140,5 +97,44 @@
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>-->
+
+	<phone:PhoneApplicationPage.FontFamily>
+		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+	</phone:PhoneApplicationPage.FontFamily>
+	<phone:PhoneApplicationPage.FontSize>
+		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
+	</phone:PhoneApplicationPage.FontSize>
+	<phone:PhoneApplicationPage.Foreground>
+		<StaticResource ResourceKey="PhoneForegroundBrush"/>
+	</phone:PhoneApplicationPage.Foreground>
+
+    <ScrollViewer>
+
+		<Grid Height="950" Width="800">
+<!--TitlePanel contains the name of the application and page title-->
+			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="18,21,6,0" Height="116" VerticalAlignment="Top">
+				<TextBlock x:Name="ApplicationTitle" Text="SETTINGS" Style="{StaticResource PhoneTextNormalStyle}"/>
+				<TextBlock x:Name="PageTitle" Text="HANOI " Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+			</StackPanel>
+			<Grid x:Name="ContentPanel" Margin="6,141,6,0" Height="910" VerticalAlignment="Top">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.553*"/>
+					<ColumnDefinition Width="0.447*"/>
+				</Grid.ColumnDefinitions>
+				<Grid Grid.ColumnSpan="2" Height="120" Margin="0,128,0,0" VerticalAlignment="Top">
+					<Slider Value="100" Maximum="100" LargeChange="25" SmallChange="1" RenderTransformOrigin="0.47,0.422" Style="{StaticResource SliderStyle1}" HorizontalAlignment="Right" Width="222" Margin="0,0,25,0"/>
+					<TextBlock Margin="13,8,0,0" TextWrapping="Wrap" Text="Sound Volume" FontSize="18.667" d:LayoutOverrides="GridBox" FontFamily="Segoe WP" HorizontalAlignment="Left" Width="270" Height="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneBorderBrush}"/>
+					<TextBlock Margin="13,38,0,8" TextWrapping="Wrap" Text="100%" FontSize="29.333" HorizontalAlignment="Left" Width="92" FontFamily="Segoe WP SemiLight"/>
+				</Grid>
+				<Button Content="Clear High Scores" Margin="0,0,156,102" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Height="80" x:Name="btnClearHighScores" Click="btnClearHighScores_Click" />
+				<toolkit:ToggleSwitch Header="Play Sounds" Margin="0,8,0,0" VerticalAlignment="Top" Height="120" Grid.ColumnSpan="2" FontSize="32" IsChecked="True"/>
+				<toolkit:ToggleSwitch Header="Show Title Bar" Margin="0,248,0,0" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Top"/>
+				<toolkit:ToggleSwitch Header="Show Move Counter" Margin="0,368,0,422" Grid.ColumnSpan="2" FontSize="32" IsChecked="True"/>
+				<toolkit:ToggleSwitch Header="Show Timer" Margin="0,0,0,302" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom"/>
+				<toolkit:ToggleSwitch Header="Show Level" Margin="0,0,0,182" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom"/>
+			</Grid>
+		</Grid>
+
+	</ScrollViewer>
 
 </phone:PhoneApplicationPage>
