@@ -292,11 +292,11 @@ namespace Hanoi
 
         private bool IsValidMove(HanoiDisc disc, DiscStack toStack)
         {
-            if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size) || disc.DiscStack == toStack)
+            if ((stacks[toStack].Count > 0 && stacks[toStack].Peek().Size > disc.Size))
             {
                 disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
                 disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
-                VibrateController.Default.Start(TimeSpan.FromSeconds(.5));
+                VibrateController.Default.Start(TimeSpan.FromSeconds(.25));
                 return false;
             }
 
@@ -579,9 +579,14 @@ namespace Hanoi
         {
             if (!this.disposed)
             {
-                effect.Dispose();
-                resetDelayTimer.Dispose();
-                timer.Dispose();
+                if(effect != null)
+                    effect.Dispose();
+
+                if(resetDelayTimer != null)
+                    resetDelayTimer.Dispose();
+
+                if(timer != null)
+                    timer.Dispose();
             }
             disposed = true;
         }

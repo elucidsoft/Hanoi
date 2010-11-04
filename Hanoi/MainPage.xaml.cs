@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
 namespace Hanoi
 {
-
     public partial class MainPage : PhoneApplicationPage
     {
-
         public MainPage()
         {
             InitializeComponent();
@@ -36,19 +41,23 @@ namespace Hanoi
 
         private void LoadHighScores()
         {
-            lbHighScores.Items.Clear();
-            List<Score> highScores = GameManager.Instance.HighScores;
-            for (int i = 0; i <= highScores.Count - 1; i++)
+            Dispatcher.BeginInvoke(() =>
             {
-                Score score = highScores[i];
-                lbHighScores.Items.Add(score.ToString());
-            }
+                lbHighScores.Items.Clear();
+                List<Score> highScores = GameManager.Instance.HighScores;
+                for (int i = 0; i <= highScores.Count - 1; i++)
+                {
+                    Score score = highScores[i];
+                    lbHighScores.Items.Add(new ListBoxItem() { Content = score.ToString() });
+                }
+            });
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            btnContinue.Visibility = App.CanContinue ? 
-                Visibility.Visible : 
+            
+            btnContinue.Visibility = App.CanContinue ?
+                Visibility.Visible :
                 Visibility.Collapsed;
 
             LoadHighScores();
@@ -66,12 +75,12 @@ namespace Hanoi
                 btnSettings.IsEnabled = false;
                 btnBuy.Visibility = Visibility.Visible;
                 lblAbout.Text = "Buy the full game to experience all levels, 30+ high def background, settings, and much more!";
-                lblVersion.Text = "Hanoi v1.0 Trial Version";
+                //lblVersion.Text = "Hanoi v1.0 Trial Version";
             }
             else
             {
                 lblAbout.Text = "Thank you for supporting our great games, have fun!";
-                lblVersion.Text = "Hanoi v1.0 Full Version";
+                //lblVersion.Text = "Hanoi v1.0 Full Version";
             }
         }
 
@@ -90,4 +99,6 @@ namespace Hanoi
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
     }
+
 }
+

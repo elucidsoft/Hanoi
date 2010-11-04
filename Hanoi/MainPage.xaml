@@ -1,115 +1,198 @@
-﻿<phone:PhoneApplicationPage 
-    x:Class="Hanoi.MainPage"
-     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Landscape" Orientation="Landscape"
-    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800"
-    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
-    <phone:PhoneApplicationPage.Resources>
-        <Style x:Key="ListBoxStyle1" TargetType="ListBox">
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Top"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Grid>
-                        	<ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Margin="1" Padding="{TemplateBinding Padding}">
-                        		<ItemsPresenter/>
-                        	</ScrollViewer>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
-        	<Setter Property="Background" Value="Transparent"/>
-        	<Setter Property="BorderThickness" Value="0"/>
-        	<Setter Property="BorderBrush" Value="Transparent"/>
-        	<Setter Property="Padding" Value="0"/>
-        	<Setter Property="HorizontalContentAlignment" Value="Left"/>
-        	<Setter Property="VerticalContentAlignment" Value="Top"/>
-        	<Setter Property="Template">
-        		<Setter.Value>
-        			<ControlTemplate TargetType="ListBoxItem">
-        				<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-        					<VisualStateManager.VisualStateGroups>
-        						<VisualStateGroup x:Name="CommonStates">
-        							<VisualState x:Name="Normal"/>
-        							<VisualState x:Name="MouseOver"/>
-        							<VisualState x:Name="Disabled">
-        								<Storyboard>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
-        								</Storyboard>
-        							</VisualState>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="SelectionStates">
-        							<VisualState x:Name="Unselected"/>
-        							<VisualState x:Name="Selected"/>
-        						</VisualStateGroup>
-        					</VisualStateManager.VisualStateGroups>
-        					<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="24" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Margin="5"/>
-        				</Border>
-        			</ControlTemplate>
-        		</Setter.Value>
-        	</Setter>
-        </Style>
-    </phone:PhoneApplicationPage.Resources>
+﻿<phone:PhoneApplicationPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls" xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controlsPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" d:DesignWidth="480" d:DesignHeight="800"
+	x:Class="Hanoi.MainPage"
+	SupportedOrientations="Landscape" mc:Ignorable="d" Orientation="Landscape"
+	shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
 
-    <Grid x:Name="LayoutRoot">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" MinHeight="480"/>
-        </Grid.RowDefinitions>
+	<phone:PhoneApplicationPage.Resources>
+		<Style x:Key="PanningLayerStyle1" TargetType="controlsPrimitives:PanningLayer">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="controlsPrimitives:PanningLayer">
+						<StackPanel Orientation="Horizontal">
+							<StackPanel.RenderTransform>
+								<TransformGroup>
+									<TranslateTransform x:Name="PanningTransform"/>
+									<TranslateTransform x:Name="LocalTransform"/>
+								</TransformGroup>
+							</StackPanel.RenderTransform>
+							<Rectangle x:Name="LeftWraparound" CacheMode="BitmapCache" Canvas.ZIndex="0"/>
+							<ContentPresenter x:Name="ContentPresenter" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Canvas.ZIndex="1"/>
+							<Rectangle x:Name="RightWraparound" CacheMode="BitmapCache" Canvas.ZIndex="0"/>
+						</StackPanel>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="PanoramaStyle1" TargetType="controls:Panorama">
+			<Setter Property="ItemsPanel">
+				<Setter.Value>
+					<ItemsPanelTemplate>
+						<controlsPrimitives:PanoramaPanel x:Name="panel"/>
+					</ItemsPanelTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="controls:Panorama">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" MinHeight="129"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<controlsPrimitives:PanningBackgroundLayer x:Name="BackgroundLayer" HorizontalAlignment="Left" Grid.RowSpan="2">
+								<Border x:Name="background" Background="{TemplateBinding Background}" CacheMode="BitmapCache"/>
+							</controlsPrimitives:PanningBackgroundLayer>
+							<controlsPrimitives:PanningTitleLayer x:Name="TitleLayer" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" FontSize="146.667" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" Margin="0,-74,0,7" Grid.Row="0" Foreground="#B2FFFFFF"/>
+							<controlsPrimitives:PanningLayer x:Name="ItemsLayer" HorizontalAlignment="Left" Grid.Row="1" Margin="0,-33,0,15" Style="{StaticResource PanningLayerStyle1}">
+								<ItemsPresenter x:Name="items"/>
+							</controlsPrimitives:PanningLayer>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="PanoramaItemStyle1" TargetType="controls:PanoramaItem">
+			<Setter Property="CacheMode" Value="BitmapCache"/>
+			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+			<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="controls:PanoramaItem">
+						<Grid Background="{TemplateBinding Background}" Margin="12,0,0,0">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" MinHeight="103"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<ContentControl x:Name="header" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" HorizontalAlignment="Left" Margin="10,-2,0,26" FontSize="58.667" Foreground="#B1FFFFFF">
+								<ContentControl.RenderTransform>
+									<TranslateTransform x:Name="headerTransform"/>
+								</ContentControl.RenderTransform>
+							</ContentControl>
+							<ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,-26,0,8" Grid.Row="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+			<Setter Property="VerticalContentAlignment" Value="Top"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ListBoxItem">
+						<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal"/>
+									<VisualState x:Name="MouseOver"/>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="SelectionStates">
+									<VisualState x:Name="Unselected"/>
+									<VisualState x:Name="Selected"/>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="21.333" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Margin="5" Foreground="#DEFFFFFF"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="WrapPanelStyle1" TargetType="toolkit:WrapPanel"/>
+		<Style x:Key="ListBoxStyle1" TargetType="ListBox">
+			<Style.Setters>
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <toolkit:WrapPanel Orientation="Vertical" ItemHeight="40" ItemWidth="362" Style="{StaticResource WrapPanelStyle1}"  />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ListBox">
+          <ItemsPresenter />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style.Setters>
+		</Style>
+		<DataTemplate x:Key="DataTemplate1">
+			<Grid Width="360" Height="40"/>
+		</DataTemplate>
+	</phone:PhoneApplicationPage.Resources>
+	<phone:PhoneApplicationPage.FontFamily>
+		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+	</phone:PhoneApplicationPage.FontFamily>
+	<phone:PhoneApplicationPage.FontSize>
+		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
+	</phone:PhoneApplicationPage.FontSize>
+	<phone:PhoneApplicationPage.Foreground>
+		<StaticResource ResourceKey="PhoneForegroundBrush"/>
+	</phone:PhoneApplicationPage.Foreground>
 
-        <!--TitleGrid is the name of the application and page title-->
+	<!--LayoutRoot contains the root grid where all other page content is placed-->
+	<Grid x:Name="LayoutRoot">
+		<controls:Panorama Title="Towers of Hanoi" Style="{StaticResource PanoramaStyle1}" Name="panorama">
+			<controls:Panorama.Background>
+				<ImageBrush Stretch="None" ImageSource="/images/main/01.jpg"/>
+			</controls:Panorama.Background>
 
-        <!--TitleGrid is the name of the application and page title-->
-        <Grid x:Name="TitleGrid" Margin="0,0,-1,0"/>
+			<!--Panorama item one-->
+			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#65000000" Height="361">
+				<Grid Height="263">
+					<Button Content="New Game" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="buttonStart" Width="193" Click="buttonStart_Click" FontSize="20" d:LayoutOverrides="HorizontalAlignment" Height="78" VerticalAlignment="Top" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" />
+					<Grid Margin="237,0,58,56">
+						<TextBlock Height="36" Margin="10,0,220,0" x:Name="textBlock1" Text="Choose a Level" VerticalAlignment="Top" CacheMode="BitmapCache" FontFamily="Segoe WP Light" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="#DEFFFFFF" />
+						<Button Content="1" Height="85" HorizontalAlignment="Left" Margin="0,40,0,0" x:Name="btnLevel1" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="2" Height="85" Margin="89,40,0,0" x:Name="btnLevel2" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="3" Height="85" Margin="178,40,178,0" x:Name="btnLevel3" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="4" Height="85" HorizontalAlignment="Right" Margin="0,40,89,0" x:Name="btnLevel4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="6" Height="85" HorizontalAlignment="Left" Margin="0,125,0,0" x:Name="btnLevel6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="7" Height="85" Margin="93,125,0,0" x:Name="btnLevel7" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="8" Height="85" Margin="178,125,178,0" x:Name="btnLevel8" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="9" Height="85" HorizontalAlignment="Right" Margin="0,125,89,0" x:Name="btnLevel9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="5" Height="85" Margin="0,40,0,0" x:Name="btnLevel5" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Right" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="10" Height="85" HorizontalAlignment="Right" Margin="0,125,0,0" x:Name="btnLevel10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+					</Grid>
+					<Button Content="Continue..." HorizontalAlignment="Left" Margin="1,65,0,123" x:Name="btnContinue" Width="193" FontSize="20" Click="btnContinue_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+					<Button Content="Settings" Height="78" HorizontalAlignment="Left" Margin="0,0,0,-15" x:Name="btnSettings" VerticalAlignment="Bottom" Width="193" FontSize="20" RenderTransformOrigin="0.503,-0.362" Click="btnSettings_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+					<TextBlock x:Name="lblAbout" HorizontalAlignment="Left" Margin="237,0,0,-3" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="445" Height="55" FontFamily="Segoe WP SemiLight" FontSize="18.667" CacheMode="BitmapCache" Foreground="#DEFFFFFF"/>
+					<Button Content="Purchase" HorizontalAlignment="Left" Margin="0,132,0,56" x:Name="btnBuy" Width="193" Click="buttonStart_Click" FontSize="18.667" RenderTransformOrigin="-0.523,0.487" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Visibility="Collapsed" />
+				</Grid>
+			</controls:PanoramaItem>
 
-        <!--ContentGrid is empty. Place new content here-->
-        <Grid x:Name="ContentGrid" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button Content="New Game" Height="78" HorizontalAlignment="Left" Margin="8,-12,0,0" x:Name="buttonStart" VerticalAlignment="Top" Width="193" Click="buttonStart_Click" Grid.Row="1" d:LayoutOverrides="HorizontalAlignment" FontSize="20" />
-            <TextBlock Height="36" Margin="20,64,0,0" x:Name="textBlock1" Text="Choose a Level" VerticalAlignment="Top" FontSize="26" CacheMode="BitmapCache" Grid.Row="1" HorizontalAlignment="Left" Width="190" FontFamily="Segoe WP Light" />
-            <Button Content="1" Height="85" HorizontalAlignment="Left" Margin="20,100,0,0" x:Name="btnLevel1" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
-            <Button Content="2" Height="85" HorizontalAlignment="Left" Margin="91,100,0,0" x:Name="btnLevel2" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
-            <Button Content="3" Height="85" HorizontalAlignment="Left" Margin="162,100,0,0" x:Name="btnLevel3" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
-            <Button Content="4" Height="85" HorizontalAlignment="Left" Margin="233,100,0,0" x:Name="btnLevel4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
-            <Button Content="6" Height="85" HorizontalAlignment="Left" Margin="20,167,0,0" x:Name="btnLevel6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" />
-            <Button Content="7" Height="85" HorizontalAlignment="Left" Margin="91,167,0,0" x:Name="btnLevel7" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" />
-            <Button Content="8" Height="85" HorizontalAlignment="Left" Margin="162,167,0,0" x:Name="btnLevel8" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" />
-            <Button Content="9" Height="85" HorizontalAlignment="Right" Margin="0,167,478,0" x:Name="btnLevel9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" />
-            <Button Content="5" Height="85" HorizontalAlignment="Left" Margin="304,100,0,0" x:Name="btnLevel5" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" d:LayoutOverrides="VerticalAlignment" />
-            <Button Content="10" Height="85" HorizontalAlignment="Right" Margin="0,167,407,0" x:Name="btnLevel10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" Grid.Row="1" CacheMode="BitmapCache" />
-            <TextBlock Height="44" HorizontalAlignment="Left" Margin="417,13,0,0" x:Name="textBlock2" Text="High Scores" VerticalAlignment="Top" Width="189" CacheMode="BitmapCache" FontSize="32" FontFamily="Segoe WP Light" />
-            <ListBox x:Name="lbHighScores" Height="384" Margin="0,0,8,0" VerticalAlignment="Top" FontSize="16" BorderThickness="3" Style="{StaticResource ListBoxStyle1}" Grid.Row="1" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" HorizontalAlignment="Right" Width="375" />
-            <TextBlock Margin="20,-4,0,0" TextWrapping="Wrap" Text="Towers of Hanoi" FontSize="48" Height="63" VerticalAlignment="Top" FontFamily="Segoe WP Light" HorizontalAlignment="Left" Width="373" />
-            <Button Content="Continue..." Height="78" HorizontalAlignment="Left" Margin="212,-12,0,0" x:Name="btnContinue" VerticalAlignment="Top" Width="193" Grid.Row="1" FontSize="20" Click="btnContinue_Click" />
-            <Button Content="Settings" Height="78" HorizontalAlignment="Left" Margin="8,0,0,10" x:Name="btnSettings" VerticalAlignment="Bottom" Width="193" Grid.Row="1" FontSize="20" RenderTransformOrigin="0.503,-0.362" d:LayoutOverrides="HorizontalAlignment" Click="btnSettings_Click" />
-            <Button Content="Purchase Full" Height="78" HorizontalAlignment="Left" Margin="212,0,0,10" x:Name="btnBuy" VerticalAlignment="Bottom" Width="193" Click="buttonStart_Click" Grid.Row="1" FontSize="18.667" RenderTransformOrigin="-0.523,0.487" Visibility="Collapsed" />
-            <TextBlock x:Name="lblAbout" HorizontalAlignment="Left" Margin="20,0,0,92" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="385" Height="55" FontFamily="Segoe WP SemiLight" FontSize="18.667" CacheMode="BitmapCache"/>
-            <TextBlock x:Name="lblVersion" Margin="425,0,10,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Bottom" Height="20" FontSize="14.667" CacheMode="BitmapCache" FontFamily="Arial" TextAlignment="Right" Foreground="#DE747474"/>
-        </Grid>
-    </Grid>
-
+			<!--Panorama item two-->
+			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
+				<Grid>
+					<ListBox x:Name="lbHighScores" Height="201" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" ItemTemplate="{StaticResource DataTemplate1}" >
+						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
+						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
+						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
+						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
+						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40" Margin="0,0,-2,0"/>
+						<ListBoxItem Content="Level 6 - 10105 moves in 00:06:40" Width="360"/>
+						<ListBoxItem Content="Level 7 - 10105 moves in 00:06:40" Width="360"/>
+						<ListBoxItem Content="Level 8 - 10105 moves in 00:06:40" Width="355"/>
+						<ListBoxItem Content="Level 9 - 10105 moves in 00:06:40" Width="360"/>
+						<ListBoxItem Content="Level 10 -  10105 moves in 00:06:40" Width="362"/>
+					</ListBox>
+				</Grid>
+			</controls:PanoramaItem>
+		</controls:Panorama>
+		
+	</Grid>
 </phone:PhoneApplicationPage>
