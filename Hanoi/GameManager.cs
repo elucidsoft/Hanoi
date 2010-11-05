@@ -62,7 +62,6 @@ namespace Hanoi
         {
             using (Stream stream = TitleContainer.OpenStream("stone_drag.wav"))
             {
-                FrameworkDispatcher.Update();
                 effect = SoundEffect.FromStream(stream);
             }
 
@@ -230,7 +229,6 @@ namespace Hanoi
             stacks[toStack].Push(disc);
             disc.DiscStack = toStack;
 
-            moves++;
             if (MoveCompleted != null)
                 MoveCompleted(this, new MoveCompletedEventArgs(moves));
 
@@ -299,6 +297,9 @@ namespace Hanoi
                 VibrateController.Default.Start(TimeSpan.FromSeconds(.25));
                 return false;
             }
+
+            if(disc.DiscStack != toStack)
+                moves++;
 
             effect.Play(0.75f, 0f, 0f);
 
@@ -375,7 +376,6 @@ namespace Hanoi
                     ((currentScore.Moves < score.Moves) && (currentScore.Seconds < score.Seconds)) ||
                     ((score.Moves == 0 && score.Seconds == 0)))
                 {
-
                     if (HighScore != null && !(score.Moves == 0 && score.Seconds == 0))
                         HighScore(this, new HighScoreEventArgs(currentScore));
 

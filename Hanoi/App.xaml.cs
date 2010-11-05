@@ -70,6 +70,11 @@ namespace Hanoi
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            if (GameData == null)
+            {
+                GameData = GameData.LoadGameData();
+            }
+
             CanContinue = GameData.SaveGame.Level > 0;
         }
 
@@ -79,7 +84,11 @@ namespace Hanoi
         {
             if (PhoneApplicationService.Current.State.ContainsKey("SaveGame"))
             {
-                App.GameData.SaveGame = (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
+                if (GameData == null)
+                {
+                    App.GameData.SaveGame = (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
+                }
+
                 CanContinue = GameData.SaveGame.Level > 0;
             }
         }

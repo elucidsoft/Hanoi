@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Xna.Framework;
 
 namespace Hanoi
 {
@@ -55,7 +56,7 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            FrameworkDispatcher.Update();
             btnContinue.Visibility = App.CanContinue ?
                 Visibility.Visible :
                 Visibility.Collapsed;
