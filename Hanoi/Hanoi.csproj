@@ -57,10 +57,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="protobuf-net">
       <HintPath>Shared\protobuf-net.dll</HintPath>
@@ -70,13 +70,14 @@
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ColorConverter.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameScreen.xaml.cs">
@@ -165,6 +166,7 @@
     <Content Include="patterns\concrete_gold.jpg" />
     <Content Include="patterns\concrete_grey.jpg" />
     <Content Include="images\shelf\01.png" />
+    <Content Include="SplashScreenImage.jpg" />
     <Content Include="stone_drag.wav" />
   </ItemGroup>
   <ItemGroup />

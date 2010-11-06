@@ -48,6 +48,17 @@ namespace Hanoi
             BuildVisualStack(DiscStack.Three);
             tbMoves.Text = GameManager.Instance.Moves.ToString();
             SetBackgroundImage(isContinue);
+
+            if (App.GameData.GameSettings.ShowTitleBar == false)
+            {
+                gridTitleBar.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                gridLevel.Visibility = App.GameData.GameSettings.ShowLevel ? Visibility.Visible : Visibility.Collapsed;
+                gridMoves.Visibility = App.GameData.GameSettings.ShowMoveCounter ? Visibility.Visible : Visibility.Collapsed;
+                gridTimer.Visibility = App.GameData.GameSettings.ShowTimer ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private void phoneApplicationPage_Unloaded(object sender, System.Windows.RoutedEventArgs e)

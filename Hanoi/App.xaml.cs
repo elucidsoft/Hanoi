@@ -13,6 +13,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using Microsoft.Phone.Marketplace;
+using System.Windows.Threading;
 
 namespace Hanoi
 {
@@ -58,38 +59,48 @@ namespace Hanoi
 
             // Phone-specific initialization
             InitializePhoneApplication();
+        }
 
-            GameData = GameData.LoadGameData();
+        private static void LoadGameData()
+        {
             IsTrial = new LicenseInformation().IsTrial();
 #if DEBUG_TRIAL
             IsTrial = true;
 #endif
+
+            if (GameData == null)
+            {
+
+                GameData = GameData.LoadGameData();
+            }
+        }
+
+        private static void CalculateCanContinue()
+        {
+            CanContinue = GameData.SaveGame.StackOneCount > 0 || GameData.SaveGame.StackTwoCount > 0 || GameData.SaveGame.StackThreeCount > 0;
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            if (GameData == null)
-            {
-                GameData = GameData.LoadGameData();
-            }
-
-            CanContinue = GameData.SaveGame.Level > 0;
+            LoadGameData();
+            CalculateCanContinue();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey("SaveGame"))
+            if (PhoneApplicationService.Current.State.ContainsKey("GameData"))
             {
-                if (GameData == null)
-                {
-                    App.GameData.SaveGame = (SaveGame)PhoneApplicationService.Current.State["SaveGame"];
-                }
-
-                CanContinue = GameData.SaveGame.Level > 0;
+                App.GameData = (GameData)PhoneApplicationService.Current.State["GameData"];
+                CalculateCanContinue();
+            }
+            else
+            {
+                LoadGameData();
+                CalculateCanContinue();
             }
         }
 
@@ -99,7 +110,7 @@ namespace Hanoi
         {
             GameManager.Instance.SaveState();
 
-            PhoneApplicationService.Current.State["SaveGame"] = App.GameData.SaveGame;
+            PhoneApplicationService.Current.State["GameData"] = App.GameData;
             GameData.SaveGameData(GameData);
         }
 

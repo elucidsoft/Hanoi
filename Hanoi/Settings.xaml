@@ -5,11 +5,10 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Petzold_Phone_Silverlight="clr-namespace:Petzold.Phone.Silverlight" 
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
     x:Class="Hanoi.Settings"
     SupportedOrientations="Landscape" Orientation="Landscape"
-    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800">
+    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800" Loaded="PhoneApplicationPage_Loaded" BackKeyPress="PhoneApplicationPage_BackKeyPress">
 	<phone:PhoneApplicationPage.Resources>
 		<ControlTemplate x:Key="PhoneSimpleRepeatButton" TargetType="RepeatButton">
 			<Rectangle Fill="Transparent"/>
@@ -110,29 +109,50 @@
 
     <ScrollViewer>
 
-		<Grid Height="950" Width="800">
+		<Grid Height="1211" Width="800">
 <!--TitlePanel contains the name of the application and page title-->
 			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="18,21,6,0" Height="116" VerticalAlignment="Top">
 				<TextBlock x:Name="ApplicationTitle" Text="SETTINGS" Style="{StaticResource PhoneTextNormalStyle}"/>
-				<TextBlock x:Name="PageTitle" Text="HANOI " Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+				<TextBlock x:Name="PageTitle" Text="HANOI " Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
 			</StackPanel>
-			<Grid x:Name="ContentPanel" Margin="6,141,6,0" Height="910" VerticalAlignment="Top">
+			<Grid x:Name="ContentPanel" Margin="6,253,6,0" Height="1070" VerticalAlignment="Top">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="0.553*"/>
 					<ColumnDefinition Width="0.447*"/>
 				</Grid.ColumnDefinitions>
-				<Grid Grid.ColumnSpan="2" Height="120" Margin="0,128,0,0" VerticalAlignment="Top">
-					<Slider Value="100" Maximum="100" LargeChange="25" SmallChange="1" RenderTransformOrigin="0.47,0.422" Style="{StaticResource SliderStyle1}" HorizontalAlignment="Right" Width="222" Margin="0,0,25,0"/>
-					<TextBlock Margin="13,8,0,0" TextWrapping="Wrap" Text="Sound Volume" FontSize="18.667" d:LayoutOverrides="GridBox" FontFamily="Segoe WP" HorizontalAlignment="Left" Width="270" Height="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneBorderBrush}"/>
-					<TextBlock Margin="13,38,0,8" TextWrapping="Wrap" Text="100%" FontSize="29.333" HorizontalAlignment="Left" Width="92" FontFamily="Segoe WP SemiLight"/>
+				<Grid Grid.ColumnSpan="2" Height="120" Margin="0,128,0,0" VerticalAlignment="Top" Name="gridSoundVolume">
+					<Slider Value="100" Maximum="100" LargeChange="25" SmallChange="5" RenderTransformOrigin="0.47,0.422" Style="{StaticResource SliderStyle1}" HorizontalAlignment="Right" Width="213" Margin="0,0,25,0" Name="sliderVolume" ValueChanged="sliderVolume_ValueChanged" IsEnabledChanged="sliderVolume_IsEnabledChanged" />
+					<TextBlock Margin="13,8,0,0" TextWrapping="Wrap" Text="Sound Volume" FontSize="18.667" d:LayoutOverrides="GridBox" FontFamily="Segoe WP" HorizontalAlignment="Left" Width="270" Height="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneBorderBrush}" Name="lblSoundVolume" />
+					<TextBlock Margin="13,38,0,8" TextWrapping="Wrap" Text="100%" FontSize="29.333" HorizontalAlignment="Left" Width="231" FontFamily="Segoe WP SemiLight" Name="txtSliderVolume" />
 				</Grid>
-				<Button Content="Clear High Scores" Margin="0,0,156,102" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Height="80" x:Name="btnClearHighScores" Click="btnClearHighScores_Click" />
-				<toolkit:ToggleSwitch Header="Play Sounds" Margin="0,8,0,0" VerticalAlignment="Top" Height="120" Grid.ColumnSpan="2" FontSize="32" IsChecked="True"/>
-				<toolkit:ToggleSwitch Header="Show Title Bar" Margin="0,248,0,0" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Top"/>
-				<toolkit:ToggleSwitch Header="Show Move Counter" Margin="0,368,0,422" Grid.ColumnSpan="2" FontSize="32" IsChecked="True"/>
-				<toolkit:ToggleSwitch Header="Show Timer" Margin="0,0,0,302" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom"/>
-				<toolkit:ToggleSwitch Header="Show Level" Margin="0,0,0,182" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom"/>
+				<Button Content="Clear High Scores" Margin="0,0,156,141" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Height="80" x:Name="btnClearHighScores" Click="btnClearHighScores_Click" />
+				<toolkit:ToggleSwitch Header="Play Sounds" Margin="0,8,0,0" VerticalAlignment="Top" Height="120" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Name="tglPlaySounds" Click="tglPlaySounds_Click" />
+				<toolkit:ToggleSwitch x:Name="tglShowTitleBar" Header="Show Title Bar" Margin="0,368,0,0" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Top" Click="tglShowTitleBar_Click"/>
+				<toolkit:ToggleSwitch x:Name="tglShowMoveCounter" Header="Show Move Counter" Margin="0,488,0,462" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Click="tglShowMoveCounter_Click"/>
+				<toolkit:ToggleSwitch x:Name="tglShowTimer" Header="Show Timer" Margin="0,0,0,342" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom" Click="tglShowTimer_Click"/>
+				<toolkit:ToggleSwitch x:Name="tglShowLevel" Header="Show Level" Margin="0,0,0,222" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Height="120" VerticalAlignment="Bottom" Click="tglShowLevel_Click"/>
+				<toolkit:ToggleSwitch x:Name="tglVibrateOnInvalidMove" Header="Vibrate on Invalid Move" Margin="0,248,0,0" VerticalAlignment="Top" Height="120" Grid.ColumnSpan="2" FontSize="32" IsChecked="True" Click="tglVibrateOnInvalidMove_Click"/>
 			</Grid>
+			<Button Content="Rate &amp; Review" HorizontalAlignment="Right" Margin="0,141,27,0" VerticalAlignment="Top" Height="82" Name="btnRateAndReview" Click="btnRateAndReview_Click" />
+			<TextBlock Margin="18,149,295,0" TextWrapping="Wrap" Text="Please rate and review Hanoi in the Windows Phone marketplace.  You may also leave suggestions or feedback that will help us improve future versions!" VerticalAlignment="Top" FontSize="18.667" Height="84" FontFamily="Segoe WP" CacheMode="BitmapCache">
+				<TextBlock.Foreground>
+					<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+				</TextBlock.Foreground>
+			</TextBlock>
+			<TextBlock HorizontalAlignment="Right" Height="21" TextWrapping="Wrap" Text="Hanoi v1.0 created by Elucidsoft LLC." VerticalAlignment="Top" Width="215" FontSize="13.333" TextAlignment="Right" Margin="0,8,36,0" CacheMode="BitmapCache">
+				<TextBlock.Foreground>
+					<SolidColorBrush Color="{StaticResource PhoneSubtleColor}"/>
+				</TextBlock.Foreground>
+			</TextBlock>
+			<TextBlock x:Name="lblTrialModeWarning" Height="36" Margin="18,233,8,0" TextWrapping="Wrap" Text="Trial mode has a limited number of setting options available." VerticalAlignment="Top" Visibility="Collapsed">
+				<TextBlock.Foreground>
+					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+				</TextBlock.Foreground>
+			</TextBlock>
 		</Grid>
 
 	</ScrollViewer>

@@ -106,41 +106,48 @@
 			<Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Margin="0" Stretch="None" CacheMode="BitmapCache" />
             <Image HorizontalAlignment="Center" x:Name="bgImage02" VerticalAlignment="Center" Margin="0" Stretch="None" Opacity="0" CacheMode="BitmapCache"/>
             <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380"  CacheMode="BitmapCache"/>
-            <Rectangle Fill="#7E000000" Height="26" Width="800" StrokeThickness="0" d:IsLocked="True"  CacheMode="BitmapCache"/>
-			<TextBlock x:Name="tbLevel" Height="14" Canvas.Left="25" TextWrapping="Wrap" Text="Level 1" Width="67" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5">
-				<TextBlock.RenderTransform>
-					<CompositeTransform/>
-				</TextBlock.RenderTransform>
-			</TextBlock>
-			<TextBlock x:Name="tbTimer" Height="14" Canvas.Left="730" TextWrapping="Wrap" Text="00:00:00" Width="68" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
-				<TextBlock.RenderTransform>
-					<CompositeTransform/>
-				</TextBlock.RenderTransform>
-			</TextBlock>
-			<TextBlock x:Name="tbTitle" Height="14" TextWrapping="Wrap" Text="Towers of Hanoi" Width="800" Foreground="#A7FFFFFF" Canvas.Top="6" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071"  CacheMode="BitmapCache" HorizontalAlignment="Left" TextAlignment="Center"/>
-            <Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" Height="10" Canvas.Left="714.671" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" Canvas.Top="8.666" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5"  CacheMode="BitmapCache">
-				<Path.RenderTransform>
-					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
-				</Path.RenderTransform>
-			</Path>
-            <Path Data="M89.400963,20.862743 z" Fill="#7E000000" Height="0" Canvas.Left="101.047" Stretch="Fill" StrokeThickness="0" Canvas.Top="20.331" UseLayoutRounding="False" Width="0"  CacheMode="BitmapCache"/>
-            <Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Height="9.866" Canvas.Left="11.334" Stretch="Fill" StrokeThickness="0" Canvas.Top="8.834" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107"  CacheMode="BitmapCache">
-				<Path.RenderTransform>
-					<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
-				</Path.RenderTransform>
-			</Path>
-			<Path
-				Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" Height="7.5" Canvas.Left="97" Canvas.Top="11.001" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
-				<Path.RenderTransform>
-					<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
-				</Path.RenderTransform>
-			</Path>
-			<TextBlock
-				x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="173" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache" Height="14" Canvas.Left="113" Canvas.Top="6">
-				<TextBlock.RenderTransform>
-					<CompositeTransform/>
-				</TextBlock.RenderTransform>
-			</TextBlock>
+            <Grid x:Name="gridTitleBar" Height="26" Width="800">
+            	<Rectangle Fill="#7E000000" StrokeThickness="0"  CacheMode="BitmapCache"/>
+            	<Grid x:Name="gridLevel" HorizontalAlignment="Left" Margin="11,6,0,6" Width="81">
+            		<TextBlock x:Name="tbLevel" Height="14" TextWrapping="Wrap" Text="Level 1" Width="67" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"  CacheMode="BitmapCache" RenderTransformOrigin="0.5,0.5" Margin="14,0,0,0">
+            			<TextBlock.RenderTransform>
+            				<CompositeTransform/>
+            			</TextBlock.RenderTransform>
+            		</TextBlock>
+            		<Path Data="M4,0.10666667 L10,0.10666667 L10,2 L4,2 z M2,3 L12,3 L12,5 L2,5 z M0,6 L14,6 L14,8 L0,8 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10" RenderTransformOrigin="1.45000004768372,0.30799999833107"  CacheMode="BitmapCache" HorizontalAlignment="Left" Margin="0,2.834,0,1.3">
+            			<Path.RenderTransform>
+            				<CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-1.1920927889264021E-07" TranslateY="-0.010317971531272452"/>
+            			</Path.RenderTransform>
+            		</Path>
+            	</Grid>
+            	<Grid x:Name="gridTimer" HorizontalAlignment="Right" Margin="0,6,2,6" Width="83">
+            		<TextBlock x:Name="tbTimer" TextWrapping="Wrap" Text="00:00:00" Width="68" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="14.66,-0.143" HorizontalAlignment="Right"  CacheMode="BitmapCache">
+            			<TextBlock.RenderTransform>
+            				<CompositeTransform/>
+            			</TextBlock.RenderTransform>
+            		</TextBlock>
+            		<Path x:Name="path" Data="M9.5,5 C9.5,7.4852815 7.4852815,9.5 5,9.5 C2.5147185,9.5 0.5,7.4852815 0.5,5 C0.5,2.5147185 2.5147185,0.5 5,0.5 C7.4852815,0.5 9.5,2.5147185 9.5,5 z M4.9999981,0.95800054 L5.0459981,5.4030008" RenderTransformOrigin="0.416999995708466,0.416999995708466" Stretch="Fill" Stroke="White" UseLayoutRounding="False" Width="10" Opacity="0.645" StrokeThickness="1.5"  CacheMode="BitmapCache" HorizontalAlignment="Left" Margin="0,2.666,0,1.334">
+            			<Path.RenderTransform>
+            				<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
+            			</Path.RenderTransform>
+            		</Path>
+            	</Grid>
+            	<TextBlock x:Name="tbTitle" Height="14" TextWrapping="Wrap" Text="Towers of Hanoi" Width="800" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center" RenderTransformOrigin="-0.383,0.071"  CacheMode="BitmapCache" HorizontalAlignment="Left" TextAlignment="Center"/>
+            	<Grid x:Name="gridMoves" HorizontalAlignment="Left" Margin="97,6,0,6" Width="189">
+            		<Path
+            			Data="M96.618858,20.680964 L101.08111,19.630953 L96.68969,18.430792 L97.468811,19.530924 z" Fill="#A6FFFFFF" Stretch="Fill" StrokeThickness="0" UseLayoutRounding="False" Width="10.5" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" HorizontalAlignment="Left" Margin="0,5.001,0,1.499">
+            			<Path.RenderTransform>
+            				<CompositeTransform ScaleX="1.25" ScaleY="1.25"/>
+            			</Path.RenderTransform>
+            		</Path>
+            		<TextBlock
+            			x:Name="tbMoves" TextWrapping="Wrap" Text="0" Width="173" Foreground="#A7FFFFFF" FontSize="16" FontFamily="Arial" FontWeight="Bold" RenderTransformOrigin="0,0" HorizontalAlignment="Right" CacheMode="BitmapCache">
+            			<TextBlock.RenderTransform>
+            				<CompositeTransform/>
+            			</TextBlock.RenderTransform>
+            		</TextBlock>
+            	</Grid>
+            </Grid>
 		</Canvas>
         <Canvas x:Name="blockInteractionCanvas" Height="480" Width="800" Background="#00000000" Visibility="Collapsed"/>
         <Grid x:Name="MessageBox" Height="133" Canvas.Left="178" Canvas.Top="118" Width="465" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Visibility="Collapsed">

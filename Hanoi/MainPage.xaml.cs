@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
+using Microsoft.Phone.Tasks;
 
 namespace Hanoi
 {
@@ -19,6 +20,11 @@ namespace Hanoi
         public MainPage()
         {
             InitializeComponent();
+
+            btnContinue.Visibility = App.CanContinue ?
+               Visibility.Visible :
+               Visibility.Collapsed;
+
             SetupTrial();
         }
 
@@ -56,7 +62,6 @@ namespace Hanoi
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            FrameworkDispatcher.Update();
             btnContinue.Visibility = App.CanContinue ?
                 Visibility.Visible :
                 Visibility.Collapsed;
@@ -73,7 +78,6 @@ namespace Hanoi
                 btnLevel8.IsEnabled = false;
                 btnLevel9.IsEnabled = false;
                 btnLevel10.IsEnabled = false;
-                btnSettings.IsEnabled = false;
                 btnBuy.Visibility = Visibility.Visible;
                 lblAbout.Text = "Buy the full game to experience all levels, 30+ high def background, settings, and much more!";
                 //lblVersion.Text = "Hanoi v1.0 Trial Version";
@@ -98,6 +102,12 @@ namespace Hanoi
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+        }
+
+        private void btnBuy_Click(object sender, RoutedEventArgs e)
+        {
+            MarketplaceDetailTask marketplaceDetailTask = new MarketplaceDetailTask();
+            marketplaceDetailTask.Show();
         }
     }
 

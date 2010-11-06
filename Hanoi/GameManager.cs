@@ -7,11 +7,11 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml.Serialization;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using ProtoBuf;
 
 namespace Hanoi
 {
@@ -34,7 +34,7 @@ namespace Hanoi
         PhoneApplicationFrame phoneAppFrame = (Application.Current.RootVisual as PhoneApplicationFrame);
         List<Score> highScores = new List<Score>();
 
-        private const string HighScoreFileName = "highscores.xml";
+        private const string HighScoreFileName = "highscores.bin";
 
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
@@ -46,7 +46,7 @@ namespace Hanoi
         private int seconds = 0;
         private Timer timer;
         private Timer resetDelayTimer;
-        private SoundEffect effect;
+        private SoundEffect effect = null;
 
         public int winCount = 0;
         private bool isReLoaded = false;
@@ -60,9 +60,14 @@ namespace Hanoi
 
         private void Initialize()
         {
-            using (Stream stream = TitleContainer.OpenStream("stone_drag.wav"))
+            if (App.GameData.GameSettings.PlaySounds)
             {
-                effect = SoundEffect.FromStream(stream);
+                FrameworkDispatcher.Update();
+
+                using (Stream stream = TitleContainer.OpenStream("stone_drag.wav"))
+                {
+                    effect = SoundEffect.FromStream(stream);
+                }
             }
 
             stacks.Add(DiscStack.One, new Stack<HanoiDisc>());
@@ -294,14 +299,24 @@ namespace Hanoi
             {
                 disc.SetValue(Canvas.TopProperty, disc.OriginalTop);
                 disc.SetValue(Canvas.LeftProperty, disc.OriginalLeft);
-                VibrateController.Default.Start(TimeSpan.FromSeconds(.25));
+
+                if (App.GameData.GameSettings.VibrateOnInvalidMove)
+                {
+                    VibrateController.Default.Start(TimeSpan.FromSeconds(.25));
+                }
                 return false;
             }
 
-            if(disc.DiscStack != toStack)
+            if (disc.DiscStack != toStack)
+            {
                 moves++;
+            }
 
-            effect.Play(0.75f, 0f, 0f);
+            if (App.GameData.GameSettings.PlaySounds)
+            {
+                float volume = Convert.ToSingle(App.GameData.GameSettings.SoundVolume / 100);
+                effect.Play(volume, 0f, 0f);
+            }
 
             return true;
         }
@@ -406,8 +421,7 @@ namespace Hanoi
 
                 using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.CreateNew))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
-                    serializer.Serialize(stream, highScores);
+                    Serializer.Serialize<List<Score>>(stream, highScores);
                 }
             }
         }
@@ -421,8 +435,7 @@ namespace Hanoi
                 {
                     using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.Open))
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
-                        highScores = (List<Score>)serializer.Deserialize(stream);
+                        highScores = Serializer.Deserialize<List<Score>>(stream);
                     }
                 }
             }
