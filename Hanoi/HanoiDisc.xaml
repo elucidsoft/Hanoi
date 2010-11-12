@@ -47,44 +47,44 @@
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="111" Width="211" CacheMode="BitmapCache">
-        <Canvas x:Name="canvasTouchExpansion" HorizontalAlignment="Right" Margin="0,-36.5,-89,-36.5" Width="388" Background="#00000000" ManipulationCompleted="canvasTouchExpansion_ManipulationCompleted" ManipulationDelta="canvasTouchExpansion_ManipulationDelta" ManipulationStarted="canvasTouchExpansion_ManipulationStarted" RenderTransformOrigin="0.5,0.5">
-        	<Canvas.RenderTransform>
-        		<CompositeTransform/>
-        	</Canvas.RenderTransform>
-        	<Grid Width="207" Margin="0" CacheMode="BitmapCache" Canvas.Left="94" Canvas.Top="39" HorizontalAlignment="Left" VerticalAlignment="Top" Height="106.39">
-        		<Grid Margin="0,19,0,14" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="207">
-        			<Path x:Name="BottomPath_ColorOverlay" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Fill="{StaticResource Grey_BottomFill}" CacheMode="BitmapCache"/>
-        			<Path x:Name="BottomPath_Overlay_Shadow" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" CacheMode="BitmapCache">
-        				<Path.Fill>
-        					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.506,-1.63">
-        						<GradientStop Color="#BD000000" Offset="1"/>
-        						<GradientStop Color="Transparent" Offset="0.001"/>
-        						<GradientStop Color="#946A6A6A" Offset="0.777"/>
-        						<GradientStop Color="#9E606060" Offset="0.801"/>
-        					</LinearGradientBrush>
-        				</Path.Fill>
-        			</Path>
-        			<Path x:Name="BottomPath"  Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,0" Stretch="Fill" UseLayoutRounding="False" Opacity="0.295" StrokeThickness="0.5" Stroke="Black" Fill="{StaticResource GreyConcrete_Fill}" CacheMode="BitmapCache"/>
-        		</Grid>
-        		<Grid Margin="0,11,0,53" CacheMode="BitmapCache">
+    	<Canvas x:Name="canvasTouchExpansion" HorizontalAlignment="Right" Margin="0,-36.5,-89,-36.5" Width="388" Background="#00000000" ManipulationCompleted="canvasTouchExpansion_ManipulationCompleted" ManipulationDelta="canvasTouchExpansion_ManipulationDelta" ManipulationStarted="canvasTouchExpansion_ManipulationStarted" RenderTransformOrigin="0.5,0.5">
+    		<Canvas.RenderTransform>
+    			<CompositeTransform/>
+    		</Canvas.RenderTransform>
+    		<Grid Width="207" Margin="0" CacheMode="BitmapCache" Canvas.Left="94" Canvas.Top="39" HorizontalAlignment="Left" VerticalAlignment="Top" Height="106.39">
+    			<Grid Margin="0,19,0,14" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="207">
+    				<Path x:Name="BottomPath_ColorOverlay" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" Fill="{StaticResource Grey_BottomFill}" CacheMode="BitmapCache"/>
+    				<Path x:Name="BottomPath_Overlay_Shadow" Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,-0.001" Stretch="Fill" UseLayoutRounding="False" CacheMode="BitmapCache">
+    					<Path.Fill>
+    						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.506,-1.63">
+    							<GradientStop Color="#BD000000" Offset="1"/>
+    							<GradientStop Color="Transparent" Offset="0.001"/>
+    							<GradientStop Color="#946A6A6A" Offset="0.777"/>
+    							<GradientStop Color="#9E606060" Offset="0.801"/>
+    						</LinearGradientBrush>
+    					</Path.Fill>
+    				</Path>
+    				<Path x:Name="BottomPath"  Data="M0.33333284,8.8336573 L0.16666664,37.110828 C0.16666664,55.059528 26.019773,59.500004 57.500004,59.500004 C88.980232,59.500004 113.83302,55.622795 113.83302,37.674095 L113.94527,9.0886192" Margin="0,14,0.458,0" Stretch="Fill" UseLayoutRounding="False" Opacity="0.295" StrokeThickness="0.5" Stroke="Black" Fill="{StaticResource GreyConcrete_Fill}" CacheMode="BitmapCache"/>
+    			</Grid>
+    			<Grid Margin="0,11,0,53" CacheMode="BitmapCache">
 
 
-        			<Path x:Name="TopPath" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,-0.101" StrokeThickness="0.25" Stroke="#66000000" Fill="{StaticResource GreyConcrete_Fill}" CacheMode="BitmapCache"/>
-        			<Path x:Name="TopPath_ColorOverlay" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,0" Opacity="0.295" StrokeThickness="0.5" Fill="{StaticResource Grey_TopFill}"  CacheMode="BitmapCache"/>
-        		</Grid>
-        		<Path x:Name="crack1" Data="M0.25,0.25 L5.9168663,9.7495108 L17.58379,10.249835 L30.58359,13.916897 L39.249947,19.916998 L53.554901,26.417343" Height="26.667" Margin="32.583,0,0,14.75" Stretch="Fill" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Stroke="#72000000" HorizontalAlignment="Left" Width="53.805" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
-        			<Path.RenderTransform>
-        				<CompositeTransform TranslateX="0.69538801908493042"/>
-        			</Path.RenderTransform>
-        		</Path>
-        		<Path x:Name="crack2" Data="M158.33333,46.416668 L153.25032,42.083 L153.75032,39.416874 L151.75032,37.249935 L152.33366,34.083359 L147.50032,34.417007 L145.25032,33.500393 L143.75032,33.00042 L144.33365,31.75049 L143.50032,29.583946 L140.25032,29.084318 L139.00032,26.751539 L138.75032,26.251587" HorizontalAlignment="Right" Height="17.917" Margin="0,0,22.501,20.833" Stretch="Fill" Stroke="#72000000" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="15.249" RenderTransformOrigin="-0.279,-1.214"  CacheMode="BitmapCache"/>
-        		<Path x:Name="crack3" Data="M3.5218434,6.7117171 L11.46433,10.807383 L8.1471758,16.095655 L21.146975,19.762716 L36.225918,23.366898 L37.328693,27.096567" Height="19.165" Margin="0,0,67.16,29.338" Stretch="Fill" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Stroke="#72000000" HorizontalAlignment="Right" Width="18.59" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
-        			<Path.RenderTransform>
-        				<CompositeTransform ScaleY="-1" ScaleX="-1" Rotation="180"/>
-        			</Path.RenderTransform>
-        		</Path>
-        		<Path x:Name="crack4" Data="M158.33333,46.416668 L153.25032,42.083 L147.10454,40.627762 L147.43646,38.89109 L145.1129,37.154415 L143.45322,33.681072 L143.75032,33.00042 L144.33365,31.75049 L143.83226,29.583946 L140.25032,29.084318 L139.00032,26.751539 L138.75032,26.251587" HorizontalAlignment="Left" Margin="0.414,44.666,0,20.833" Stretch="Fill" Stroke="#72000000" StrokeThickness="0.5" UseLayoutRounding="False" Width="30.374"  CacheMode="BitmapCache"/>
-        	</Grid>
-        </Canvas>
+    				<Path x:Name="TopPath" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,-0.101" StrokeThickness="0.25" Stroke="#66000000" Fill="{StaticResource GreyConcrete_Fill}" CacheMode="BitmapCache"/>
+    				<Path x:Name="TopPath_ColorOverlay" Data="M114.22995,33.438023 C114.22995,51.387024 88.980225,65.499092 57.499996,65.499092 C26.01977,65.499092 0.75061852,48.630459 0.75061852,30.681456 C0.75061852,12.732438 26.299208,0.25790662 57.779434,0.25790662 C89.259659,0.25790662 114.22995,15.489002 114.22995,33.438023 z" Stretch="Fill" UseLayoutRounding="False" Margin="0,0,0.52,0" Opacity="0.295" StrokeThickness="0.5" Fill="{StaticResource Grey_TopFill}"  CacheMode="BitmapCache"/>
+    			</Grid>
+    			<Path x:Name="crack1" Data="M0.25,0.25 L5.9168663,9.7495108 L17.58379,10.249835 L30.58359,13.916897 L39.249947,19.916998 L53.554901,26.417343" Height="26.667" Margin="32.583,0,0,14.75" Stretch="Fill" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Stroke="#72000000" HorizontalAlignment="Left" Width="53.805" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
+    				<Path.RenderTransform>
+    					<CompositeTransform TranslateX="0.69538801908493042"/>
+    				</Path.RenderTransform>
+    			</Path>
+    			<Path x:Name="crack2" Data="M158.33333,46.416668 L153.25032,42.083 L153.75032,39.416874 L151.75032,37.249935 L152.33366,34.083359 L147.50032,34.417007 L145.25032,33.500393 L143.75032,33.00042 L144.33365,31.75049 L143.50032,29.583946 L140.25032,29.084318 L139.00032,26.751539 L138.75032,26.251587" HorizontalAlignment="Right" Height="17.917" Margin="0,0,22.501,20.833" Stretch="Fill" Stroke="#72000000" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="15.249" RenderTransformOrigin="-0.279,-1.214"  CacheMode="BitmapCache"/>
+    			<Path x:Name="crack3" Data="M3.5218434,6.7117171 L11.46433,10.807383 L8.1471758,16.095655 L21.146975,19.762716 L36.225918,23.366898 L37.328693,27.096567" Height="19.165" Margin="0,0,67.16,29.338" Stretch="Fill" StrokeThickness="0.5" UseLayoutRounding="False" VerticalAlignment="Bottom" Stroke="#72000000" HorizontalAlignment="Right" Width="18.59" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache">
+    				<Path.RenderTransform>
+    					<CompositeTransform ScaleY="-1" ScaleX="-1" Rotation="180"/>
+    				</Path.RenderTransform>
+    			</Path>
+    			<Path x:Name="crack4" Data="M158.33333,46.416668 L153.25032,42.083 L147.10454,40.627762 L147.43646,38.89109 L145.1129,37.154415 L143.45322,33.681072 L143.75032,33.00042 L144.33365,31.75049 L143.83226,29.583946 L140.25032,29.084318 L139.00032,26.751539 L138.75032,26.251587" HorizontalAlignment="Left" Margin="0.414,44.666,0,20.833" Stretch="Fill" Stroke="#72000000" StrokeThickness="0.5" UseLayoutRounding="False" Width="30.374"  CacheMode="BitmapCache"/>
+    		</Grid>
+    	</Canvas>
     </Grid>
 </UserControl>

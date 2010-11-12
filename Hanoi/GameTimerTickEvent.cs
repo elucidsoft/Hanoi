@@ -4,10 +4,10 @@ namespace Hanoi
 {
     public class LevelTimerTickEventArgs : EventArgs
     {
-        public LevelTimerTickEventArgs(int seconds)
+        public LevelTimerTickEventArgs(long seconds)
         {
             Seconds = seconds;
         }
-        public int Seconds { get; private set; }
+        public long Seconds { get; private set; }
     }
 }

@@ -125,6 +125,7 @@ namespace Hanoi
         private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
             GameData.SaveGameData(App.GameData);
+            App.CalculateCanContinue();
         }
     }
 }

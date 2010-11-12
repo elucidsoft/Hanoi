@@ -38,9 +38,9 @@ namespace Hanoi
 
         private const double virtualColumnWidth = 266;
         private const double virtualContainerCount = 3;
-        private const double topStart = 350;
+        private const double topStart = 360;
         private const double topSpacing = 42;
-        private const double leftSpacing = 28;
+        private const double leftSpacing = 45;
         private int level = 1;
         private int moves = 0;
         private int seconds = 0;
@@ -75,8 +75,8 @@ namespace Hanoi
             stacks.Add(DiscStack.Three, new Stack<HanoiDisc>());
 
             stackColumns.Add(DiscStack.One, leftSpacing);
-            stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 4);
-            stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 4);
+            stackColumns.Add(DiscStack.Two, virtualColumnWidth + leftSpacing - 16);
+            stackColumns.Add(DiscStack.Three, (virtualColumnWidth * 2) + leftSpacing - 38);
             BuildHighScores();
 
             TimerCallback tcb = Timer_Tick;
@@ -184,9 +184,8 @@ namespace Hanoi
                 if (hanoiDisc.Size == 0)
                     hanoiDisc.Size = i;
 
-                double scalex = (hanoiDisc.Size * .07);
-                double scaley = (hanoiDisc.Size * .05);
-
+                double scalex = (hanoiDisc.Size * .058);
+                double scaley = (hanoiDisc.Size * .0549);
                 hanoiDisc.RenderTransform = new ScaleTransform() { ScaleX = 1 - scalex, ScaleY = 1 - scaley };
                 hanoiDisc.ScaleX = scalex;
                 hanoiDisc.ScaleY = scaley;
@@ -227,9 +226,14 @@ namespace Hanoi
                 top = (topStart + (topSpacing * disc.ScaleY));
             }
 
-            double left = stackColumns[toStack] + ((double)disc.LayoutRoot.Width * disc.ScaleX) / 2;
-            disc.SetValue(Canvas.TopProperty, top);
-            disc.SetValue(Canvas.LeftProperty, left);
+            App.Current.RootVisual.Dispatcher.BeginInvoke(() =>
+            {
+
+                double left = stackColumns[toStack] + ((double)disc.LayoutRoot.Width * disc.ScaleX) / 2;
+                disc.SetValue(Canvas.TopProperty, top);
+                disc.SetValue(Canvas.LeftProperty, left);
+
+            });
 
             stacks[toStack].Push(disc);
             disc.DiscStack = toStack;
@@ -347,7 +351,7 @@ namespace Hanoi
                     return;
                 }
 
-                if (level == 10)
+                if (level == 12)
                 {
                     level = 0;
                 }
@@ -405,11 +409,26 @@ namespace Hanoi
         {
             if (highScores.Count == 0)
             {
-                for (int i = 1; i <= 10; i++)
+                for (int i = 1; i <= 12; i++)
                 {
                     highScores.Add(new Score(i));
                 }
             }
+        }
+
+        private List<Score> ReturnHighScores(List<Score> scores)
+        {
+            if (scores == null)
+            {
+                return highScores;
+            }
+            else if(scores.Count == 10)
+            {
+                scores.Add(new Score(11));
+                scores.Add(new Score(12));               
+            }
+
+            return scores;
         }
 
         private void SaveHighScores()
@@ -430,12 +449,12 @@ namespace Hanoi
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                //isf.DeleteFile(highScoreFileName);
+                //isf.DeleteFile(HighScoreFileName);
                 if (isf.FileExists(HighScoreFileName))
                 {
                     using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.Open))
                     {
-                        highScores = Serializer.Deserialize<List<Score>>(stream);
+                        highScores = ReturnHighScores(Serializer.Deserialize<List<Score>>(stream));
                     }
                 }
             }
@@ -483,7 +502,6 @@ namespace Hanoi
         {
             get
             {
-                LoadHighScores();
                 return highScores;
             }
         }
@@ -592,13 +610,13 @@ namespace Hanoi
         {
             if (!this.disposed)
             {
-                if(effect != null)
+                if (effect != null)
                     effect.Dispose();
 
-                if(resetDelayTimer != null)
+                if (resetDelayTimer != null)
                     resetDelayTimer.Dispose();
 
-                if(timer != null)
+                if (timer != null)
                     timer.Dispose();
             }
             disposed = true;

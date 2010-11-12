@@ -163,6 +163,48 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Storyboard x:Name="ShowMessageBox">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="MessageBox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="MessageBox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="MessageBox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MessageBox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MessageBox">
+				<DiscreteObjectKeyFrame KeyTime="0">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Visible</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Visible</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Name="HideMessageBox">
+			<DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="MessageBox" d:IsOptimized="True"/>
+			<DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="MessageBox" d:IsOptimized="True"/>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MessageBox">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+					<DiscreteObjectKeyFrame.Value>
+						<Visibility>Collapsed</Visibility>
+					</DiscreteObjectKeyFrame.Value>
+				</DiscreteObjectKeyFrame>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MessageBox" d:IsOptimized="True"/>
+		</Storyboard>
 		
 	</phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.FontFamily>
@@ -188,18 +230,38 @@
 			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#65000000" Height="361">
 				<Grid Height="263">
 					<Button Content="New Game" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="buttonStart" Width="193" Click="buttonStart_Click" FontSize="20" d:LayoutOverrides="HorizontalAlignment" Height="78" VerticalAlignment="Top" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" />
-					<Grid Margin="237,0,58,56">
+					<Grid Margin="218,3,-12,53">
 						<TextBlock Height="36" Margin="10,0,220,0" x:Name="textBlock1" Text="Choose a Level" VerticalAlignment="Top" CacheMode="BitmapCache" FontFamily="Segoe WP Light" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="#DEFFFFFF" />
-						<Button Content="1" Height="85" HorizontalAlignment="Left" Margin="0,40,0,0" x:Name="btnLevel1" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
-						<Button Content="2" Height="85" Margin="89,40,0,0" x:Name="btnLevel2" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
-						<Button Content="3" Height="85" Margin="178,40,178,0" x:Name="btnLevel3" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
-						<Button Content="4" Height="85" HorizontalAlignment="Right" Margin="0,40,89,0" x:Name="btnLevel4" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
-						<Button Content="6" Height="85" HorizontalAlignment="Left" Margin="0,125,0,0" x:Name="btnLevel6" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" Style="{StaticResource ButtonStyle1}" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF"/>
-						<Button Content="7" Height="85" Margin="93,125,0,0" x:Name="btnLevel7" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
-						<Button Content="8" Height="85" Margin="178,125,178,0" x:Name="btnLevel8" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
-						<Button Content="9" Height="85" HorizontalAlignment="Right" Margin="0,125,89,0" x:Name="btnLevel9" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
-						<Button Content="5" Height="85" Margin="0,40,0,0" x:Name="btnLevel5" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Right" Width="89" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
-						<Button Content="10" Height="85" HorizontalAlignment="Right" Margin="0,125,0,0" x:Name="btnLevel10" VerticalAlignment="Top" Width="89" Click="buttonLevel_Click" CacheMode="BitmapCache" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
+						<Button Content="1" Height="80" HorizontalAlignment="Left" Margin="0,40,0,0" x:Name="btnLevel1" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
+						<Button Content="2" Height="80" Margin="84,40,0,0" x:Name="btnLevel2" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="80" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="3" Height="80" Margin="164,40,0,0" x:Name="btnLevel3" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Width="80" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment" />
+						<Button Content="4" Height="80" Margin="248,40,206,0" x:Name="btnLevel4" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Width="80" RenderTransformOrigin="0.238,0.962" />
+						<Button Content="6" Height="80" HorizontalAlignment="Right" Margin="0,38,42,0" x:Name="btnLevel6" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" Style="{StaticResource ButtonStyle1}" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF"/>
+						<Button Content="7" Height="80" Margin="0,119,0,0" x:Name="btnLevel7" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="80" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
+						<Button Content="8" Height="80" Margin="84,119,0,0" x:Name="btnLevel8" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" Width="80" HorizontalAlignment="Left" d:LayoutOverrides="Width" />
+						<Button Content="9" Height="80" HorizontalAlignment="Right" Margin="0,120,290,0" x:Name="btnLevel9" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
+						<Button Content="5" Height="80" Margin="0,38,122,0" x:Name="btnLevel5" VerticalAlignment="Top" Click="buttonLevel_Click" CacheMode="BitmapCache" HorizontalAlignment="Right" Width="80" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
+						<Button Content="10" Height="80" HorizontalAlignment="Right" Margin="0,120,206,0" x:Name="btnLevel10" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" />
+						<Button Height="80" HorizontalAlignment="Right" Margin="0,118,42,0" x:Name="btnLevel12" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" d:LayoutOverrides="HorizontalAlignment" RenderTransformOrigin="0.5,0.5" ToolTipService.ToolTip="12" >
+							<Button.RenderTransform>
+								<CompositeTransform/>
+							</Button.RenderTransform>
+							<Image x:Name="image_Copy" Height="32" Source="/images/icons/lock.png" Stretch="Fill" Width="36" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
+								<Image.RenderTransform>
+									<CompositeTransform/>
+								</Image.RenderTransform>
+							</Image>
+						</Button>
+						<Button Height="80" HorizontalAlignment="Right" Margin="0,118,122,0" x:Name="btnLevel11" VerticalAlignment="Top" Width="80" Click="buttonLevel_Click" CacheMode="BitmapCache" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Style="{StaticResource ButtonStyle1}" RenderTransformOrigin="0.5,0.5" ToolTipService.ToolTip="12" d:LayoutOverrides="HorizontalAlignment" >
+							<Button.RenderTransform>
+								<CompositeTransform/>
+							</Button.RenderTransform>
+							<Image x:Name="image_Copy1" Height="32" Source="/images/icons/lock.png" Stretch="Fill" Width="36" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
+								<Image.RenderTransform>
+									<CompositeTransform/>
+								</Image.RenderTransform>
+							</Image>
+						</Button>
 					</Grid>
 					<Button Content="Continue..." HorizontalAlignment="Left" Margin="1,65,0,123" x:Name="btnContinue" Width="193" FontSize="20" Click="btnContinue_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
 					<Button Content="Settings" Height="78" HorizontalAlignment="Left" Margin="0,0,0,-15" x:Name="btnSettings" VerticalAlignment="Bottom" Width="193" FontSize="20" RenderTransformOrigin="0.503,-0.362" Click="btnSettings_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
@@ -210,22 +272,21 @@
 
 			<!--Panorama item two-->
 			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
-				<Grid>
-					<ListBox x:Name="lbHighScores" Height="201" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" >
-						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
-						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
-						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
-						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40"/>
-						<ListBoxItem Content="Level 1 - 10105 moves in 00:06:40" Margin="0,0,-2,0"/>
-						<ListBoxItem Content="Level 6 - 10105 moves in 00:06:40" Width="360"/>
-						<ListBoxItem Content="Level 7 - 10105 moves in 00:06:40" Width="360"/>
-						<ListBoxItem Content="Level 8 - 10105 moves in 00:06:40" Width="355"/>
-						<ListBoxItem Content="Level 9 - 10105 moves in 00:06:40" Width="360"/>
-						<ListBoxItem Content="Level 10 -  10105 moves in 00:06:40" Width="362"/>
-					</ListBox>
+				<Grid Margin="0,-12,0,12">
+					<ListBox x:Name="lbHighScores" Height="242" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
 				</Grid>
 			</controls:PanoramaItem>
 		</controls:Panorama>
+		<Grid x:Name="MessageBox" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Margin="178,118,157,229" Opacity="0" Visibility="Collapsed">
+			<Grid.RenderTransform>
+				<CompositeTransform/>
+			</Grid.RenderTransform>
+			<Canvas x:Name="blockInteractionCanvas" Background="#C01B1B1B" Margin="-181,-119,-157,-231"/>
+			<Rectangle Stroke="#7EFFFFFF" Fill="#B2000000" StrokeThickness="5"  CacheMode="BitmapCache"/>
+			<Button x:Name="btnMessageBoxOk" Content="Ok" Width="104" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,59,8,0" Click="btnMessageBoxOk_Click"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top"/>
+			<TextBlock x:Name="lblMessageBoxTitle" Margin="21,17,8,74" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="This is a test of this freaking thing!" />
+			<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
+		</Grid>
 		
 	</Grid>
 </phone:PhoneApplicationPage>

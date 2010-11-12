@@ -13,7 +13,7 @@ namespace Hanoi
             Level = level;
         }
 
-        public Score(int level, int moves, int seconds, DateTime date)
+        public Score(int level, int moves, double seconds, DateTime date)
         {
             Level = level;
             Moves = moves;
@@ -28,7 +28,7 @@ namespace Hanoi
         public int Moves { get; set; }
 
         [ProtoMember(3)]
-        public int Seconds { get; set; }
+        public double Seconds { get; set; }
 
         [ProtoMember(4)]
         public DateTime Date { get; set; }

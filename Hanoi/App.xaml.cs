@@ -14,6 +14,7 @@ using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using Microsoft.Phone.Marketplace;
 using System.Windows.Threading;
+using Microsoft.Phone.Info;
 
 namespace Hanoi
 {
@@ -63,11 +64,7 @@ namespace Hanoi
 
         private static void LoadGameData()
         {
-            IsTrial = new LicenseInformation().IsTrial();
-#if DEBUG_TRIAL
-            IsTrial = true;
-#endif
-
+            LoadIsTrial();
             if (GameData == null)
             {
 
@@ -75,7 +72,15 @@ namespace Hanoi
             }
         }
 
-        private static void CalculateCanContinue()
+        private static void LoadIsTrial()
+        {
+            IsTrial = new LicenseInformation().IsTrial();
+#if DEBUG_TRIAL
+            IsTrial = true;
+#endif
+        }
+
+        public static void CalculateCanContinue()
         {
             CanContinue = GameData.SaveGame.StackOneCount > 0 || GameData.SaveGame.StackTwoCount > 0 || GameData.SaveGame.StackThreeCount > 0;
         }
@@ -88,12 +93,26 @@ namespace Hanoi
             CalculateCanContinue();
         }
 
+
+        private void CollectAnalytics()
+        {
+            AnalyticsHelper analyticsHelper = new AnalyticsHelper();
+
+            // Get device id
+            byte[] value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            string id = Convert.ToBase64String(value);
+
+            // Track launch
+            analyticsHelper.Track(IsTrial ? "Launch Trial" : "Launch Paid", id);
+        }
+
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("GameData"))
             {
+                LoadIsTrial();
                 App.GameData = (GameData)PhoneApplicationService.Current.State["GameData"];
                 CalculateCanContinue();
             }

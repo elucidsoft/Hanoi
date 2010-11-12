@@ -72,7 +72,7 @@
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MessageBox">
 				<DiscreteObjectKeyFrame KeyTime="0">
 					<DiscreteObjectKeyFrame.Value>
-						<Visibility>Collapsed</Visibility>
+						<Visibility>Visible</Visibility>
 					</DiscreteObjectKeyFrame.Value>
 				</DiscreteObjectKeyFrame>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.2">
@@ -156,8 +156,8 @@
         	</Grid.RenderTransform>
         	<Rectangle Stroke="#7EFFFFFF" Fill="#B2000000" StrokeThickness="5"  CacheMode="BitmapCache"/>
         	<Button x:Name="btnMessageBoxOk" Content="Ok" Width="104" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,59,8,0" Click="btnMessageBoxOk_Click"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top"/>
-        	<TextBlock x:Name="lblMessageBoxTitle" Margin="21,17,8,74" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="This is a test of this freaking thing!" />
-        	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
+        	<TextBlock x:Name="lblMessageBoxTitle" Margin="21,17,8,74" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="" />
+        	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text=""/>
         </Grid>
 	</Canvas>
 </phone:PhoneApplicationPage>

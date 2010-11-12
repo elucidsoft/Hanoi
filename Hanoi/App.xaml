@@ -3,13 +3,23 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
-
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:local="clr-namespace:Hanoi"
+    xmlns:ga="clr-namespace:Google.WebAnalytics;assembly=Google.WebAnalytics"
+    xmlns:mpc="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:mwa="clr-namespace:Microsoft.WebAnalytics;assembly=Microsoft.WebAnalytics">
+    
     <!--Application Resources-->
     <Application.Resources>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
+        <local:AnalyticsService />
+        <mwa:WebAnalyticsService IsPageTrackingEnabled="False">
+            <mwa:WebAnalyticsService.Services>
+                <ga:GoogleAnalytics WebPropertyId="UA-12654592-3" />
+            </mwa:WebAnalyticsService.Services>
+        </mwa:WebAnalyticsService>
         <!--Required object that handles lifetime events for the application-->
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 

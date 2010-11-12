@@ -57,14 +57,19 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.WebAnalytics, Version=1.4.6.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WebAnalytics, Version=1.4.8.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WebAnalytics.Behaviors, Version=1.4.8.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="protobuf-net">
       <HintPath>Shared\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.Composition.Initialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
     <Reference Include="system" />
@@ -74,6 +79,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalyticsHelper.cs" />
+    <Compile Include="AnalyticsService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -161,6 +168,7 @@
     <Content Include="images\backgrounds\normal\27.jpg" />
     <Content Include="images\backgrounds\normal\28.jpg" />
     <Content Include="images\backgrounds\normal\29.jpg" />
+    <Content Include="images\icons\lock.png" />
     <Content Include="images\main\01.jpg" />
     <Content Include="Properties\AppManifest.xml" />
     <Content Include="patterns\concrete_gold.jpg" />
