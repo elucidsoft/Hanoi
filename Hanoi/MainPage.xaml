@@ -271,7 +271,7 @@
 			</controls:PanoramaItem>
 
 			<!--Panorama item two-->
-			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#BD000000">
+			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
 				<Grid Margin="0,-12,0,12">
 					<ListBox x:Name="lbHighScores" Height="242" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
 				</Grid>
