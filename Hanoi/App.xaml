@@ -14,12 +14,6 @@
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
-        <local:AnalyticsService />
-        <mwa:WebAnalyticsService IsPageTrackingEnabled="False">
-            <mwa:WebAnalyticsService.Services>
-                <ga:GoogleAnalytics WebPropertyId="UA-12654592-3" />
-            </mwa:WebAnalyticsService.Services>
-        </mwa:WebAnalyticsService>
         <!--Required object that handles lifetime events for the application-->
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 

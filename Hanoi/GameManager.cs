@@ -50,6 +50,7 @@ namespace Hanoi
 
         public int winCount = 0;
         private bool isReLoaded = false;
+        private bool isDirty = false;
 
         #region Initialization/Constructor/Begin/Reset
 
@@ -121,6 +122,7 @@ namespace Hanoi
 
         public void Start(bool delayTimer)
         {
+            isDirty = true;
             Reset();
 
             if (isReLoaded)
@@ -418,14 +420,17 @@ namespace Hanoi
 
         private List<Score> ReturnHighScores(List<Score> scores)
         {
-            if (scores == null)
+            if(scores != null && scores.Count == 10)
             {
-                return highScores;
-            }
-            else if(scores.Count == 10)
-            {
+                BuildHighScores();
+
+                for (int i = 0; i <= scores.Count - 1; i++)
+                {
+                    highScores[i] = scores[i];
+                }
+
                 scores.Add(new Score(11));
-                scores.Add(new Score(12));               
+                scores.Add(new Score(12));
             }
 
             return scores;
@@ -455,6 +460,7 @@ namespace Hanoi
                     using (var stream = isf.OpenFile(HighScoreFileName, System.IO.FileMode.Open))
                     {
                         highScores = ReturnHighScores(Serializer.Deserialize<List<Score>>(stream));
+                        //highScores = Serializer.Deserialize<List<Score>>(stream);
                     }
                 }
             }
@@ -512,6 +518,9 @@ namespace Hanoi
 
         internal void SaveState()
         {
+            if (isDirty == false)
+                return;
+
             SaveGame saveGame = App.GameData.SaveGame;
             saveGame.Level = level;
             saveGame.Seconds = seconds;

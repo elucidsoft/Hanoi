@@ -59,6 +59,7 @@ namespace Hanoi
             GameData.LoadGameData();
 
             tglPlaySounds.IsChecked = App.GameData.GameSettings.PlaySounds;
+            sliderVolume.IsEnabled = App.GameData.GameSettings.PlaySounds;
             sliderVolume.Value = App.GameData.GameSettings.SoundVolume;
             tglVibrateOnInvalidMove.IsChecked = App.GameData.GameSettings.VibrateOnInvalidMove;
             tglShowTitleBar.IsChecked = App.GameData.GameSettings.ShowTitleBar;
@@ -124,8 +125,8 @@ namespace Hanoi
 
         private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            GameData.SaveGameData(App.GameData);
-            App.CalculateCanContinue();
+            //GameData.SaveGameData(App.GameData);
+            //App.CalculateCanContinue();
         }
     }
 }

@@ -67,7 +67,6 @@ namespace Hanoi
             LoadIsTrial();
             if (GameData == null)
             {
-
                 GameData = GameData.LoadGameData();
             }
         }
@@ -93,34 +92,21 @@ namespace Hanoi
             CalculateCanContinue();
         }
 
-
-        private void CollectAnalytics()
-        {
-            AnalyticsHelper analyticsHelper = new AnalyticsHelper();
-
-            // Get device id
-            byte[] value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
-            string id = Convert.ToBase64String(value);
-
-            // Track launch
-            analyticsHelper.Track(IsTrial ? "Launch Trial" : "Launch Paid", id);
-        }
-
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey("GameData"))
-            {
+            //if (PhoneApplicationService.Current.State.ContainsKey("GameData"))
+            //{
                 LoadIsTrial();
-                App.GameData = (GameData)PhoneApplicationService.Current.State["GameData"];
-                CalculateCanContinue();
-            }
-            else
-            {
+               // App.GameData = (GameData)PhoneApplicationService.Current.State["GameData"];
+            //    CalculateCanContinue();
+            //}
+            //else
+            //{
                 LoadGameData();
                 CalculateCanContinue();
-            }
+           // }
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -129,7 +115,7 @@ namespace Hanoi
         {
             GameManager.Instance.SaveState();
 
-            PhoneApplicationService.Current.State["GameData"] = App.GameData;
+           // PhoneApplicationService.Current.State["GameData"] = App.GameData;
             GameData.SaveGameData(GameData);
         }
 

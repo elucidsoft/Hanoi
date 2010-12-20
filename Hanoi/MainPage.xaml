@@ -227,7 +227,7 @@
 			</controls:Panorama.Background>
 
 			<!--Panorama item one-->
-			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#65000000" Height="361">
+			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#BF000000" Height="361">
 				<Grid Height="263">
 					<Button Content="New Game" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="buttonStart" Width="193" Click="buttonStart_Click" FontSize="20" d:LayoutOverrides="HorizontalAlignment" Height="78" VerticalAlignment="Top" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" />
 					<Grid Margin="218,3,-12,53">
@@ -271,7 +271,7 @@
 			</controls:PanoramaItem>
 
 			<!--Panorama item two-->
-			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
+			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#BD000000">
 				<Grid Margin="0,-12,0,12">
 					<ListBox x:Name="lbHighScores" Height="242" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
 				</Grid>
