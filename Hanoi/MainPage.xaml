@@ -227,7 +227,7 @@
 			</controls:Panorama.Background>
 
 			<!--Panorama item one-->
-			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#BF000000" Height="361">
+			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game - Lite Edition" Style="{StaticResource PanoramaItemStyle1}" Background="#BF000000" Height="361">
 				<Grid Height="263">
 					<Button Content="New Game" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="buttonStart" Width="193" Click="buttonStart_Click" FontSize="20" d:LayoutOverrides="HorizontalAlignment" Height="78" VerticalAlignment="Top" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" />
 					<Grid Margin="218,3,-12,53">
@@ -265,7 +265,7 @@
 					</Grid>
 					<Button Content="Continue..." HorizontalAlignment="Left" Margin="1,65,0,123" x:Name="btnContinue" Width="193" FontSize="20" Click="btnContinue_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
 					<Button Content="Settings" Height="78" HorizontalAlignment="Left" Margin="0,0,0,-15" x:Name="btnSettings" VerticalAlignment="Bottom" Width="193" FontSize="20" RenderTransformOrigin="0.503,-0.362" Click="btnSettings_Click" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" />
-					<TextBlock x:Name="lblAbout" HorizontalAlignment="Left" Margin="237,0,0,-3" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="445" Height="55" FontFamily="Segoe WP SemiLight" FontSize="18.667" CacheMode="BitmapCache" Foreground="#DEFFFFFF"/>
+					<TextBlock x:Name="lblAbout" HorizontalAlignment="Left" Margin="244,0,0,8" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="445" Height="123" FontFamily="Segoe WP SemiLight" FontSize="21.333" CacheMode="BitmapCache" Foreground="#DEFFFFFF"/>
 					<Button Content="Purchase" HorizontalAlignment="Left" Margin="0,132,0,56" x:Name="btnBuy" Width="193" FontSize="18.667" RenderTransformOrigin="-0.523,0.487" d:LayoutOverrides="HorizontalAlignment" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Visibility="Collapsed" Click="btnBuy_Click" />
 				</Grid>
 			</controls:PanoramaItem>

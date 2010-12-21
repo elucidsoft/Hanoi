@@ -118,15 +118,14 @@ namespace Hanoi
         {
             if (App.IsLiteVersion)
             {
-                btnLevel6.IsEnabled = false;
-                btnLevel7.IsEnabled = false;
-                btnLevel8.IsEnabled = false;
-                btnLevel9.IsEnabled = false;
-                btnLevel10.IsEnabled = false;
-                btnLevel11.IsEnabled = false;
-                btnLevel12.IsEnabled = false;
+                btnLevel7.Visibility = System.Windows.Visibility.Collapsed;
+                btnLevel8.Visibility = System.Windows.Visibility.Collapsed;
+                btnLevel9.Visibility = System.Windows.Visibility.Collapsed;
+                btnLevel10.Visibility = System.Windows.Visibility.Collapsed;
+                btnLevel11.Visibility = System.Windows.Visibility.Collapsed;
+                btnLevel12.Visibility = System.Windows.Visibility.Collapsed;
                 btnBuy.Visibility = Visibility.Visible;
-                lblAbout.Text = "Buy the full game to experience all levels, 30+ high def background, settings, and much more!";
+                lblAbout.Text = "Purchase the full game to experience all 12 levels, 30+ high def background, a wide variety of settings and customization, world wide high scores and much more!";
                 //lblVersion.Text = "Hanoi v1.0 Trial Version";
             }
             else
@@ -155,6 +154,7 @@ namespace Hanoi
         private void btnBuy_Click(object sender, RoutedEventArgs e)
         {
             MarketplaceDetailTask marketplaceDetailTask = new MarketplaceDetailTask();
+            marketplaceDetailTask.ContentIdentifier = "9826e1bb-dce9-df11-9264-00237de2db9e";
             marketplaceDetailTask.Show();
         }
 

@@ -166,7 +166,7 @@ namespace Hanoi
         {
                 if (!isContinue)
                 {
-                    const int max = 29;
+                    const int max = 9;
                     Image img = (bgImage01.Opacity == 1.0) ? bgImage01 : bgImage02;
                     Image img2 = (bgImage01.Opacity == 1.0) ? bgImage02 : bgImage01;
                     Random rnd = new Random();

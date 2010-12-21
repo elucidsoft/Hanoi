@@ -143,12 +143,12 @@
 					<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
 				</TextBlock.Foreground>
 			</TextBlock>
-			<TextBlock HorizontalAlignment="Right" Height="21" TextWrapping="Wrap" Text="Hanoi v1.5 created by Elucidsoft LLC." VerticalAlignment="Top" Width="215" FontSize="13.333" TextAlignment="Right" Margin="0,8,36,0" CacheMode="BitmapCache">
+			<TextBlock HorizontalAlignment="Right" Height="21" TextWrapping="Wrap" Text="Hanoi Lite v1.5 created by Elucidsoft LLC." VerticalAlignment="Top" Width="215" FontSize="13.333" TextAlignment="Right" Margin="0,8,36,0" CacheMode="BitmapCache">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="{StaticResource PhoneSubtleColor}"/>
 				</TextBlock.Foreground>
 			</TextBlock>
-			<TextBlock x:Name="lblTrialModeWarning" Height="36" Margin="18,233,8,0" TextWrapping="Wrap" Text="Trial mode has a limited number of settings options available." VerticalAlignment="Top" Visibility="Collapsed">
+			<TextBlock x:Name="lblTrialModeWarning" Height="36" Margin="18,233,8,0" TextWrapping="Wrap" Text="Lite version has a limited number of settings options available." VerticalAlignment="Top" Visibility="Collapsed">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
 				</TextBlock.Foreground>

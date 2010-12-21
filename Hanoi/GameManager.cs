@@ -344,7 +344,7 @@ namespace Hanoi
                     SaveHighScores();
                 }
 
-                if (App.IsLiteVersion && level == 5)
+                if (App.IsLiteVersion && level == 6)
                 {
                     if (LightVersionCompleted != null)
                         LightVersionCompleted(this, new EventArgs());
