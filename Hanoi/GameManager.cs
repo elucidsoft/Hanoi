@@ -26,7 +26,7 @@ namespace Hanoi
         public event EventHandler<MoveCompletedEventArgs> MoveCompleted;
         public event EventHandler<LevelTimerTickEventArgs> LevelTimerTick;
         public event EventHandler<HighScoreEventArgs> HighScore;
-        public event EventHandler<EventArgs> TrialModeCompleted;
+        public event EventHandler<EventArgs> LightVersionCompleted;
 
         Dictionary<DiscStack, Stack<HanoiDisc>> stacks = new Dictionary<DiscStack, Stack<HanoiDisc>>();
         Dictionary<double, double> stackRows = new Dictionary<double, double>();
@@ -344,10 +344,10 @@ namespace Hanoi
                     SaveHighScores();
                 }
 
-                if (App.IsTrial && level == 5)
+                if (App.IsLiteVersion && level == 5)
                 {
-                    if (TrialModeCompleted != null)
-                        TrialModeCompleted(this, new EventArgs());
+                    if (LightVersionCompleted != null)
+                        LightVersionCompleted(this, new EventArgs());
 
                     Reset();
                     return;

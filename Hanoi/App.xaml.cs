@@ -25,7 +25,7 @@ namespace Hanoi
 
         public static GameData GameData;
 
-        public static bool IsTrial = true;
+        public static readonly bool IsLiteVersion = true;
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -64,20 +64,20 @@ namespace Hanoi
 
         private static void LoadGameData()
         {
-            LoadIsTrial();
+            //LoadIsTrial();
             if (GameData == null)
             {
                 GameData = GameData.LoadGameData();
             }
         }
 
-        private static void LoadIsTrial()
-        {
-            IsTrial = new LicenseInformation().IsTrial();
-#if DEBUG_TRIAL
-            IsTrial = true;
-#endif
-        }
+//        private static void LoadIsTrial()
+//        {
+//            IsLiteVersion = new LicenseInformation().IsTrial();
+//#if DEBUG_TRIAL
+//            IsTrial = true;
+//#endif
+//        }
 
         public static void CalculateCanContinue()
         {
@@ -98,7 +98,7 @@ namespace Hanoi
         {
             //if (PhoneApplicationService.Current.State.ContainsKey("GameData"))
             //{
-                LoadIsTrial();
+                //LoadIsTrial();
                // App.GameData = (GameData)PhoneApplicationService.Current.State["GameData"];
             //    CalculateCanContinue();
             //}

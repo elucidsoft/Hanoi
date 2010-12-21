@@ -116,7 +116,7 @@ namespace Hanoi
 
         private void SetupTrial()
         {
-            if (App.IsTrial)
+            if (App.IsLiteVersion)
             {
                 btnLevel6.IsEnabled = false;
                 btnLevel7.IsEnabled = false;

@@ -67,7 +67,7 @@ namespace Hanoi
             tglShowLevel.IsChecked = App.GameData.GameSettings.ShowLevel;
             tglShowTimer.IsChecked = App.GameData.GameSettings.ShowTimer;
 
-            if (App.IsTrial)
+            if (App.IsLiteVersion)
             {
                 lblTrialModeWarning.Visibility = Visibility.Visible;
 

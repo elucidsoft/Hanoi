@@ -28,7 +28,7 @@ namespace Hanoi
             GameManager.Instance.MoveCompleted += new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
             GameManager.Instance.LevelTimerTick += new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
             GameManager.Instance.HighScore += new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
-            GameManager.Instance.TrialModeCompleted += new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
+            GameManager.Instance.LightVersionCompleted += new System.EventHandler<System.EventArgs>(Instance_LightVersionCompleted);
             LevelTransition_Start.Completed += new System.EventHandler(LevelTransition_Start_Completed);
             LevelTransition_End.Completed += new EventHandler(LevelTransition_End_Completed);
             ShowMessageBox.Completed += new System.EventHandler(ShowMessageBox_Completed);
@@ -67,7 +67,7 @@ namespace Hanoi
             GameManager.Instance.MoveCompleted -= new System.EventHandler<MoveCompletedEventArgs>(Instance_MoveCompleted);
             GameManager.Instance.LevelTimerTick -= new System.EventHandler<LevelTimerTickEventArgs>(Instance_LevelTimerTick);
             GameManager.Instance.HighScore -= new System.EventHandler<HighScoreEventArgs>(Instance_HighScore);
-            GameManager.Instance.TrialModeCompleted -= new System.EventHandler<System.EventArgs>(Instance_TrialModeCompleted);
+            GameManager.Instance.LightVersionCompleted -= new System.EventHandler<System.EventArgs>(Instance_LightVersionCompleted);
             LevelTransition_Start.Completed -= new System.EventHandler(LevelTransition_Start_Completed);
             LevelTransition_End.Completed -= new EventHandler(LevelTransition_End_Completed);
             ShowMessageBox.Completed -= new System.EventHandler(ShowMessageBox_Completed);
@@ -130,11 +130,11 @@ namespace Hanoi
            });
         }
 
-        void Instance_TrialModeCompleted(object sender, System.EventArgs e)
+        void Instance_LightVersionCompleted(object sender, System.EventArgs e)
         {
             messageBoxWait.Reset();
-            lblMessageBoxTitle.Text = "Trial Game Complete!";
-            lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace.";
+            lblMessageBoxTitle.Text = "Light Version Completed!";
+            lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace or click purchase!";
             ShowMessageBox.Begin();
             messageBoxAction = () =>
             {
