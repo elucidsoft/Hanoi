@@ -353,7 +353,7 @@ namespace Hanoi
                     return;
                 }
 
-                if (level == 12)
+                if (level == 7)
                 {
                     level = 0;
                 }

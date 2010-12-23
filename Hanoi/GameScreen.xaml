@@ -150,14 +150,15 @@
             </Grid>
 		</Canvas>
         <Canvas x:Name="blockInteractionCanvas" Height="480" Width="800" Background="#00000000" Visibility="Collapsed"/>
-        <Grid x:Name="MessageBox" Height="133" Canvas.Left="178" Canvas.Top="118" Width="465" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Visibility="Collapsed">
+        <Grid x:Name="MessageBox" Height="168" Canvas.Left="178" Canvas.Top="118" Width="465" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Visibility="Collapsed">
         	<Grid.RenderTransform>
         		<CompositeTransform/>
         	</Grid.RenderTransform>
-        	<Rectangle Stroke="#7EFFFFFF" Fill="#B2000000" StrokeThickness="5"  CacheMode="BitmapCache"/>
-        	<Button x:Name="btnMessageBoxOk" Content="Ok" Width="104" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,59,8,0" Click="btnMessageBoxOk_Click"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top"/>
-        	<TextBlock x:Name="lblMessageBoxTitle" Margin="21,17,8,74" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="" />
-        	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text=""/>
+        	<Rectangle Stroke="#7EFFFFFF" Fill="#B2000000" StrokeThickness="5"  CacheMode="BitmapCache" Margin="0"/>
+        	<Button x:Name="btnMessageBoxOk" Content="Ok" Width="104" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" HorizontalAlignment="Right" Margin="0,99,8,0" Click="btnMessageBoxOk_Click"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top"/>
+        	<TextBlock x:Name="lblMessageBoxTitle" Margin="21,8,21,0" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="" Height="39" VerticalAlignment="Top" />
+        	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="43,51,0,60" TextWrapping="Wrap" Width="401" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="" d:LayoutOverrides="VerticalAlignment"/>
+        	<Button x:Name="btnMessageBoxPurchase" Content="Purchase" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" Margin="0,99,101,0"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top" HorizontalAlignment="Right" Width="129" Click="btnMessageBoxPurchase_Click"/>
         </Grid>
 	</Canvas>
 </phone:PhoneApplicationPage>

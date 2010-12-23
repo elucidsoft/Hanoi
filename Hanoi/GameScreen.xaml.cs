@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 
 namespace Hanoi
 {
@@ -221,6 +222,22 @@ namespace Hanoi
         {
             blockInteractionCanvas.Visibility = Visibility.Visible;
             messageBoxWait.Reset();
+        }
+
+        private void btnMessageBoxPurchase_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            HideMessageBox.Begin();
+            blockInteractionCanvas.Visibility = Visibility.Collapsed;
+
+            NavigationService.Navigated += new System.Windows.Navigation.NavigatedEventHandler(NavigationService_Navigated);
+        }
+
+        void NavigationService_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            NavigationService.Navigated -= new System.Windows.Navigation.NavigatedEventHandler(NavigationService_Navigated);
+            MarketplaceDetailTask marketplaceDetailTask = new MarketplaceDetailTask();
+            marketplaceDetailTask.ContentIdentifier = "9826e1bb-dce9-df11-9264-00237de2db9e";
+            marketplaceDetailTask.Show();
         }
 
         #endregion
