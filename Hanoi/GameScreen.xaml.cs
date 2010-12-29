@@ -134,6 +134,7 @@ namespace Hanoi
         void Instance_LightVersionCompleted(object sender, System.EventArgs e)
         {
             messageBoxWait.Reset();
+            btnMessageBoxPurchase.Visibility = Visibility.Visible;
             lblMessageBoxTitle.Text = "Light Version Completed!";
             lblMessageBoxText.Text = "For more details on upgrading to the full version visit the marketplace or click purchase!";
             ShowMessageBox.Begin();
@@ -148,6 +149,7 @@ namespace Hanoi
 
         void Instance_HighScore(object sender, HighScoreEventArgs he)
         {
+            btnMessageBoxPurchase.Visibility = Visibility.Collapsed;
             lblMessageBoxTitle.Text = "You achieved a new high score!";
             lblMessageBoxText.Text = String.Format("{0} Moves in {1}", he.Score.Moves, TimeSpan.FromSeconds(he.Score.Seconds).ToString());
             ShowMessageBox.Begin();

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.0">
-    <App xmlns="" ProductID="{ADE5B942-8BE8-490B-8529-9EC464B12A8F}" Title="Hanoi Lite" RuntimeType="Silverlight" Version="1.5.0.0" Genre="apps.games" Author="Elucidsoft" Description="" Publisher="Elucidsoft">
+    <App xmlns="" ProductID="{ADE5B942-8BE8-490B-8529-9EC464B12A8F}" Title="Hanoi Lite" RuntimeType="Silverlight" Version="1.6.0.0" Genre="apps.games" Author="Elucidsoft" Description="" Publisher="Elucidsoft">
         <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
         <Capabilities>
             <Capability Name="ID_CAP_NETWORKING" />
