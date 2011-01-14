@@ -344,7 +344,7 @@ namespace Hanoi
                     SaveHighScores();
                 }
 
-                if (App.IsTrial && level == 5)
+                if (App.IsTrial && level == 6)
                 {
                     if (TrialModeCompleted != null)
                         TrialModeCompleted(this, new EventArgs());

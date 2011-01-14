@@ -43,7 +43,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="controls:PanoramaItem">
-						<Grid Background="{TemplateBinding Background}" Margin="12,0,0,0">
+						<Grid Margin="12,0,0,0" Background="#BF000000">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="auto" MinHeight="103"/>
 								<RowDefinition/>
@@ -227,7 +227,7 @@
 			</controls:Panorama.Background>
 
 			<!--Panorama item one-->
-			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Background="#BF000000" Height="361">
+			<controls:PanoramaItem x:Name="mainPanoramaItem" Header="Game" Style="{StaticResource PanoramaItemStyle1}" Height="369">
 				<Grid Height="263">
 					<Button Content="New Game" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="buttonStart" Width="193" Click="buttonStart_Click" FontSize="20" d:LayoutOverrides="HorizontalAlignment" Height="78" VerticalAlignment="Top" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" />
 					<Grid Margin="218,3,-12,53">
@@ -271,9 +271,22 @@
 			</controls:PanoramaItem>
 
 			<!--Panorama item two-->
-			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#BD000000">
+			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}">
 				<Grid Margin="0,-12,0,12">
 					<ListBox x:Name="lbHighScores" Height="242" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
+				</Grid>
+			</controls:PanoramaItem>
+			<controls:PanoramaItem x:Name="aboutPanoramaItem" Header="About" Style="{StaticResource PanoramaItemStyle1}">
+				<Grid>
+					<TextBlock Height="76" Margin="24,40,18,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#BFFFFFFF" FontSize="18.667" CacheMode="BitmapCache"><Run Text="Move the tower of discs that start on the left, to the last tower of discs on the right. The rules are simple: only smaller discs can go on top of larger ones, only one disc can be moved at a time, and each move must be taken fom the top."/><LineBreak/><Run/></TextBlock>
+					<TextBlock HorizontalAlignment="Left" Height="40" Margin="24,0,0,0" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" Width="143" FontFamily="Segoe WP Semibold" Foreground="#BFFFFFFF" FontSize="26.667" CacheMode="BitmapCache"/>
+					<TextBlock HorizontalAlignment="Left" Margin="24,124,0,127" TextWrapping="Wrap" Text="Elucidsoft" Width="293" Foreground="#BEFFFFFF" FontFamily="Segoe WP Semibold" FontSize="26.667"/>
+					<HyperlinkButton x:Name="lnkSupportSite" Content="Support Forums" Margin="234,0,0,17" VerticalAlignment="Bottom" FontSize="21.333" Foreground="#BEFFFFFF" CacheMode="BitmapCache" Click="lnkSupportSite_Click" HorizontalAlignment="Left" Width="175"/>
+					<HyperlinkButton x:Name="lnkSupportEmail" Content="support@elucidsoft.com" HorizontalAlignment="Left" Margin="34,0,0,59" VerticalAlignment="Bottom" FontSize="21.333" Foreground="#BEFFFFFF" CacheMode="BitmapCache" Width="257" Click="lnkSupportEmail_Click"/>
+					<TextBlock Height="26" Margin="24,0,116,97" TextWrapping="Wrap" Text="If you are having a problem or a concern please contact support." VerticalAlignment="Bottom" FontSize="18.667" Foreground="#BEFFFFFF" CacheMode="BitmapCache"/>
+					<Button x:Name="otherGames" Content="Other Games" HorizontalAlignment="Right" Margin="0,0,18,-3" VerticalAlignment="Bottom" Width="203" Height="71" Style="{StaticResource ButtonStyle1}" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF" FontSize="20" Click="otherGames_Click"/>
+					<HyperlinkButton x:Name="lnkSite" Content="Elucidsoft Home" Margin="34,0,0,17" VerticalAlignment="Bottom" FontSize="21.333" Foreground="#BEFFFFFF" CacheMode="BitmapCache" HorizontalAlignment="Left" Width="177" d:LayoutOverrides="HorizontalAlignment" Click="lnkSite_Click"/>
+					<TextBlock Height="33" Margin="215,0,0,13" TextWrapping="Wrap" Text="/" VerticalAlignment="Bottom" FontSize="21.333" Foreground="#BEFFFFFF" HorizontalAlignment="Left" Width="20"/>
 				</Grid>
 			</controls:PanoramaItem>
 		</controls:Panorama>
@@ -287,6 +300,7 @@
 			<TextBlock x:Name="lblMessageBoxTitle" Margin="21,17,8,74" TextWrapping="Wrap" FontFamily="Segoe WP Semibold" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="26.667" CacheMode="BitmapCache" Text="This is a test of this freaking thing!" />
 			<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
 		</Grid>
+		<TextBlock HorizontalAlignment="Left" Height="5" Margin="-123,-10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="3"/>
 		
 	</Grid>
 </phone:PhoneApplicationPage>

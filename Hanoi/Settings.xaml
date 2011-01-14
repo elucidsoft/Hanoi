@@ -143,7 +143,7 @@
 					<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
 				</TextBlock.Foreground>
 			</TextBlock>
-			<TextBlock HorizontalAlignment="Right" Height="21" TextWrapping="Wrap" Text="Hanoi v1.5 created by Elucidsoft LLC." VerticalAlignment="Top" Width="215" FontSize="13.333" TextAlignment="Right" Margin="0,8,36,0" CacheMode="BitmapCache">
+			<TextBlock HorizontalAlignment="Right" Height="21" TextWrapping="Wrap" Text="Hanoi v1.6 created by Elucidsoft LLC." VerticalAlignment="Top" Width="215" FontSize="13.333" TextAlignment="Right" Margin="0,8,36,0" CacheMode="BitmapCache">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="{StaticResource PhoneSubtleColor}"/>
 				</TextBlock.Foreground>

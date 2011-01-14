@@ -118,7 +118,6 @@ namespace Hanoi
         {
             if (App.IsTrial)
             {
-                btnLevel6.IsEnabled = false;
                 btnLevel7.IsEnabled = false;
                 btnLevel8.IsEnabled = false;
                 btnLevel9.IsEnabled = false;
@@ -132,7 +131,7 @@ namespace Hanoi
             else
             {
                 lblAbout.Text = "Thank you for supporting our great games, have fun!";
-                
+
                 //lblVersion.Text = "Hanoi v1.0 Full Version";
             }
         }
@@ -161,6 +160,64 @@ namespace Hanoi
         private void btnMessageBoxOk_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             HideMessageBox.Begin();
+        }
+
+        private void lnkSupportEmail_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                EmailComposeTask emailTask = new EmailComposeTask();
+                emailTask.To = "support@elucidsoft.com";
+                emailTask.Subject = "Hanoi Support";
+                emailTask.Show();
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Could not open the email application on the phone...");
+            }
+        }
+
+        private void lnkSupportSite_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserTask task = new WebBrowserTask();
+                task.URL = "http://getsatisfaction.com/elucidsoft";
+                task.Show();
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Could not open the browser application on the phone...");
+            }
+        }
+
+        private void lnkSite_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserTask task = new WebBrowserTask();
+                task.URL = "http://www.elucidsoft.com/";
+                task.Show();
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Could not open the browser application on the phone...");
+            }
+        }
+
+        private void otherGames_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                MarketplaceSearchTask task = new MarketplaceSearchTask();
+                task.ContentType = MarketplaceContentType.Applications;
+                task.SearchTerms = "Elucidsoft LLC";
+                task.Show();
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Could not open the marketplace on the phone...");
+            }
         }
     }
 
