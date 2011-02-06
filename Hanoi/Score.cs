@@ -1,6 +1,6 @@
 ﻿using System;
 using ProtoBuf;
-
+using System.Security.Cryptography;
 namespace Hanoi
 {
     [ProtoContract]
@@ -35,6 +35,7 @@ namespace Hanoi
 
         public override string ToString()
         {             
+            
             string display = String.Format("Level {0} - Not Played", Level);
             if (Moves > 0 && Seconds > 0)
             {

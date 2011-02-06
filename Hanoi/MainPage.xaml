@@ -59,54 +59,35 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="Padding" Value="0"/>
-			<Setter Property="HorizontalContentAlignment" Value="Left"/>
-			<Setter Property="VerticalContentAlignment" Value="Top"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ListBoxItem">
-						<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualState x:Name="Normal"/>
-									<VisualState x:Name="MouseOver"/>
-									<VisualState x:Name="Disabled">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
-										</Storyboard>
-									</VisualState>
-								</VisualStateGroup>
-								<VisualStateGroup x:Name="SelectionStates">
-									<VisualState x:Name="Unselected"/>
-									<VisualState x:Name="Selected"/>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-							<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="21.333" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Margin="5" Foreground="#DEFFFFFF"/>
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
 		<Style x:Key="WrapPanelStyle1" TargetType="toolkit:WrapPanel"/>
 		<Style x:Key="ListBoxStyle1" TargetType="ListBox">
 			<Setter Property="ItemsPanel">
 				<Setter.Value>
 					<ItemsPanelTemplate>
-						<toolkit:WrapPanel Orientation="Vertical" ItemHeight="40" ItemWidth="362" Style="{StaticResource WrapPanelStyle1}"  />
+						<toolkit:WrapPanel Orientation="Vertical" ItemHeight="40" ItemWidth="362" Style="{StaticResource WrapPanelStyle1}" Margin="0,0,0,-7"  />
 					</ItemsPanelTemplate>
 				</Setter.Value>
 			</Setter>
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="ListBox">
-						<ItemsPresenter />
+						<ItemsPresenter Margin="0" />
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ListBoxStyle2" TargetType="ListBox">
+			<Setter Property="ItemsPanel">
+				<Setter.Value>
+					<ItemsPanelTemplate>
+						<toolkit:WrapPanel Orientation="Vertical" ItemHeight="40" ItemWidth="362" Style="{StaticResource WrapPanelStyle1}" Margin="0,0,0,-7"  />
+					</ItemsPanelTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ListBox">
+						<ItemsPresenter Margin="0" />
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
@@ -205,8 +186,99 @@
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MessageBox" d:IsOptimized="True"/>
 		</Storyboard>
-		
-	</phone:PhoneApplicationPage.Resources>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+			<toolkit:WrapPanel Orientation="Vertical" ItemHeight="40" ItemWidth="362" Style="{StaticResource WrapPanelStyle1}" Margin="0,0,0,85"  />
+		</ItemsPanelTemplate>
+        <Style x:Key="ContentControlStyle2" TargetType="ContentControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="344" Height="36">
+                            <Grid>
+                                <TextBlock TextWrapping="Wrap" Margin="-2,5,323,5" DataContext="{TemplateBinding DataContext}" FontSize="18.667" Text="{Binding Rank}"/>
+                            	<TextBlock TextWrapping="Wrap" Margin="25,0,0,0" DataContext="{TemplateBinding DataContext}" VerticalAlignment="Center" Height="26" FontSize="18.667" Text="{Binding UserName}" FontFamily="Segoe WP" HorizontalAlignment="Left" Width="148"/>
+                            	<TextBlock TextWrapping="Wrap" Margin="178,0,139,0" DataContext="{TemplateBinding DataContext}" VerticalAlignment="Center" Height="26" FontSize="18.667" Text="{Binding Level}"/>
+                            	<TextBlock TextWrapping="Wrap" Margin="0,0,88,0" HorizontalAlignment="Right" Width="46" DataContext="{TemplateBinding DataContext}" VerticalAlignment="Center" Height="26" FontSize="18.667" d:LayoutOverrides="HorizontalAlignment" Text="{Binding Moves}"/>
+                            	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Width="76" TextAlignment="Right" Margin="0,0,4,0" DataContext="{TemplateBinding DataContext}" VerticalAlignment="Center" Height="26" FontSize="18.667" Text="{Binding Time}"/>
+                            </Grid>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" DataContext="{Binding Source={StaticResource ScoreDataSource}}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="ContentContainer" DataContext="{TemplateBinding DataContext}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Style="{StaticResource ContentControlStyle2}" Foreground="#DEFFFFFF" Width="344" Margin="-16,0,0,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+		  <Style x:Key="ListBoxItemStyle2" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="ContentContainer" DataContext="{TemplateBinding DataContext}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="#DEFFFFFF" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
 	</phone:PhoneApplicationPage.FontFamily>
@@ -221,7 +293,7 @@
 	
 	<Grid x:Name="LayoutRoot">
 		
-		<controls:Panorama Title="Towers of Hanoi" Style="{StaticResource PanoramaStyle1}" x:Name="panorama">
+		<controls:Panorama Title="Towers of Hanoi" Style="{StaticResource PanoramaStyle1}" x:Name="panorama" SelectionChanged="panorama_SelectionChanged">
 			<controls:Panorama.Background>
 				<ImageBrush Stretch="None" ImageSource="/images/main/01.jpg"/>
 			</controls:Panorama.Background>
@@ -271,9 +343,49 @@
 			</controls:PanoramaItem>
 
 			<!--Panorama item two-->
-			<controls:PanoramaItem Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
+			<controls:PanoramaItem x:Name="highScoresPanoramaItem" Header="High Scores" Style="{StaticResource PanoramaItemStyle1}" Background="#66000000">
 				<Grid Margin="0,-12,0,12">
-					<ListBox x:Name="lbHighScores" Height="242" VerticalAlignment="Top" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
+					<ListBox x:Name="lbHighScores" Height="242" Style="{StaticResource ListBoxStyle2}" VerticalAlignment="Top" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle2}" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="24,24,24,0" />
+				</Grid>
+			</controls:PanoramaItem>
+			<controls:PanoramaItem x:Name="leaderboardsPanoramaItem" Style="{StaticResource PanoramaItemStyle1}" Header="Leader Boards">
+				<Grid Margin="0,-1.5,0,-6.5" Width="740" RenderTransformOrigin="0.5,0.51" UseLayoutRounding="False" d:LayoutRounding="Auto">
+					<Grid.RenderTransform>
+						<CompositeTransform SkewX="0.39" TranslateX="1.013"/>
+					</Grid.RenderTransform>
+					<Grid x:Name="grdProgress" Margin="16,109,14,110" Visibility="Collapsed">
+						<ProgressBar Foreground="#DEFFFFFF" IsIndeterminate="True" Margin="0,0,0,17" Height="14" VerticalAlignment="Bottom"/>
+						<TextBlock Margin="320.578,18,320.578,32.5" TextWrapping="Wrap" Text="loading..." Foreground="#BEFFFFFF" FontSize="16"/>
+					</Grid>
+					<ScrollViewer Height="218" Margin="16,51,8,0" VerticalAlignment="Top">
+						<ListBox x:Name="lbLeaderBoards" Style="{StaticResource ListBoxStyle1}" IsEnabled="True" SelectionChanged="lbHighScores_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" FontSize="{StaticResource PhoneFontSizeNormal}" ItemsPanel="{StaticResource ItemsPanelTemplate1}" Height="507" Width="706" LayoutUpdated="lbLeaderBoards_LayoutUpdated" VerticalAlignment="Top" Margin="0,0,0,-120" />
+					</ScrollViewer>
+					<Grid HorizontalAlignment="Left" Height="25" Margin="14,22,0,0" VerticalAlignment="Top" Width="350">
+						<Rectangle Fill="#3FFFFFFF" Margin="0,0,0,-5"/>
+						<TextBlock HorizontalAlignment="Left" Margin="30,1,0,0" TextWrapping="Wrap" Text="User Name" Width="99.007" FontSize="18.667" Foreground="#BEFFFFFF"/>
+						<TextBlock Margin="0,1,137.014,0" TextWrapping="Wrap" Text="Lvl" FontSize="18.667" Foreground="#BEFFFFFF" HorizontalAlignment="Right" Width="24.986"/>
+						<TextBlock HorizontalAlignment="Right" Margin="0,1.052,62.998,-0.052" TextWrapping="Wrap" Text="Moves" Width="67.002" FontSize="18.667" Foreground="#BEFFFFFF" RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<CompositeTransform Rotation="0.431"/>
+							</TextBlock.RenderTransform>
+						</TextBlock>
+						<TextBlock HorizontalAlignment="Right" Margin="0,1,7,0" TextWrapping="Wrap" Text="Time" Width="41" FontSize="18.667" Foreground="#BEFFFFFF"/>
+						<TextBlock Margin="6,1,0,0" TextWrapping="Wrap" Text="#" FontSize="18.667" Foreground="#BEFFFFFF" HorizontalAlignment="Left" Width="14.986" RenderTransformOrigin="-6.333,0.562"/>
+					</Grid>
+					<Grid HorizontalAlignment="Right" Height="25" Margin="0,22,14,0" VerticalAlignment="Top" Width="348"/>
+					<TextBlock Height="26" Margin="16,-6,14,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" Foreground="#DEFFFFFF" FontFamily="Segoe WP SemiLight" CacheMode="BitmapCache"><Run Text="Top 20 ranked by level, number of moves, and amount of time."/><LineBreak/><Run Text="."/></TextBlock>
+					<Grid HorizontalAlignment="Right" Height="25" Margin="0,22,14,0" VerticalAlignment="Top" Width="350">
+						<Rectangle Fill="#3FFFFFFF" Margin="0,0,0,-5"/>
+						<TextBlock HorizontalAlignment="Left" Margin="30,1,0,0" TextWrapping="Wrap" Text="User Name" Width="99.007" FontSize="18.667" Foreground="#BEFFFFFF"/>
+						<TextBlock Margin="0,1,137.014,0" TextWrapping="Wrap" Text="Lvl" FontSize="18.667" Foreground="#BEFFFFFF" HorizontalAlignment="Right" Width="24.986"/>
+						<TextBlock HorizontalAlignment="Right" Margin="0,1.052,62.998,-0.052" TextWrapping="Wrap" Text="Moves" Width="67.002" FontSize="18.667" Foreground="#BEFFFFFF" RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<CompositeTransform Rotation="0.431"/>
+							</TextBlock.RenderTransform>
+						</TextBlock>
+						<TextBlock HorizontalAlignment="Right" Margin="0,1,7,0" TextWrapping="Wrap" Text="Time" Width="41" FontSize="18.667" Foreground="#BEFFFFFF"/>
+						<TextBlock Margin="6,1,0,0" TextWrapping="Wrap" Text="#" FontSize="18.667" Foreground="#BEFFFFFF" HorizontalAlignment="Left" Width="14.986" RenderTransformOrigin="-6.333,0.562"/>
+					</Grid>
 				</Grid>
 			</controls:PanoramaItem>
 			<controls:PanoramaItem x:Name="aboutPanoramaItem" Header="About" Style="{StaticResource PanoramaItemStyle1}">

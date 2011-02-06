@@ -94,7 +94,8 @@
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MessageBox" d:IsOptimized="True"/>
 		</Storyboard>
-	</phone:PhoneApplicationPage.Resources>
+
+    </phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.Projection>
 		<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 	</phone:PhoneApplicationPage.Projection>

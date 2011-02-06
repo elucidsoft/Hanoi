@@ -12,12 +12,15 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Phone.Tasks;
+using System.Windows.Threading;
 
 namespace Hanoi
 {
     public partial class MainPage : PhoneApplicationPage
     {
         bool isNew = true;
+        LeaderBoardManager leaderBoardManager = new LeaderBoardManager();
+
         public MainPage()
         {
             InitializeComponent();
@@ -28,7 +31,29 @@ namespace Hanoi
 
             SetupTrial();
             LoadHighScores();
+
+            LoadLeaderBoards();
             EnableLockedLevels();
+        }
+
+        void leaderBoardManager_GetScoreCompleted(object sender, GetScoreCompletedEventArgs e)
+        {
+            grdProgress.Visibility = Visibility.Collapsed;
+            for (int i = 0; i < e.Scores.Length; i++)
+            {
+                e.Scores[i].Rank = i.ToString();
+                ListBoxItem lbi = new ListBoxItem();
+                lbi.Style = (Style)Resources["ListBoxItemStyle1"];
+                lbi.DataContext = e.Scores[i];
+                lbi.ApplyTemplate();
+                lbLeaderBoards.Items.Add(lbi);
+            }
+        }
+
+        private void LoadLeaderBoards()
+        {
+            leaderBoardManager.GetScoreCompleted += new EventHandler<GetScoreCompletedEventArgs>(leaderBoardManager_GetScoreCompleted);
+            leaderBoardManager.GetScoreBegin();
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
@@ -217,6 +242,31 @@ namespace Hanoi
             catch
             {
                 System.Windows.MessageBox.Show("Could not open the marketplace on the phone...");
+            }
+        }
+
+        private void lbLeaderBoards_LayoutUpdated(object sender, System.EventArgs e)
+        {
+        }
+
+        private void panorama_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (panorama.SelectedItem == leaderboardsPanoramaItem)
+            {
+                if (leaderBoardManager.IsLoading)
+                {
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Interval = TimeSpan.FromMilliseconds(250);
+                    timer.Start();
+                    timer.Tick += ((object s, EventArgs evt) => {
+                        grdProgress.Visibility = Visibility.Visible;
+                        timer.Stop();
+                    });
+                }
+                else
+                {
+                    grdProgress.Visibility = Visibility.Collapsed;
+                }
             }
         }
     }
