@@ -5,9 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:local="clr-namespace:Hanoi"
-    xmlns:ga="clr-namespace:Google.WebAnalytics;assembly=Google.WebAnalytics"
-    xmlns:mpc="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:mwa="clr-namespace:Microsoft.WebAnalytics;assembly=Microsoft.WebAnalytics">
+    xmlns:mpc="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone">
     
     <!--Application Resources-->
     <Application.Resources>
@@ -18,6 +16,8 @@
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+       
+
     </Application.ApplicationLifetimeObjects>
 
 </Application>

@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Foreground="{StaticResource PhoneForegroundBrush}"
+                            xmlns:AldarIT_SuperAds="clr-namespace:AldarIT.SuperAds;assembly=AldarIT.SuperAds" xmlns:AldarIT_SuperAds_AdProviders="clr-namespace:AldarIT.SuperAds.AdProviders;assembly=AldarIT.SuperAds"
     SupportedOrientations="Landscape" Orientation="Landscape"
     mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800"
     shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded" RenderTransformOrigin="0.5,0.5" BackKeyPress="phoneApplicationPage_BackKeyPress" Unloaded="phoneApplicationPage_Unloaded">
@@ -99,11 +100,15 @@
 		<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 	</phone:PhoneApplicationPage.Projection>
     <Canvas Background="Black"  CacheMode="BitmapCache">
+
         <Canvas x:Name="canvas" Height="480" Width="800" d:LayoutOverrides="Width, Height"  CacheMode="BitmapCache">
-			<Canvas.Projection>
+
+
+            <Canvas.Projection>
 				<PlaneProjection CenterOfRotationX="0" CenterOfRotationY="0"/>
 			</Canvas.Projection>
-			<Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Margin="0" Stretch="None" CacheMode="BitmapCache" />
+
+            <Image Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" x:Name="bgImage01" VerticalAlignment="Center" Margin="0" Stretch="None" CacheMode="BitmapCache" />
             <Image HorizontalAlignment="Center" x:Name="bgImage02" VerticalAlignment="Center" Margin="0" Stretch="None" Opacity="0" CacheMode="BitmapCache"/>
             <Image Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Left" x:Name="image2" Stretch="None" VerticalAlignment="Top" Source="images\shelf\01.png" d:LayoutOverrides="GridBox" Canvas.Left="0" Canvas.Top="380"  CacheMode="BitmapCache"/>
             <Grid x:Name="gridTitleBar" Height="26" Width="800">
@@ -148,6 +153,11 @@
             		</TextBlock>
             	</Grid>
             </Grid>
+            <AldarIT_SuperAds:AdControl VerticalAlignment="Bottom" TestMode="False" Canvas.Left="239" Canvas.Top="26" Width="327" Loaded="AdControl_Loaded" AdEngaged="AdControl_AdEngaged">
+        		<AldarIT_SuperAds:AdControl.AdProviders>
+                    <AldarIT_SuperAds_AdProviders:MillennialMediaAdProvider APID="35650" AdType="MMBannerAdTop" Priority="1"/>
+        		</AldarIT_SuperAds:AdControl.AdProviders>
+        	</AldarIT_SuperAds:AdControl>
 		</Canvas>
         <Canvas x:Name="blockInteractionCanvas" Height="480" Width="800" Background="#00000000" Visibility="Collapsed"/>
         <Grid x:Name="MessageBox" Height="168" Canvas.Left="178" Canvas.Top="118" Width="465" RenderTransformOrigin="0.5,0.5"  CacheMode="BitmapCache" Visibility="Collapsed">
@@ -160,5 +170,5 @@
         	<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="43,51,0,60" TextWrapping="Wrap" Width="401" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="" d:LayoutOverrides="VerticalAlignment"/>
         	<Button x:Name="btnMessageBoxPurchase" Content="Purchase" FontSize="18.667" BorderBrush="#DEFFFFFF" Foreground="#DEFFFFFF" Opacity="0.795" Margin="0,99,101,0"  CacheMode="BitmapCache" RenderTransformOrigin="0.404,0.169" Height="67" VerticalAlignment="Top" HorizontalAlignment="Right" Width="129" Click="btnMessageBoxPurchase_Click"/>
         </Grid>
-	</Canvas>
+    </Canvas>
 </phone:PhoneApplicationPage>

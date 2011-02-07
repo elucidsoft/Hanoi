@@ -14,7 +14,6 @@ namespace Hanoi
         bool disposed = false;
         ManualResetEvent messageBoxWait = new ManualResetEvent(true);
         Action messageBoxAction = () => { };
-
         #region ctor/Load & Unload
 
         public GameScreen()
@@ -23,6 +22,11 @@ namespace Hanoi
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void StartGame()
         {
             bool isContinue = false;
             GameManager.Instance.LevelCompleted += new System.EventHandler(Instance_LevelCompleted);
@@ -35,7 +39,6 @@ namespace Hanoi
             ShowMessageBox.Completed += new System.EventHandler(ShowMessageBox_Completed);
             HideMessageBox.Completed += new System.EventHandler(HideMessageBox_Completed);
 
-
             if (App.CanContinue)
             {
                 GameManager.Instance.LoadStateData();
@@ -44,6 +47,7 @@ namespace Hanoi
             }
 
             GameManager.Instance.Start(false);
+
             BuildVisualStack(DiscStack.One);
             BuildVisualStack(DiscStack.Two);
             BuildVisualStack(DiscStack.Three);
@@ -271,5 +275,16 @@ namespace Hanoi
         }
 
         #endregion
+
+        private void AdControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartGame();
+        }
+
+        private void AdControl_AdEngaged(object sender, AldarIT.SuperAds.AdEngagedEventArgs args)
+        {
+            App.CanContinue = true;
+            GameManager.Instance.SaveState();
+        }
     }
 }

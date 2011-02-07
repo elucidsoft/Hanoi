@@ -220,8 +220,7 @@
 	<!--LayoutRoot contains the root grid where all other page content is placed-->
 	
 	<Grid x:Name="LayoutRoot">
-		
-		<controls:Panorama Title="Towers of Hanoi" Style="{StaticResource PanoramaStyle1}" x:Name="panorama">
+        		<controls:Panorama Title="Towers of Hanoi" Style="{StaticResource PanoramaStyle1}" x:Name="panorama">
 			<controls:Panorama.Background>
 				<ImageBrush Stretch="None" ImageSource="/images/main/01.jpg"/>
 			</controls:Panorama.Background>
@@ -301,6 +300,5 @@
 			<TextBlock x:Name="lblMessageBoxText" HorizontalAlignment="Left" Margin="45,63,0,14" TextWrapping="Wrap" Width="308" Foreground="#DEFFFFFF" Opacity="0.795" FontSize="18.667" CacheMode="BitmapCache" FontFamily="Segoe WP SemiLight" Text="For more details on upgrading to the full version visit the marketplace."/>
 		</Grid>
 		<TextBlock HorizontalAlignment="Left" Height="5" Margin="-123,-10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="3"/>
-		
-	</Grid>
+    </Grid>
 </phone:PhoneApplicationPage>

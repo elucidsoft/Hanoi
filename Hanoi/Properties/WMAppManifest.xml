@@ -3,7 +3,9 @@
     <App xmlns="" ProductID="{ADE5B942-8BE8-490B-8529-9EC464B12A8F}" Title="Hanoi Lite" RuntimeType="Silverlight" Version="1.7.0.0" Genre="apps.games" Author="Elucidsoft" Description="" Publisher="Elucidsoft">
         <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
         <Capabilities>
-            <Capability Name="ID_CAP_NETWORKING" />
+            <Capability Name="ID_CAP_IDENTITY_DEVICE"/>
+            <Capability Name="ID_CAP_WEBBROWSERCOMPONENT"/>
+            <Capability Name="ID_CAP_NETWORKING"/>
         </Capabilities>
         <Tasks>
             <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
